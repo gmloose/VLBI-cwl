@@ -60,11 +60,18 @@ inputs:
         shellQuote: false
     - id: phase_center
       type: string
+<<<<<<< HEAD
       doc: 'source RA and DEC.'
       inputBinding:
         position: 1
         separate: false
         prefix: shift.phasecenter=
+=======
+      doc: 'source name, RA, and DEC.'
+      inputBinding:
+        position: 1
+        prefix: shift.phasecenter= #prep_delay_dir.output.coords
+>>>>>>> Added step for DP3 phaseup.
     - id: freqresolution
       type: string?
       default: '48.82kHz'
