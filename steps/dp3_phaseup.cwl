@@ -11,11 +11,7 @@ arguments:
     - average1.type=averager
     - applybeam.type=applybeam
     - average2.type=averager
-    - numthreads=5
     - msout.overwrite=True
-    - applybeam.beammode=full
-    - average2.freqresolution=390.56kHz
-    - average2.timeresolution=32.0
 
 inputs:
     - id: msin
