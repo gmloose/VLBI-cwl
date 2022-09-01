@@ -22,7 +22,6 @@ requirements:
           import json
           from TargetListToCoords import plugin_main as targetListToCoords
 
-          mss = sys.argv[1:]
           inputs = json.loads(r"""$(inputs)""")
 
           target_file = inputs['delay_calibrator']['path']
