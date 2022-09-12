@@ -95,6 +95,7 @@ steps:
           - dp3_phaseup/msout
       - id: group_id
         source: sort_concatenate/groupnames
+        #source: prep_delay/source_id
       - id: groups_specification
         source: sort_concatenate/filenames
       - id: do_flagging
