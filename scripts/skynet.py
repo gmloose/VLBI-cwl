@@ -86,6 +86,10 @@ def main (MS, delayCalFile):
             # and starts with an 'L'
             else:
                 val = str(src_id)
+                if MS_src.startswith('S'):
+                    val = 'S'+str(src_id)
+                else:
+                    val = str(src_id)
         else:
             val = src_id
         src_names.append(val)
