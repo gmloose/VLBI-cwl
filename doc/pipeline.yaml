@@ -423,16 +423,16 @@ delay_cal_model:
 delay_cal_model_map:
     Input    : phaseup_concat mapfile
     Operation: >
-               add suffix to file, thus pointing
-               to the sourcedb from delay_cal_model
+               "[legacy] add suffix to file, thus pointing
+               to the sourcedb from delay_cal_model"
     Software : prefactor/plugins/Pipelinestep_createMapfile.py
     Output   : a mapfile, pointing to the sourcedb
 
 delay_cal_parmmap:
     Input    : phaseup_concat mapfile
     Operation: >
-               add suffix to file, creating output
-               name for the delay calibration h5parm
+               "[legacy] add suffix to file, creating output
+               name for the delay calibration h5parm"
     Software : prefactor/plugins/Pipelinestep_createMapfile.py
     Output   : >
                a mapfile which has the name

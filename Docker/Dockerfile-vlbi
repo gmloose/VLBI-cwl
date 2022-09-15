@@ -11,10 +11,16 @@ RUN apt-get update && \
 RUN python3 -m pip install -Iv pyvo
 #==0.9.3
 
+RUN apt-get update && \
+    apt-get install -y git
+
 USER lofaruser
 #RUN git clone https://github.com/lonbar/VLBI-cwl.git /home/lofaruser/VLBI-cwl
-ENV PYTHONPATH=/home/lofaruser/VLBI-cwl/scripts/:$PYTHONPATH
-ENV PATH=/home/lofaruser/VLBI-cwl/scripts:$PATH
+RUN git clone https://github.com/rvweeren/lofar_facet_selfcal.git /home/lofaruser/LOFAR_facet-selfcal
+RUN git clone https://github.com/jurjen93/lofar_helpers /home/lofaruser/LOFAR_helpers
+
+ENV PYTHONPATH=/home/lofaruser/VLBI-cwl/scripts/:/home/lofaruser/LOFAR_facet-selfcal:/home/lofaruser/LOFAR_helpers:$PYTHONPATH
+ENV PATH=/home/lofaruser/VLBI-cwl/scripts:/home/lofaruser/LOFAR_facet-selfcal:/home/lofaruser/LOFAR_helpers:$PATH
 
 # Install VLBI CWL
 COPY . /home/lofaruser/VLBI-cwl
