@@ -26,6 +26,7 @@ def write_skymodel (ra, dec, model, outname = None):
                     sra = ra
                     sdec = dec
                 else:
+                    # 
                     cosd = 3600.*np.cos(np.deg2rad(dec))
                     s = SkyCoord(ra-model[i,0]/cosd,dec+model[i,1]/3600,unit='degree')
                     s = s.to_string(style='hmsdms')
