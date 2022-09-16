@@ -16,14 +16,17 @@ RUN apt-get update && \
 
 USER lofaruser
 #RUN git clone https://github.com/lonbar/VLBI-cwl.git /home/lofaruser/VLBI-cwl
-RUN git clone https://github.com/rvweeren/lofar_facet_selfcal.git /home/lofaruser/LOFAR_facet-selfcal
-RUN git clone https://github.com/jurjen93/lofar_helpers /home/lofaruser/LOFAR_helpers
+#RUN git clone https://github.com/rvweeren/lofar_facet_selfcal.git /home/lofaruser/LOFAR_facet-selfcal
+#RUN git clone https://github.com/jurjen93/lofar_helpers /home/lofaruser/LOFAR_helpers
 
-ENV PYTHONPATH=/home/lofaruser/VLBI-cwl/scripts/:/home/lofaruser/LOFAR_facet-selfcal:/home/lofaruser/LOFAR_helpers:$PYTHONPATH
-ENV PATH=/home/lofaruser/VLBI-cwl/scripts:/home/lofaruser/LOFAR_facet-selfcal:/home/lofaruser/LOFAR_helpers:$PATH
+ENV PYTHONPATH=/home/lofaruser/VLBI-cwl/scripts/:/home/lofaruser/lofar_facet_selfcal/:$PYTHONPATH
+ENV PATH=/home/lofaruser/VLBI-cwl/scripts:/home/lofaruser/lofar_facet_selfcal/:$PATH
 
 # Install VLBI CWL
 COPY . /home/lofaruser/VLBI-cwl
+# Install facet-selfcal script
+RUN git clone https://github.com/lmorabit/lofar_facet_selfcal.git
+#RUN chmod -r +x /home/lofaruser/lofar_facet_selfcal
 
-#RUN apt-get update #&& \
-    #apt-get install -y git
+#RUN apt-get update && \
+#    apt-get install -y git
