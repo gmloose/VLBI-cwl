@@ -450,10 +450,10 @@ delay_solve:
 make_losoto:
     Input    : path to inspection directory
     Operation: >
-               using the arguments in this step,
+               "[legacy] using the arguments in this step,
                creates a text file in the working
                directory that contains LoSoTo steps
-               to plot TEC
+               to plot TEC"
     Software : prefactor/plugins/Pipelinestep_makeLosotoParset.py
     Output   : losoto.parset text file in the working directory
 
@@ -462,46 +462,12 @@ process_losoto:
              - the h5parm that results from delay_solve # i.e. the delay_cal_parmmap output mapfile
              - (implicitly) losoto.parset
     Operation: >
-               run the losoto parset created in
+               "[legacy] run the losoto parset created in
                the previous step on the h5parm
-               from delay_solve
+               from delay_solve"
     Software : "losoto - specifically, uses {{ losoto_directory }}/bin/losoto"
     Output   : plot file (*.png) in the inspection directory
 
-apply_delay:
-    Input    :
-             - the h5parm created by delay_solve
-             - the phaseup_concat measurement set
-    Operation: apply the solutions
-    Software : NDPPP
-    Output   : >
-               a new measurement set (which will have
-               suffix *.apply_delay instead of
-               *.phaseup_concat) where the corrected
-               data is in the DATA column
-
-# ---
-# cleanup
-# NOTE: the following steps will be changed – we need to convert the pipeline to use Reinout’s self-cal script instead
-
-#selfcal:
-#    - Input:        - the apply_delay measurement set
-#                    - the .csv file with the delay calibrator information {{ best_delay_cat }}
-#    - Operation:    run self-calibration using difmap
-#    - Software: >
-#                    bin/selfcal_difmap.py is a python wrapper
-#                    which writes a difmap-readable script,
-#                    and runs it using a modified installation
-#                    of difmap, using the hacked CORPLT function
-#                    that Neal created
-#    - Output: >
-#                    a new directory where everything is run,
-#                    which results in a lot of intermediate files.
-#                    The important-to-keep file is the h5parm
-#                    written out at the end, which is copied
-#                    back to the main working directory,
-#                    ending in *_sols.h5
-#
 #createmap_selfcal:
 #    - Input: >
 #                    the regex to find the solutions
@@ -514,6 +480,7 @@ apply_delay:
 #                    a mapfile path to the solutions
 #                    generated in the previous step
 #
+# I think that the next three steps can be condensed to just the last one
 #copyST_gains:
 #    - Input:        - the solutions from selfcal
 #    -               - the dpppconcat bands # these are the general bands which are created before the delay calibrator is split out.
@@ -559,14 +526,16 @@ apply_delay:
 #    - Software:     bin/gains_toCS_h5parm.py
 #    - Output:       sol001 in the selfcal h5parm – amplitude and phase solutions
 #
+
 #copy_delay_sols:
 #    - Input:        the delay_solve h5parm
-#    - Operation:    copy the h5parm to the results directory
+#    - Operation:    "[potentially legacy] copy the h5parm to the results directory"
 #    - Software:     /bin/cp
 #    - Output: >
 #                    the h5parm renamed to delay_cal_sols.h5
 #                    in the {{ cal_values_ directory }}
 #
+# I think that the next two steps can be condensed to just the last one
 #expand_h5_map:
 #    - Input:      - the delay_solve h5parm
 #                  - delay_cal_parmmap mapfile
@@ -604,30 +573,66 @@ apply_delay:
 #    - Software:	    NDPPP
 #    - Output:       CORRECTED_DATA column in the dpppconcat measurement sets
 #
-#delete_prep_target:
-#    - Input:        mapfile for ndppp_prep_target measurement sets
-#    - Operation:    delete individual subbands in working directory
-#    - Software:     /bin/rm
-#    - Output:       deleted files
+apply_delay:
+    Input    :
+             - the h5parm created by delay_solve
+             - the phaseup_concat measurement set
+    Operation: "[legacy] apply the solutions"
+    Software : NDPPP
+    Output   : >
+               a new measurement set (which will have
+               suffix *.apply_delay instead of
+               *.phaseup_concat) where the corrected
+               data is in the DATA column
+
+
+# ---
+# cleanup
+# NOTE: the following steps will be changed – we need to convert the pipeline to use Reinout’s self-cal script instead
+
+#selfcal:
+#    - Input:        - the apply_delay measurement set
+#                    - the .csv file with the delay calibrator information {{ best_delay_cat }}
+#    - Operation:    run self-calibration using difmap
+#    - Software: >
+#                    bin/selfcal_difmap.py is a python wrapper
+#                    which writes a difmap-readable script,
+#                    and runs it using a modified installation
+#                    of difmap, using the hacked CORPLT function
+#                    that Neal created
+#    - Output: >
+#                    a new directory where everything is run,
+#                    which results in a lot of intermediate files.
+#                    The important-to-keep file is the h5parm
+#                    written out at the end, which is copied
+#                    back to the main working directory,
+#                    ending in *_sols.h5
 #
-#delete_phaseup:
-#    - Input:        mapfile for dppp_phaseup measurement sets
-#    - Operation:    delete dppp_phaseup measurement sets for delay calibrator # i.e., the individual bands (before combination into a single all-bandwidth measurement set)
-#    - Software:     /bin/rm
-#    - Output:       deleted files
-#
-#make_results_compress:
-#    - Input:        dpppconcat mapfile
-#    - Operation: >
-#                    some sort of preparation for the
-#                    make_summary step – honestly I’m
-#                    not sure what is done here.
-#    - Software:	    prefactor/plugins/Pipelinestep_compressMapfile.py
-#    - Output:       a mapfile
-#
-#make_summary:
-#    - Input: >      the mapfile from the previous step,
-#                    and several arguments defined in the parset
-#    - Operation:    write a summary text file of how things went
-#    - Software:     bin/make_summaryVLBI.py
-#    - Output:       a text file which should give a summary of how things went
+
+delete_prep_target:
+    - Input:        mapfile for ndppp_prep_target measurement sets
+    - Operation:    delete individual subbands in working directory
+    - Software:     /bin/rm
+    - Output:       deleted files
+
+delete_phaseup:
+    - Input:        mapfile for dppp_phaseup measurement sets
+    - Operation:    delete dppp_phaseup measurement sets for delay calibrator # i.e., the individual bands (before combination into a single all-bandwidth measurement set)
+    - Software:     /bin/rm
+    - Output:       deleted files
+
+make_results_compress:
+    - Input:        dpppconcat mapfile
+    - Operation: >
+                    some sort of preparation for the
+                    make_summary step – honestly I’m
+                    not sure what is done here.
+    - Software:	    prefactor/plugins/Pipelinestep_compressMapfile.py
+    - Output:       a mapfile
+
+make_summary:
+    - Input: >      the mapfile from the previous step,
+                    and several arguments defined in the parset
+    - Operation:    write a summary text file of how things went
+    - Software:     bin/make_summaryVLBI.py
+    - Output:       a text file which should give a summary of how things went
