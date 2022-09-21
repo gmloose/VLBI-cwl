@@ -11,109 +11,52 @@ inputs:
     - id: msin
       type: Directory
       doc: Delay calibrator measurement set.
-    - id: imsize
-      type: int?
-      default: 1600
-    - id: skymodel
-      type: string?
-      default: MYMODEL
-      doc:
-    - id: pixelscale
-      type: float?
-      default: 0.075
-      type:
-    - id: robust
-      type: float?
-      default: -0.5
-      doc:
-    - id: uvmin
-      type: int?
-      default: 40000
-      doc:
-    - id: maskthreshold
-      type: float[]?
-      default: [7.0]
-      doc:
-    - id: soltype_list
-      type: string[]?
-      default: ['scalarphasediff','scalarphase','scalarcomplexgain']
-      doc:
-    - id: soltypecycles_list
-      type: int[]?
-      default: [0,0,2]
-    - id: solint_list
-      type: int[]?
-      default: [4,1,100]
-      doc:
-    - id: nchan_list
-      type: int[]?
-      default: [1,1,1]
-      doc:
-    - id: smoothnessconstraint_list
-      type: string?
-      default: [10.0,2.0,10.0]
-      doc:
-    - id: antennaconstraint_list
-      type: string?
-      default: [\'alldutch\',None,None]
-      doc: 
-    - id: docircular
-      type: boolean?
-      default: true
-      doc: 
-    - id: forwidefield
-      type: boolean?
-      default: true
-      doc:
-    - id: stop
-      type: int?
-      default: 10
-      doc:
-    - id: no_beamcor
-      type: boolean?
-      default: True
-      doc:
-    - id: phaseupstations
-      type: string?
-      default: core
-      doc:
+    - id: configfile
+      type: File
+      doc: Configuration options for self-calibration.
+    - id: selfcal
+      type: File
+      doc: External self-calibration script.
+    - id: h5merger
+      type: File
+      doc: External LOFAR helper scripts for mergin h5 files.
 
 outputs:
-    - id: h5parm
-      type: File
-      doc: TEC solution file.
-      outputBinding:
-        glob: *.h5
+#    - id: h5parm
+#      type: File
+#      doc: TEC solution file.
+#      outputBinding:
+#        glob: '*.h5'
     - id: logfile
       type: File[]
       outputBinding:
-         glob: 'delay_solve*'
+         glob: 'delay_solve*.log'
 
+requirements:
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
+      - entry: $(inputs.configfile)
+      - entry: $(inputs.h5merger)
       - entryname: delay_solve.py
         entry: |
+          import os
           import sys
           import json
-          from TargetListToCoords import plugin_main as targetListToCoords
 
-          mss = sys.argv[1:]
+          msin = sys.argv[1:]
           inputs = json.loads(r"""$(inputs)""")
+            
+          #msin = inputs['msin']['path']
+          configfile = inputs['configfile']['path']
+          skymodel = inputs['msin']['path'] + "/skymodel"
+          selfcal = inputs['selfcal']['path']
+          h5merge = inputs['h5merger']['path']
 
-          target_file = inputs['delay_calibrator']['path']
-
-          output = targetListToCoords(target_file=target_file)
-
-          coords = output['coords']
-          name = output['name']
-
-          cwl_output = {}
-          cwl_output['coords'] = coords
-          cwl_output['name'] = name
-
-          with open('./out.json', 'w') as fp:
-              json.dump(cwl_output, fp)
-
+          print(f'{mss}\n{skymodel}\n{selfcal}\n{h5merge}\n{configfile}')
+          
+          os.system(f'python3 {selfcal} {msin}') #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
 
 hints:
   - class: DockerRequirement
