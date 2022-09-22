@@ -26,7 +26,6 @@ def write_skymodel (ra, dec, model, outname = None):
                     sra = ra
                     sdec = dec
                 else:
-                    # 
                     cosd = 3600.*np.cos(np.deg2rad(dec))
                     s = SkyCoord(ra-model[i,0]/cosd,dec+model[i,1]/3600,unit='degree')
                     s = s.to_string(style='hmsdms')
@@ -94,6 +93,7 @@ def main (MS, delayCalFile):
         else:
             val = src_id
         src_names.append(val)
+    print(src_names)
     src_idx = [ i for i, val in enumerate(src_names) if MS_src == val ][0]
 
     # get the coordinate values and the flux from the skymodel
