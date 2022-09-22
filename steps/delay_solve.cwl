@@ -22,11 +22,6 @@ inputs:
       doc: External LOFAR helper scripts for mergin h5 files.
 
 outputs:
-#    - id: h5parm
-#      type: File
-#      doc: TEC solution file.
-#      outputBinding:
-#        glob: '*.h5'
     - id: logfile
       type: File[]
       outputBinding:
@@ -41,22 +36,21 @@ requirements:
       - entry: $(inputs.h5merger)
       - entryname: delay_solve.py
         entry: |
-          import os
+          import subprocess
           import sys
           import json
 
-          msin = sys.argv[1:]
           inputs = json.loads(r"""$(inputs)""")
             
-          #msin = inputs['msin']['path']
+          msin = inputs['msin']['path']
           configfile = inputs['configfile']['path']
           skymodel = inputs['msin']['path'] + "/skymodel"
           selfcal = inputs['selfcal']['path']
           h5merge = inputs['h5merger']['path']
 
-          print(f'{mss}\n{skymodel}\n{selfcal}\n{h5merge}\n{configfile}')
-          
-          os.system(f'python3 {selfcal} {msin}') #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
+          print(f'{msin}\n{skymodel}\n{selfcal}\n{h5merge}\n{configfile}')
+
+          subprocess.run(f'python3 {selfcal} {msin}', shell = True) #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
 
 hints:
   - class: DockerRequirement
