@@ -8,12 +8,41 @@ WORKDIR /home/lofaruser
 RUN apt-get update && \
     apt-get install -y \
     python3-regex
-RUN python3 -m pip install -Iv pyvo
+RUN python3 -m pip install -Iv pyvo bdsf
 #==0.9.3
-RUN python3 -m pip install --pre astroquery
 
-#RUN apt-get update && \
-#    apt-get install -y git
+RUN apt-get update && \
+    apt-get install -y \
+        git \
+        python3-scipy \
+        python3-statsmodels \
+        python3-astroquery \
+        python3-magic
+
+# for lofar module; adapted from https://github.com/tikk3r/lofar-grid-hpccloud/blob/fedora/Singularity
+#ARG LOFAR_VERSION=master
+#ARG INSTALLDIR=/opt/lofar
+#RUN git clone --depth 1 --branch ${LOFAR_VERSION} \
+#        https://github.com/lofar-astron/LOFARBeam.git && \
+#    mkdir LOFARBeam/build && \
+#    cd LOFARBeam/build && \
+#    cmake .. -DPORTABLE=TRUE -DCMAKE_INSTALL_PREFIX=$INSTALLDIR/lofar ../src && \
+#    make install -j `nproc` && \
+#
+#    touch /opt/lofar/lofar/lib64/python2.7/site-packages/lofar/__init__.py && \
+#    cd $INSTALLDIR && \
+#    rm -rf $INSTALLDIR/LOFARBeam/build && \
+#    rm -rf $INSTALLDIR/LOFARBeam/src
+
+
+#114 ARG WSCLEAN_VERSION=master
+#115 RUN git clone --depth 1 --branch ${WSCLEAN_VERSION} \
+#116         https://gitlab.com/aroffringa/wsclean.git && \
+#117     mkdir wsclean/build && \
+#118     cd wsclean/build && \
+#119     cmake .. -DPORTABLE=${PORTABLE} && \
+#120     make install -j`nproc`
+
 
 USER lofaruser
 #RUN git clone https://github.com/lonbar/VLBI-cwl.git /home/lofaruser/VLBI-cwl
