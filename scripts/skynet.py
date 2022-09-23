@@ -23,10 +23,7 @@ def write_skymodel (ra, dec, model, outname = None):
                 # These should be formatted as strings. If, instead, the angles are
                 # given in decimal degrees (floats), a conversion to the previous format is applied.
                 if isinstance( (ra, dec), (str, str) ):
-                    # In this case it is assumed that ra and dec have the format
-                    # 
                     sra = ra
-                    print(ra)
                     sdec = dec
                 else:
                     cosd = 3600.*np.cos(np.deg2rad(dec))
@@ -96,7 +93,6 @@ def main (MS, delayCalFile):
         else:
             val = src_id
         src_names.append(val)
-    print(src_names)
     src_idx = [ i for i, val in enumerate(src_names) if MS_src == val ][0]
 
     # get the coordinate values and the flux from the skymodel
