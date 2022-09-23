@@ -23,7 +23,10 @@ def write_skymodel (ra, dec, model, outname = None):
                 # These should be formatted as strings. If, instead, the angles are
                 # given in decimal degrees (floats), a conversion to the previous format is applied.
                 if isinstance( (ra, dec), (str, str) ):
+                    # In this case it is assumed that ra and dec have the format
+                    # 
                     sra = ra
+                    print(ra)
                     sdec = dec
                 else:
                     cosd = 3600.*np.cos(np.deg2rad(dec))
