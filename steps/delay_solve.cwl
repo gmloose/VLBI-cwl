@@ -15,10 +15,10 @@ inputs:
       type: File
       doc: Configuration options for self-calibration.
     - id: selfcal
-      type: File
+      type: Directory
       doc: External self-calibration script.
     - id: h5merger
-      type: File
+      type: Directory
       doc: External LOFAR helper scripts for mergin h5 files.
 
 outputs:
@@ -33,7 +33,8 @@ requirements:
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.configfile)
-      - entry: $(inputs.h5merger)
+      - entry: $(inputs.msin)
+#      - entry: $(inputs.h5merger)
       - entryname: delay_solve.py
         entry: |
           import subprocess
@@ -42,15 +43,15 @@ requirements:
 
           inputs = json.loads(r"""$(inputs)""")
             
-          msin = inputs['msin']['path']
+          msin = inputs['msin']['basename']
           configfile = inputs['configfile']['path']
           skymodel = inputs['msin']['path'] + "/skymodel"
           selfcal = inputs['selfcal']['path']
           h5merge = inputs['h5merger']['path']
 
           print(f'{msin}\n{skymodel}\n{selfcal}\n{h5merge}\n{configfile}')
-
-          subprocess.run(f'python3 {selfcal} {msin}', shell = True) #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
+          subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge}', shell = True)
+          #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
 
 hints:
   - class: DockerRequirement
