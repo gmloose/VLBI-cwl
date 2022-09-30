@@ -23,6 +23,17 @@ inputs:
       type: string?
       default: TGSSphase
 
+    - id: configfile
+      type: File
+      doc: Settings for the delay calibration in delay_solve.
+    - id: selfcal
+      type: Directory
+      doc: Path of external calibration scripts.
+    - id: h5merger
+      type: Directory
+      doc: External LOFAR helper scripts for mergin h5 files.
+
+
 steps:
     - id: setup
       label: setup
@@ -81,6 +92,12 @@ steps:
           source: sort-concatenate-flag/msout
         - id: delay_calibrator
           source: setup/best_delay_cats
+        - id: configfile
+          source: configfile
+        - id: selfcal
+          source: selfcal
+        - id: h5merger
+          source: h5merger
       out:
         - id: msout
         - id: logdir
