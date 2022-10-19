@@ -85,7 +85,7 @@ steps:
 #        - id: output1
 #      run: ../steps/step1.cwl
 #      label: step1
-#    
+    
     - id: phaseup
       in:
         - id: msin
@@ -103,7 +103,7 @@ steps:
         - id: logdir
       run: ./phaseup-concat.cwl
       label: phaseup
-#    
+    
 #    - id: concatenate
 #      in:
 #        - id: input1
@@ -144,8 +144,11 @@ steps:
 
 outputs:
   - id: msout
-    outputSource: phaseup/msout
-    type: Directory
+    outputSource: sort-concatenate-flag/msout
+    type: Directory[]
+  - id: delay_cat
+    outputSource: setup/best_delay_cats
+    type: File
   - id: logs
     outputSource: store_logs/dir
     type: Directory
