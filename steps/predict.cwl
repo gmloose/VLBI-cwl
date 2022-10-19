@@ -90,6 +90,7 @@ arguments:
   - steps=[filter,predict]
   - predict.usechannelfreq=False
   - predict.operation=replace
+  - predict.beamproximitylimit=2000
   - filter.baseline=[CR]S*&
   - filter.remove=False
   - msout=.
