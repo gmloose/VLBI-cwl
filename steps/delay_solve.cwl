@@ -22,6 +22,10 @@ inputs:
       doc: External LOFAR helper scripts for mergin h5 files.
 
 outputs:
+    - id: h5parm
+      type: File
+      outputBinding:
+        glob: merged_selfcal*.h5
     - id: logfile
       type: File[]
       outputBinding:
