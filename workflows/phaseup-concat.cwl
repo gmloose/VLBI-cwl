@@ -165,6 +165,7 @@ steps:
       - id: h5merger
         source: h5merger
     out:
+      - id: h5parm
       - id: logfile
     run: ../steps/delay_solve.cwl
     label: delay_solve
@@ -189,8 +190,8 @@ steps:
 
 outputs:
   - id: msout
-    outputSource: delay_cal_model/msout
-    type: Directory
+    outputSource: dp3_phaseup/msout
+    type: Directory[]
   - id: logdir
     outputSource: save_logfiles/dir
     type: Directory
@@ -200,3 +201,4 @@ requirements:
   - class: ScatterFeatureRequirement
   - class: StepInputExpressionRequirement
   - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
