@@ -101,7 +101,6 @@ inputs:
       shellQuote: false
   - id: usewgridder
     type: boolean?
-    default: True
     inputBinding:
       position: 0
       prefix: --usewgridder=True
@@ -163,7 +162,6 @@ inputs:
       shellQuote: false
   - id: fitspectralpol
     type: boolean?
-    default: True
     inputBinding:
       position: 0
       prefix: --fitspectralpol=True
@@ -185,13 +183,11 @@ inputs:
       shellQuote: false
   - id: removenegativefrommodel
     type: boolean?
-    default: True
     inputBinding:
       position: 0
       prefix: --removenegativefrommodel=True
   - id: autoupdate-removenegativefrommodel
     type: boolean?
-    default: True
     inputBinding:
       position: 0
       prefix: --autoupdate-removenegativefrommodel=True
@@ -470,6 +466,11 @@ inputs:
     inputBinding:
       position: 0
       prefix: --startfromtgss
+  - id: startfromvlass
+    type: boolean?
+    inputBinding:
+      position: 0
+      prefix: --startfromvlass
   - id: tgssfitsimage
     type: File?
     inputBinding:
@@ -509,13 +510,11 @@ inputs:
       prefix: --forwidefield
   - id: doflagging
     type: boolean?
-    default: True
     inputBinding:
       position: 0
       prefix: --doflagging=True
   - id: dysco
     type: boolean?
-    default: True
     inputBinding:
       position: 0
       prefix: --dysco=True
@@ -547,7 +546,6 @@ inputs:
       shellQuote: false
   - id: doflagslowphases
     type: boolean?
-    default: True
     inputBinding:
       position: 0
       prefix: --doflagslowphases=True
@@ -558,19 +556,16 @@ inputs:
       prefix: --useaoflagger
   - id: useaoflaggerbeforeavg
     type: boolean?
-    default: True
     inputBinding:
       position: 0
       prefix: --useaoflaggerbeforeavg=True
   - id: normamps
     type: boolean?
-    default: True
     inputBinding:
       position: 0
       prefix: --normamps=True
   - id: normampsskymodel
     type: boolean?
-    default: False
     inputBinding:
       position: 0
       prefix: --normampsskymodel=True
@@ -686,7 +681,7 @@ requirements:
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)
-        writable: false
+        writable: true
       - entry: $(inputs.helperscriptspath)
         writable: false
   - class: InlineJavascriptRequirement
