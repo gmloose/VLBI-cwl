@@ -190,8 +190,11 @@ steps:
 
 outputs:
   - id: msout
-    outputSource: dp3_phaseup/msout
-    type: Directory[]
+    outputSource: delay_cal_model/msout
+    type: Directory
+  - id: solutions
+    outputSource: delay_solve/h5parm
+    type: File[]
   - id: logdir
     outputSource: save_logfiles/dir
     type: Directory

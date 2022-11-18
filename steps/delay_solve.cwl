@@ -23,7 +23,7 @@ inputs:
 
 outputs:
     - id: h5parm
-      type: File
+      type: File[]
       outputBinding:
         glob: merged_selfcal*.h5
     - id: logfile
