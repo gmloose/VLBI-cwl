@@ -3,6 +3,9 @@ cwlVersion: v1.2
 id: facet_selfcal
 label: facet_selfcal
 inputs:
+  - id: facetselfcal
+    type: File
+    doc: facet_selfcal script to be exectued
   - id: msin
     type: Directory[]
     doc: Input measurement sets
@@ -674,9 +677,9 @@ outputs:
     type: File
     outputBinding:
       glob: 'selfcal.log'
-baseCommand:
-  - python3
-  - /home/alex/VLBI_BusyWeek/facetselfcal.py
+baseCommand: python3
+arguments:
+  - $(inputs.facetselfcal)
 requirements:
   - class: InitialWorkDirRequirement
     listing:
