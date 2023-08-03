@@ -36,7 +36,7 @@ outputs:
     - id: images
       type: File[]
       outputBinding:
-        glob: image*.png
+        glob: [image*.png, plotlosoto*/*009*.png]
     - id: logfile
       type: File[]
       outputBinding:
