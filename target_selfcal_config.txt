@@ -1,0 +1,3 @@
+imsize                     = 1600
+pixelscale                 = 0.075
+auto = True
