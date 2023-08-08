@@ -11,6 +11,9 @@ inputs:
     - id: delay_calibrator
       type: File
       doc: file containing target info.
+    - id: extract_single
+      type: boolean?
+      default: false
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -25,8 +28,9 @@ requirements:
           inputs = json.loads(r"""$(inputs)""")
 
           target_file = inputs['delay_calibrator']['path']
+          mode = inputs['extract_single']
 
-          output = targetListToCoords(target_file=target_file)
+          output = targetListToCoords(target_file=target_file, mode=mode)
 
           coords = output['coords']
           name = output['name']
