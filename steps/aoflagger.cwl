@@ -1,7 +1,9 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: aoflagging
-label: aoflagging
+label: AOflagger
+doc: |
+    Runs the AO-flagging module of DP3.
 
 baseCommand: DP3
 
@@ -13,7 +15,8 @@ inputs:
         prefix: msin=
         separate: false
         shellQuote: false
-      doc: Input Measurement Set
+      doc: Data to be processed in MeasurementSet format.
+
     - id: msin_datacolumn
       type: string?
       default: DATA
@@ -22,7 +25,8 @@ inputs:
         prefix: msin.datacolumn=
         separate: false
         shellQuote: true
-      doc: Input data Column
+      doc: The data column of the MeasurementSet to be processed.
+
     - id: memoryperc
       type: int?
       default: 15
@@ -32,12 +36,14 @@ inputs:
         separate: false
         shellQuote: false
       doc: Indicates the percentage of pc memory to use
+
     - id: keepstatistics
       type: boolean?
       default:  true
       inputBinding:
         prefix: aoflagger.keepstatistics=True
       doc: Indicates whether statistics should be written to file.
+
     - id: strategy
       type:
         - File?
@@ -48,7 +54,8 @@ inputs:
         prefix: aoflagger.strategy=
         separate: false
         shellQuote: false
-      doc: specifies a customized strategy
+      doc: The name of the strategy file to use.
+
     - id: max_dp3_threads
       type: int?
       default: 5
@@ -57,6 +64,7 @@ inputs:
         prefix: numthreads=
         separate: false
         shellQuote: false
+      doc: The number of threads per DP3 process.
 
 arguments:
     - steps=[aoflagger]
@@ -65,14 +73,18 @@ arguments:
 
 outputs:
   - id: msout
-    doc: Output Measurement Set
+    doc: Output MeasurementSet.
     type: Directory
     outputBinding:
       glob: $(inputs.msin.basename)
+
   - id: logfile
     type: File[]
     outputBinding:
       glob: aoflag*.log
+    doc: |
+        The files containing the stdout
+        and stderr from the step.
 
 requirements:
   - class: InitialWorkDirRequirement

@@ -1,7 +1,10 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: summary
-label: summary
+label: VLBI summary
+doc: |
+    This step creates a JSON formatted file
+    containing pipeline run summary statistics.
 
 baseCommand:
   - make_summary.py
@@ -13,62 +16,70 @@ inputs:
       - File
     inputBinding:
       position: 1
-    doc: List of files with flag information (JSON)
+    doc: List of files with flag information in JSON format.
+
   - id: pipeline
     type: string?
     default: 'VLBI'
     inputBinding:
       position: 0
       prefix: --pipeline
-    doc: Name of the pipeline
+    doc: Name of the pipeline.
+
   - id: run_type
     default: 'calibrator'
     type: string?
     inputBinding:
       position: 0
       prefix: --run_type
-    doc: Type of the pipeline
+    doc: The type of the pipeline.
+
   - id: filter
     default: '*&'
     type: string?
     inputBinding:
       position: 0
       prefix: --filtered_antennas
-    doc: Filter these antenna string from the processing.
+    doc: A pattern of antenna names to filter from the processing.
+
   - id: bad_antennas
     default: '*&'
     type: string?
     inputBinding:
       position: 0
       prefix: --bad_antennas
-    doc: Antenna string to be processed
+    doc: A pattern of names of antennas with bad data.
+
   - id: structure_file
     default: false
-    type: 
+    type:
       - boolean?
       - File?
     inputBinding:
       position: 0
       prefix: --structure_file
+
   - id: Ateam_separation_file
     default: false
-    type: 
+    type:
       - boolean?
       - File?
     inputBinding:
       position: 0
       prefix: --Ateam_separation_file
+
   - id: solutions
     default: false
-    type: 
+    type:
       - boolean?
       - File?
     inputBinding:
       position: 0
       prefix: --solutions
+
   - id: clip_sources
     default: false
-    type: 
+    type:
       - string?
       - boolean?
     inputBinding:
@@ -77,6 +88,7 @@ inputs:
       separate: true
       itemSeparator: ','
       valueFrom: '$(self)'
+
   - id: demix_sources
     default: false
     type:
@@ -88,6 +100,7 @@ inputs:
       separate: true
       itemSeparator: ','
       valueFrom: '$(self)'
+
   - id: removed_bands
     default: false
     type:
@@ -99,13 +112,15 @@ inputs:
       separate: true
       itemSeparator: ','
       valueFrom: '$(self)'
+
   - id: min_unflagged_fraction
     default: 0.5
     type: float?
     inputBinding:
       position: 0
       prefix: --min_unflagged
-    doc: minimum fraction of unflagged data per band to continue
+    doc: The minimum required fraction of unflagged data per band.
+
   - id: demix
     default: "False"
     type: string?
@@ -120,27 +135,32 @@ inputs:
     inputBinding:
       position: 0
       prefix: --refant
-    doc: Reference antenna used
+    doc: The reference antenna used.
+
   - id: output_fname
-    type: 
+    type:
       - boolean?
       - string?
     default: false
     inputBinding:
       position: 0
       prefix: --output_fname
-    doc: Name of the output file
+    doc: The name of the output file.
 
 outputs:
   - id: summary_file
-    doc: Summary File in JSON format
+    doc: Summary File in JSON format.
     type: File
     outputBinding:
       glob: '*.json'
+
   - id: logfile
     type: File[]
     outputBinding:
       glob: summary*.log
+    doc: |
+        The files containing the stdout
+        and stderr from the step.
 
 hints:
   - class: DockerRequirement

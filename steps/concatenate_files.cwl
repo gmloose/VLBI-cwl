@@ -1,10 +1,14 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: concatfiles
-label: concatfiles
+label: Concatenate files
+doc: |
+    Takes an array of text files and concatenates them.
+    The output file can be given a file name and, optionally,
+    a suffix.
 
 baseCommand:
-    - bash 
+    - bash
     - bulk_rename.sh
 
 requirements:
@@ -26,14 +30,20 @@ inputs:
       type: File[]
       inputBinding:
         position: 0
+      doc: The list of files to be concatenated.
+
     - id: file_prefix
       type: string
+      doc: The output file name.
+
     - id: file_suffix
       type: string?
       default: log
+      doc: The output file extension.
 
 outputs:
     - id: output
       type: File
       outputBinding:
         glob: "$(inputs.file_prefix).$(inputs.file_suffix)"
+      doc: The concatenated file.

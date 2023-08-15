@@ -28,7 +28,7 @@ function execute(input)
   -- flags on input will be flagged on output. If set to false, existing flags are ignored.
   local exclude_original_flags = true
   local transient_threshold_factor = 1.0 -- decreasing this value makes detection of transient RFI more aggressive
- 
+
   --
   -- End of generic settings
   --
@@ -39,13 +39,13 @@ function execute(input)
     input:clear_mask()
   end
   -- For collecting statistics. Note that this is done after clear_mask(),
-  -- so that the statistics ignore any flags in the input data. 
+  -- so that the statistics ignore any flags in the input data.
   local copy_of_input = input:copy()
 
   aoflagger.normalize_bandpass(input)
-  
+
   for ipol,polarization in ipairs(flag_polarizations) do
- 
+
     local pol_data = input:convert_to_polarization(polarization)
     local original_data
 
@@ -140,4 +140,3 @@ function execute(input)
   end
   input:flag_nans()
 end
-

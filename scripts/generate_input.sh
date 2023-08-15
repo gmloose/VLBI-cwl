@@ -71,7 +71,7 @@ cat >&3 <<-EOF
 	solset:
 	    class: "File"
 	    path: "${SOLSET}"
-	h5merger: 
+	h5merger:
 	    class: "Directory"
 	    path: "${H5DIR}"
 	selfcal:

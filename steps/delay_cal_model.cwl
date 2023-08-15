@@ -1,19 +1,22 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: delay_cal_model
-label: delay_cal_model
+label: Delay cal model
+doc: |
+    Creates a skymodel for use in the self-calibration.
 
 baseCommand: skynet.py
 
 inputs:
     - id: msin
       type: Directory
-      doc: Input measurement set.
+      doc: Input data in MeasurementSet format.
       inputBinding:
         position: 0
+
     - id: delay_calibrator
       type: File
-      doc: Coordinates of best delay calibrator.
+      doc: Coordinates of a suitable delay calibrator.
       inputBinding:
         position: 1
         prefix: --delay-cal-file
@@ -24,14 +27,21 @@ outputs:
       type: File
       outputBinding:
         glob: $(inputs.msin.basename)/skymodel
+      doc: The skymodel of the delay calibrator.
+
     - id: msout
       type: Directory
       outputBinding:
         glob: $(inputs.msin.basename)
+      doc: The input data.
+
     - id: logfile
       type: File[]
       outputBinding:
         glob: delay_cal_model*.log
+      doc: |
+        The files containing the stdout
+        and stderr from the step.
 
 hints:
   - class: DockerRequirement

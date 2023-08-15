@@ -9,7 +9,7 @@ import logging
 
 ########################################################################
 def input2strlist_nomapfile(invar):
-   """ 
+   """
    from bin/download_IONEX.py
    give the list of MSs from the list provided as a string
    """
@@ -67,8 +67,8 @@ def main(MSfile, numSB=10, NDPPPfill=True, stepname=None, mergeLastGroup=False, 
     ----------
     MSfile : list or str
         List of MS filenames, or string with list, or path to a mapfile
-    numSB : int, optional 
-        How many files should go into one frequency group. Values <= 0 mean put 
+    numSB : int, optional
+        How many files should go into one frequency group. Values <= 0 mean put
         all files of the same time-step into one group.
         default = -1
     NDPPPfill : bool, optional
@@ -76,7 +76,7 @@ def main(MSfile, numSB=10, NDPPPfill=True, stepname=None, mergeLastGroup=False, 
         fill the data with flagged dummy data.
         default = True
     target_path : str, optional
-        Change the path of the "groups" files to this. (I.e. write output files 
+        Change the path of the "groups" files to this. (I.e. write output files
         into this directory with the subsequent NDPPP call.)
         default = keep path of input files
     stepname : str, optional
@@ -85,15 +85,15 @@ def main(MSfile, numSB=10, NDPPPfill=True, stepname=None, mergeLastGroup=False, 
         mergeLastGroup = True, truncateLastSBs = True:
           not allowed
         mergeLastGroup = True, truncateLastSBs = False:
-          put the files from the last group that doesn't have SBperGroup subbands 
-          into the second last group (which will then have more than SBperGroup entries). 
+          put the files from the last group that doesn't have SBperGroup subbands
+          into the second last group (which will then have more than SBperGroup entries).
         mergeLastGroup = False, truncateLastSBs = True:
           ignore last files, that don't make for a full group (not all files are used).
         mergeLastGroup = False, truncateLastSBs = False:
           keep inclomplete last group, or - with NDPPPfill=True - fill
-          last group with dummies.      
+          last group with dummies.
     firstSB : int, optional
-        If set, then reference the grouping of files to this station-subband. As if a file 
+        If set, then reference the grouping of files to this station-subband. As if a file
         with this station-subband would be included in the input files.
         (For HBA-low, i.e. 0 -> 100MHz, 55 -> 110.74MHz, 512 -> 200MHz)
 
@@ -140,7 +140,7 @@ def main(MSfile, numSB=10, NDPPPfill=True, stepname=None, mergeLastGroup=False, 
         for ms in time_groups[time]['files']:
             # Get the frequency info
             sw = pt.table(ms+'::SPECTRAL_WINDOW', ack=False)
-            freq = sw.col('REF_FREQUENCY')[0]            
+            freq = sw.col('REF_FREQUENCY')[0]
             if first:
                 file_bandwidth = sw.col('TOTAL_BANDWIDTH')[0]
                 nchans = sw.col('CHAN_WIDTH')[0].shape[0]
@@ -185,7 +185,7 @@ def main(MSfile, numSB=10, NDPPPfill=True, stepname=None, mergeLastGroup=False, 
             # HBA-high
             minfreq = (float(firstSB)/512.*100e6)+200e6-freq_width/2.
         else:
-            raise ValueError('sort_times_into_freqGroups: Frequency of lowest input data is higher than 300MHz!')        
+            raise ValueError('sort_times_into_freqGroups: Frequency of lowest input data is higher than 300MHz!')
         if np.min(freqliste) < minfreq:
             raise ValueError('sort_times_into_freqGroups: Frequency of lowest input data is lower than reference frequency!')
     else:
@@ -212,7 +212,7 @@ def main(MSfile, numSB=10, NDPPPfill=True, stepname=None, mergeLastGroup=False, 
     ngroups = len(freqborders)-1
     if ngroups == 0:
         raise ValueError('sort_times_into_freqGroups: Not enough input subbands to create at least one full (frequency-)group!')
-    
+
     logging.info("Will create " + str(ngroups) + " group(s) with " + str(numSB)  + "file(s) each.")
 
     groupnames = []
@@ -255,7 +255,7 @@ def main(MSfile, numSB=10, NDPPPfill=True, stepname=None, mergeLastGroup=False, 
     results = {'filenames': filenames, 'groupnames': groupnames, 'total_bandwidth': total_bandwidth}
 
     return(results)
-    
+
 ########################################################################
 if __name__ == '__main__':
     import argparse

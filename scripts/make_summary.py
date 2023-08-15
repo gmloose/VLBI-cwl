@@ -218,7 +218,7 @@ def main(flagFiles=None, pipeline='LINC', run_type='calibrator', filtered_antenn
 	return 0
 
 if __name__=='__main__':
-    
+
 	parser = argparse.ArgumentParser(description='Creates summary of a given LINC run.')
 	parser.add_argument('flagFiles', nargs='+', help='List of flag files in JSON format')
 	parser.add_argument('--pipeline', type=str, default='LINC', help='Name of the pipeline.')
@@ -244,7 +244,7 @@ if __name__=='__main__':
          output_fname=args.output_fname, structure_file=args.structure_file,
          Ateam_separation_file=args.Ateam_separation_file, solutions=args.solutions,
          clip_sources=args.clip_sources, demix_sources=args.demix_sources,
-         demix=args.demix, removed_bands=args.removed_bands, 
+         demix=args.demix, removed_bands=args.removed_bands,
          min_unflagged=args.min_unflagged, refant=args.refant)
 	
 	sys.exit(0)

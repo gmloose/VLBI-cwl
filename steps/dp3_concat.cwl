@@ -1,6 +1,10 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: dp3concat
+label: DP3 concatenate
+doc: |
+    Reduces the dataset by concatenating
+    subbands into frequency groups.
 
 baseCommand:
   - DP3
@@ -8,9 +12,10 @@ baseCommand:
 inputs:
   - id: msin
     type: Directory[]
-    doc: Input measurement sets
+    doc: Input data in MeasurementSet format.
+
   - id: msin_filenames
-    doc: Input measurement set string (including dummy.ms)
+    doc: An array of MeasurementSets to be concatenated.
     type: string[]
     inputBinding:
       position: 0
@@ -18,13 +23,16 @@ inputs:
       separate: false
       itemSeparator: ','
       valueFrom: "[$(self.join(','))]"
+
   - id: msout_name
     type: string
+    doc: The name of the output data in MeasurementSet format.
     inputBinding:
       position: 0
       prefix: msout=
       separate: false
       shellQuote: false
+
   - id: storagemanager
     type: string?
     default: 'dysco'
@@ -33,6 +41,10 @@ inputs:
       separate: false
       shellQuote: false
       position: 0
+    doc: |
+        A string that specifies what storage manager
+        to use. By default uses `dysco` compression.
+
   - id: datacolumn_in
     type: string?
     default: 'DATA'
@@ -41,6 +53,10 @@ inputs:
       separate: false
       shellQuote: false
       position: 0
+    doc: |
+        The name of the data column from
+        which the input data is read.
+
   - id: datacolumn_out
     type: string?
     default: 'DATA'
@@ -49,6 +65,10 @@ inputs:
       separate: false
       shellQuote: false
       position: 0
+    doc: |
+        The name of the data column into
+        which the output data is written.
+
   - id: max_dp3_threads
     type: int?
     default: 5
@@ -57,23 +77,34 @@ inputs:
       separate: false
       shellQuote: false
       position: 0
+    doc: The number of CPU threads to use.
 
 outputs:
   - id: msout
-    doc: Output Measurement Set
+    doc: |
+        The output data with corrected
+        data in MeasurementSet format.
     type: Directory
     outputBinding:
       glob: $(inputs.msout_name)
+
   - id: flagged_statistics
     type: string
     outputBinding:
         loadContents: true
         glob: out.json
         outputEval: $(JSON.parse(self[0].contents).flagged_fraction_dict)
+    doc: |
+        A JSON formatted file containing flagging
+        statistics of the data after concatenation.
+
   - id: logfile
     type: File[]
     outputBinding:
       glob: dp3_concat*.log
+    doc: |
+        The files containing the stdout
+        and stderr from the step.
 
 arguments:
   - steps=[count]

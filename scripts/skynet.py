@@ -17,7 +17,7 @@ def write_skymodel (ra, dec, model, outname = None):
         with open(outname, 'w') as skymodel:
             skymodel.write ('# (Name, Type, Ra, Dec, I, MajorAxis, MinorAxis, Orientation) = format\n')
             for i in range(len(model)):
-                # the angles RA and DEC should be sexigesimal coordinates, which for 
+                # the angles RA and DEC should be sexigesimal coordinates, which for
                 # RA is in hours, minutes, seconds (format "XXhYYmZZs") and for
                 # DEC is in degrees, minutes, seconds (format "XXdYYmZZs").
                 # These should be formatted as strings. If, instead, the angles are

@@ -1,67 +1,101 @@
 class: Workflow
 cwlVersion: v1.2
 id: phaseup-concat
-label: phaseup-concat
+label: VLBI phaseup and concatenation
+doc: |
+    Phase shifts data to the in-field calibrator
+    and performs the direction-independent calibration.
 
 inputs:
   - id: msin
     type: Directory[]
-    doc: Input measurement sets.
+    doc: Input data in MeasurementSet format.
+
   - id: delay_calibrator
     type: File
     doc: Catalogue file with information on in-field calibrator.
+
   - id: numbands
     type: int?
     default: -1
     doc: The number of files that have to be grouped together.
+
   - id: firstSB
     type: int?
     default: null
     doc: If set, reference the grouping of files to this station subband.
+
   - id: do_flagging
     type: boolean?
     default: false
+    doc: Boolean to determine whether to perform flagging of the data.
+
   - id: configfile
     type: File
     doc: Settings for the delay calibration in delay_solve.
+
   - id: selfcal
     type: Directory
     doc: Path of external calibration scripts.
+
   - id: h5merger
     type: Directory
     doc: External LOFAR helper scripts for mergin h5 files.
 
   - id: flags
     type: File[]
+    doc: Flagging information in JSON format.
+
   - id: pipeline
     type: string?
     default: 'VLBI'
+    doc: Name of the pipeline.
+
   - id: run_type
     type: string?
     default: ''
+    doc: Type of the pipeline.
+
   - id: filter_baselines
     type: string?
     default: '[CR]S*&'
+    doc: Name pattern of antennas to be filtered from the processing.
+
   - id: bad_antennas
     type: string?
     default: '[CR]S*&'
+    doc: Antenna string to be processed.
+
   - id: compare_stations_filter
     type: string?
     default: '[CR]S*&'
+
   - id: check_Ateam_separation.json
     type: File
+    doc: |
+        A list of angular distances between the
+        delay calibrator and the A-team sources.
+
   - id: clip_sources
     type: string[]?
     default: []
+    doc: List of sources that were clipped.
+
   - id: removed_bands
     type: string[]?
     default: []
+    doc: The list of bands that were removed from the data.
+
   - id: min_unflagged_fraction
     type: float?
     default: 0.5
+    doc: The minimum fraction of unflagged data per band to continue.
+
   - id: refant
     type: string?
     default: 'CS001HBA0'
+    doc: The reference antenna used.
+
   - id: max_dp3_threads
     type: int?
     default: 5
@@ -80,6 +114,7 @@ steps:
       - id: logfile
     run: ../steps/prep_delay.cwl
     label: prep_delay
+
   - id: dp3_phaseup
     in:
       - id: msin
@@ -99,6 +134,7 @@ steps:
     run: ../steps/dp3_phaseup.cwl
     scatter: msin
     label: dp3_phaseup
+
   - id: sort_concatenate
     in:
       - id: msin
@@ -113,6 +149,7 @@ steps:
       - id: logfile
     run: ../steps/sort_concatmap.cwl
     label: sort_concatmap
+
   - id: phaseup_concatenate
     in:
       - id: msin
@@ -132,6 +169,7 @@ steps:
     run: ./subworkflows/concatenation.cwl
     scatter: group_id
     label: phaseup_concatenate
+
   - id: phaseup_flags_join
     in:
       - id: flagged_fraction_dict
@@ -146,6 +184,7 @@ steps:
       - id: logfile
     run: ../steps/findRefAnt_join.cwl
     label: prep_target_flags_join
+
   - id: concat_logfiles_phaseup
     label: concat_logfiles_phaseup
     in:
@@ -158,6 +197,7 @@ steps:
     out:
       - id: output
     run: ../steps/concatenate_files.cwl
+
   - id: concat_logfiles_concatenate
     label: concat_logfiles_concatenate
     in:
@@ -170,6 +210,7 @@ steps:
     out:
       - id: output
     run: ../steps/concatenate_files.cwl
+
   - id: delay_cal_model
     label: delay_cal_model
     in:
@@ -264,18 +305,37 @@ outputs:
   - id: msout
     type: Directory
     outputSource: delay_cal_model/msout
+    doc: |
+        The data in MeasurementSet format after
+        phase-shifting to the delay calibrator.
+
   - id: solutions
     type: File
     outputSource: delay_solve/h5parm
+    doc: |
+        The calibrated solutions for the
+        delay calibrator in HDF5 format.
+
   - id: logdir
     outputSource: save_logfiles/dir
     type: Directory
+    doc: |
+        The directory containing all the stdin
+        and stderr files from the workflow.
+
   - id: pictures
     type: File[]
     outputSource: delay_solve/images
+    doc: |
+        The inspection plots generated
+        by delay_solve.
+
   - id: summary_file
     type: File
     outputSource: summary/summary_file
+    doc: |
+        Pipeline summary statistics
+        in JSON format.
 
 requirements:
   - class: SubworkflowFeatureRequirement
