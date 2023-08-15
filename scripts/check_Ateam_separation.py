@@ -28,7 +28,7 @@ targets = [ {'name' : 'CasA', 'ra' : 6.123487680622104,  'dec' : 1.0265153995604
 
 ########################################################################
 def input2strlist_nomapfile(invar):
-   """ 
+   """
    from bin/download_IONEX.py
    give the list of MSs from the list provided as a string
    """
@@ -48,30 +48,30 @@ def input2strlist_nomapfile(invar):
 def main(ms_input, min_separation = 30, outputimage = None):
 
     """
-    Print seperation of the phase reference center of an input MS 
-  
+    Print seperation of the phase reference center of an input MS
+
 
     Parameters
     ----------
     ms_input : str
         String from the list (map) of the calibrator MSs
-        
+
     Returns
     -------
     0 --just for printing
-    """    
+    """
 
     msname = input2strlist_nomapfile(ms_input)[0]
-  
+
 
     # Create a measures object
     me = pm.measures()
 
     # Open the measurement set and the antenna and pointing table
-    ms = pt.table(msname)  
+    ms = pt.table(msname)
 
     # Get the position of the first antenna and set it as reference frame
-    ant_table = pt.table(msname + '::ANTENNA')  
+    ant_table = pt.table(msname + '::ANTENNA')
     ant_no = 0
     pos = ant_table.getcol('POSITION')
     x = qa.quantity( pos[ant_no,0], 'm' )
@@ -107,7 +107,7 @@ def main(ms_input, min_separation = 30, outputimage = None):
     print('The minimal accepted distance to an A-Team source is: ' + str(min_separation) + ' deg.')
     json_output = []
     for target in targets:
-   
+
         t = qa.quantity(time[0], 's')
         t1 = me.epoch('utc', t)
         me.doframe(t1)
@@ -118,7 +118,7 @@ def main(ms_input, min_separation = 30, outputimage = None):
             direction =  me.direction('j2000', ra_qa, dec_qa)
         else :
             direction =  me.direction(target['name'])
-      
+
         separations.append(me.separation(pointing, direction))
 
         # Loop through all time stamps and calculate the elevation of the pointing
@@ -130,7 +130,7 @@ def main(ms_input, min_separation = 30, outputimage = None):
             a = me.measure(direction, 'azel')
             elevation = a['m1']
             el.append(elevation['value']/pylab.pi*180)
-        
+
         el = numpy.array(el)
         pylab.plot(time1, el)
         if target['name'] != 'Pointing':
@@ -163,16 +163,16 @@ def main(ms_input, min_separation = 30, outputimage = None):
             json.dump(json_output, fp)
     return 0
 
-   
+
 ########################################################################
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Print seperation of the phase reference center of an input MS to an A-team source')
-    
+
     parser.add_argument('MSfile', type=str, nargs='+', help='One (or more MSs).')
     parser.add_argument('--min_separation', type=int, default=30, help='minimal accepted distance to an A-team source on the sky in degrees (will raise a WARNING). Default: 30')
     parser.add_argument('--outputimage', type=str, default=None, help='location of the elevation plot of the A-Team sources.')
-        
+
     args = parser.parse_args()
-    
+
     main(args.MSfile, args.min_separation, args.outputimage)

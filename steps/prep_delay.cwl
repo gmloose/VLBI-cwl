@@ -1,7 +1,9 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: prep_delay
-label: prep_delay
+label: Prepare delay
+doc: |
+    Converts the delay calibrator information into strings.
 
 baseCommand:
   - python3
@@ -10,10 +12,17 @@ baseCommand:
 inputs:
     - id: delay_calibrator
       type: File
-      doc: file containing target info.
+      doc: |
+        The file containing the properties and
+        coordinates of the delay calibrator.
+
     - id: extract_single
       type: boolean?
       default: false
+      doc: |
+        A boolean that, if set to true, ensures that
+        the step will only extract the source_id and
+        coordinates of the first entry of the catalogue.
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -50,6 +59,7 @@ outputs:
         loadContents: true
         glob: out.json
         outputEval: $(JSON.parse(self[0].contents).name)
+
     - id: coordinates
       type: string
       doc: Catalogue source coordinates.
@@ -57,10 +67,14 @@ outputs:
         loadContents: true
         glob: out.json
         outputEval: $(JSON.parse(self[0].contents).coords)
+
     - id: logfile
       type: File[]
       outputBinding:
         glob: prep_delay*.log
+      doc: |
+        The files containing the stdout
+        and stderr outputs from the step.
 
 hints:
   DockerRequirement:

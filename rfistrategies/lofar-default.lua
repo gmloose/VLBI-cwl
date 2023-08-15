@@ -27,11 +27,11 @@ function execute(input)
   input:clear_mask()
 
   -- For collecting statistics. Note that this is done after clear_mask(),
-  -- so that the statistics ignore any flags in the input data. 
+  -- so that the statistics ignore any flags in the input data.
   local copy_of_input = input:copy()
-  
+
   for ipol,polarization in ipairs(inpPolarizations) do
- 
+
     local data = input:convert_to_polarization(polarization)
 
     data = data:convert_to_complex(representation)
@@ -42,7 +42,7 @@ function execute(input)
 
       local sumthr_level = threshold_factor * base_threshold
       aoflagger.sumthreshold(data, sumthr_level, sumthr_level*transient_threshold_factor, true, true)
- 
+
       -- Do timestep & channel flagging
       local chdata = data:copy()
       aoflagger.threshold_timestep_rms(data, 3.5)

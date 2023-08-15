@@ -1,7 +1,10 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: sort_concatmap
-label: Sort Concatmap
+label: Sort concatenate map
+doc: |
+    Sorts the subbands into a given number
+    of regularly spaced frequency groups.
 
 baseCommand:
   - python3
@@ -13,31 +16,46 @@ inputs:
       - Directory[]
     inputBinding:
       position: 0
-    doc: Input measurement sets
+    doc: Input MeasurementSets to be sorted.
+
   - id: numbands
     type: int?
     default: 10
-    doc: The number of files that have to be grouped together.
+    doc: The number of elements in each group.
+
   - id: DP3fill
     type: boolean?
     default: True
-    doc: Add dummy file names for missing frequencies, so that DP3 can fill the data with flagged dummy data.
+    doc: |
+        Add dummy file names for missing frequencies,
+        so that DP3 can fill the data with flagged dummy data.
+
   - id: stepname
     type: string?
     default: '.dp3-concat'
-    doc: Add this stepname into the file names of the output files.
+    doc: |
+        A string to be appended to the file names of the output files.
+
   - id: mergeLastGroup
     type: boolean?
     default: False
-    doc: Add dummy file names for missing frequencies, so that DP3 can fill the data with flagged dummy data.
+    doc: |
+        Add dummy file names for missing frequencies,
+        so that DP3 can fill the data with flagged dummy data.
+
   - id: truncateLastSBs
     type: boolean?
     default: False
-    doc: Add dummy file names for missing frequencies, so that DP3 can fill the data with flagged dummy data.
+    doc: |
+        Add dummy file names for missing frequencies,
+        so that DP3 can fill the data with flagged dummy data.
+
   - id: firstSB
     type: int?
     default: null
-    doc: If set, reference the grouping of files to this station subband.
+    doc: |
+        If set, reference the grouping of
+        files to this station subband.
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -83,16 +101,23 @@ outputs:
     type: File
     outputBinding:
         glob: filenames.json
+    doc: |
+        A list of filenames that have to
+        be concatenated, in JSON format.
+
   - id: groupnames
     type: string[]
     outputBinding:
         loadContents: true
         glob: out.json
         outputEval: $(JSON.parse(self[0].contents).groupnames)
+    doc: A string of names of the frequency groups.
+
   - id: logfile
     type: File
     outputBinding:
       glob: sort_concatmap.log
+    doc: The file containing the stdout output from the step.
 
 hints:
   - class: DockerRequirement

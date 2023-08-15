@@ -48,7 +48,7 @@ for pol in range(0,numpy.size(data[0,0,:])):
   flag[idx,chan,0] = True
   flag[idx,chan,1] = True
   flag[idx,chan,2] = True
-  flag[idx,chan,3] = True 
+  flag[idx,chan,3] = True
 
 print('')
 for chan in range(0,numpy.size(data[0,:,0])):

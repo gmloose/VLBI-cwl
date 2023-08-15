@@ -1,7 +1,10 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: filter_ms_group
-label: filter_ms_group
+label: Filter MeasurementSet group
+doc: |
+    Collects MeasurementSets for concatenation,
+    excluding dummy data.
 
 baseCommand:
   - python3
@@ -13,14 +16,22 @@ arguments:
 inputs:
   - id: group_id
     type: string
+    doc: |
+        A string that determines which
+        MeasurementSets should be combined.
+
   - id: groups_specification
     type: File
     inputBinding:
       position: 1
+    doc: |
+        A file containing directories of MeasurementSets.
+
   - id: measurement_sets
     type: Directory[]
     inputBinding:
       position: 2
+    doc: The total number of input MeasurementSets.
 
 outputs:
   - id: selected_ms
@@ -29,6 +40,8 @@ outputs:
         loadContents: true
         glob: 'out.json'
         outputEval: $(JSON.parse(self[0].contents).selected_ms)
+    doc: |
+        The names of the selected MeasurementSets.
 
 requirements:
   - class: InlineJavascriptRequirement
