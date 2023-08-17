@@ -39,7 +39,7 @@ requirements:
 
             msin = "$(inputs.msin.basename)".split(".")[0]
             source_ids = "$(inputs.source_ids)".split(",")
-            list = [ msin + x + ".mstargetphase" for x in source_ids]
+            list = [ x + "_" + msin + ".mstargetphase" for x in source_ids]
             result = {'filenames' : "[" + ",".join(list) + "]"}
             with open('./out.json', 'w') as fp:
                 json.dump(result, fp)

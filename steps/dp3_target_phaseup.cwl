@@ -45,7 +45,7 @@ outputs:
     - id: msout
       type: Directory[]
       outputBinding:
-        glob: "*.mstargetphaseup"
+        glob: "*.mstargetphase"
       doc: Output measurement set which has been phaseshifted, 
         averaged and had solutions applied.
     - id: logfile
