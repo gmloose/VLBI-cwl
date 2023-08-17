@@ -45,7 +45,6 @@ requirements:
     listing:
       - entry: $(inputs.configfile)
       - entry: $(inputs.msin)
-      - entry: $(inputs.h5merger)
       - entryname: delay_solve.py
         entry: |
           import subprocess
@@ -61,8 +60,7 @@ requirements:
 
           imagename = msin.split('.copy')[0]
 
-          subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} 
-            --helperscriptspathh5merge {h5merge} --weightspectrum-clipvalue 30.0 --auto --imagename {imagename}', shell = True)
+          subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --weightspectrum-clipvalue 30.0 --auto --imagename {imagename}', shell = True)
 
 hints:
   - class: DockerRequirement
