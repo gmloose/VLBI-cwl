@@ -174,7 +174,7 @@ steps:
 outputs:
   - id: msout
     outputSource: phaseup/msout
-    type: Directory
+    type: Directory[]
     doc: |
         The fully concatenated data in MeasurementSet
         format, phase-shifted to the delay calibrator.

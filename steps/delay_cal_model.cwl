@@ -26,14 +26,8 @@ outputs:
     - id: skymodel
       type: File
       outputBinding:
-        glob: $(inputs.msin.basename)/skymodel
+        glob: skymodel
       doc: The skymodel of the delay calibrator.
-
-    - id: msout
-      type: Directory
-      outputBinding:
-        glob: $(inputs.msin.basename)
-      doc: The input data.
 
     - id: logfile
       type: File[]
@@ -46,14 +40,6 @@ outputs:
 hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
-
-requirements:
-  - class: InitialWorkDirRequirement
-    listing:
-      - entry: $(inputs.msin)
-        writable: true
-  - class: InplaceUpdateRequirement
-    inplaceUpdate: true
 
 stdout: delay_cal_model.log
 stderr: delay_cal_model_err.log
