@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 import numpy as np
 import subprocess
-import shutil
 import sys
-import glob
 import re
+
 from astropy.coordinates import SkyCoord
 from astropy.table import Table
 
@@ -103,21 +102,7 @@ def main (MS, delayCalFile):
 
     print('generating point model')
     point_model = np.array( [ [0.0,0.0,smodel,0.1,0.0,0.0] ] )
-    write_skymodel (ra,dec,point_model,MS+'/skymodel')
-
-    # run makesourcedb to generate sky
-    # makesourcedb will update an existing skymodel
-    # by adding its output to it, so if a sky directory
-    # is already present it has to be removed first.
-    shutil.rmtree('{MS}/sky', ignore_errors=True) # ignore the exception if {MS}/sky doesn't exist
-    makesourcedb_out = subprocess.run(['makesourcedb',
-                                       f'in={MS}/skymodel',
-                                       f'out={MS}/sky',
-                                       'format=<'] ,
-                                       capture_output=True, text=True)
-    print("makesourcedb output:", makesourcedb_out.stdout)
-    print("makesourcedb error:", makesourcedb_out.stderr)
-
+    write_skymodel (ra,dec,point_model,'skymodel')
 
 if __name__ == "__main__":
     import argparse

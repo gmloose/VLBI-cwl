@@ -40,7 +40,7 @@ inputs:
 
   - id: h5merger
     type: Directory
-    doc: External LOFAR helper scripts for mergin h5 files.
+    doc: External LOFAR helper scripts for merging h5 files.
 
   - id: flags
     type: File[]
@@ -221,14 +221,14 @@ steps:
         source: delay_calibrator
     out:
       - id: skymodel
-      - id: msout
       - id: logfile
     run: ../steps/delay_cal_model.cwl
 
   - id: delay_solve
     in:
       - id: msin
-        source: delay_cal_model/msout
+        source: phaseup_concatenate/msout
+        valueFrom: $(self[0])
       - id: skymodel
         source: delay_cal_model/skymodel
       - id: configfile
@@ -303,8 +303,8 @@ steps:
 
 outputs:
   - id: msout
-    type: Directory
-    outputSource: delay_cal_model/msout
+    type: Directory[]
+    outputSource: phaseup_concatenate/msout
     doc: |
         The data in MeasurementSet format after
         phase-shifting to the delay calibrator.

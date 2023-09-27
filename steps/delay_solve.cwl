@@ -22,10 +22,6 @@ inputs:
       doc: |
         The skymodel to be used in the first
         cycle in the self-calibration.
-      inputBinding:
-        prefix: --skymodel=
-        separate: false
-        shellQuote: false
 
     - id: configfile
       type: File
@@ -70,7 +66,6 @@ requirements:
     listing:
       - entry: $(inputs.configfile)
       - entry: $(inputs.msin)
-#      - entry: $(inputs.h5merger)
       - entryname: delay_solve.py
         entry: |
           import subprocess
@@ -86,7 +81,6 @@ requirements:
           h5merge = inputs['h5merger']['path']
 
           subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --skymodel {skymodel}', shell = True)
-          #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
 
 hints:
   - class: DockerRequirement
