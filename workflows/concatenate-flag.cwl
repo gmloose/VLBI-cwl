@@ -42,7 +42,24 @@ inputs:
         The maximum number of threads that DP3
         should use per process.
 
+  - id: aoflagger_memory_fraction
+    type: int?
+    default: 15
+    doc: |
+        The fraction of the node's memory that
+        will be used AOFlagger (and should be
+        available before an AOFlagger job can start).
+
 steps:
+  - id: get_memory
+    in:
+      - id: fraction
+        source: aoflagger_memory_fraction
+        valueFrom: $(self)
+    out:
+      - id: memory
+    run: ../steps/get_memory_fraction.cwl
+    label: Get memory fraction
   - id: sort_concatenate
     in:
       - id: msin
@@ -70,6 +87,8 @@ steps:
         source: sort_concatenate/filenames
       - id: max_dp3_threads
         source: max_dp3_threads
+      - id: aoflagger_memory
+        source: get_memory/memory
     out:
       - id: msout
       - id: concat_flag_statistics
@@ -156,3 +175,4 @@ requirements:
     - class: SubworkflowFeatureRequirement
     - class: ScatterFeatureRequirement
     - class: MultipleInputFeatureRequirement
+    - class: StepInputExpressionRequirement

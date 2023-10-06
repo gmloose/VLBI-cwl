@@ -27,16 +27,6 @@ inputs:
         shellQuote: true
       doc: The data column of the MeasurementSet to be processed.
 
-    - id: memoryperc
-      type: int?
-      default: 15
-      inputBinding:
-        position: 0
-        prefix: aoflagger.memoryperc=
-        separate: false
-        shellQuote: false
-      doc: Indicates the percentage of pc memory to use
-
     - id: keepstatistics
       type: boolean?
       default:  true
@@ -66,6 +56,16 @@ inputs:
         shellQuote: false
       doc: The number of threads per DP3 process.
 
+    - id: memory
+      type: int
+      inputBinding:
+        position: 0
+        prefix: aoflagger.memorymax=
+        separate: false
+        shellQuote: false
+        valueFrom: "$((self/1000 > 30) ? self/1000 : 30)"
+      doc: The amount of maximum amount of memory to use in GB. 
+
 arguments:
     - steps=[aoflagger]
     - aoflagger.type=aoflagger
@@ -92,8 +92,10 @@ requirements:
       - entry: $(inputs.msin)
         writable: true
   - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
   - class: ResourceRequirement
     coresMin: 6
+    ramMin: $(inputs.memory)
 
 hints:
   DockerRequirement:

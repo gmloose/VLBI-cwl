@@ -32,15 +32,16 @@ inputs:
         A list of filenames that have to
         be concatenated, in JSON format.
 
-  - id: do_flagging
-    type: boolean?
-    default: true
-    doc: Boolean to determine whether to perform flagging of the data.
-
   - id: max_dp3_threads
     type: int?
     default: 5
     doc: The maximum number of threads DP3 should use per process.
+
+  - id: aoflagger_memory
+    type: int?
+    doc: |
+        The amount of memory in mebibytes that should be available
+        for an AOFlagger flagging job.
 
 steps:
   - id: filter_ms_group
@@ -77,12 +78,13 @@ steps:
         source: dp3_concat/msout
       - id: max_dp3_threads
         source: max_dp3_threads
-      - id: do_flagging
-        source: do_flagging
+      - id: memory
+        source: aoflagger_memory
+        valueFrom: $(self)
     out:
       - id: msout
       - id: logfile
-    when: $(inputs.do_flagging)
+    when: $(inputs.memory != null)
     run: ../../steps/aoflagger.cwl
     label: AOflagging
   - id: dp3_applycal
@@ -108,11 +110,11 @@ steps:
         pickValue: all_non_null
       - id: file_prefix
         default: AOflagging
-      - id: do_flagging
-        source: do_flagging
+      - id: memory
+        source: aoflagger_memory
     out:
       - id: output
-    when: $(inputs.do_flagging)
+    when: $(inputs.memory != null)
     run: ../../steps/concatenate_files.cwl
     label: concat_logfiles_AOflagging
   - id: dp3_concatenate_logfiles
@@ -161,3 +163,4 @@ outputs:
 
 requirements:
     - class: InlineJavascriptRequirement
+    - class: StepInputExpressionRequirement
