@@ -53,7 +53,7 @@ inputs:
 
   - id: run_type
     type: string?
-    default: ''
+    default: 'sol000'
     doc: Type of the pipeline.
 
   - id: filter_baselines
