@@ -159,8 +159,6 @@ steps:
         source: sort_concatenate/groupnames
       - id: groups_specification
         source: sort_concatenate/filenames
-      - id: do_flagging
-        source: do_flagging
     out:
       - id: msout
       - id: concat_flag_statistics
