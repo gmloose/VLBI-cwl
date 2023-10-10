@@ -47,7 +47,7 @@ inputs:
     default: 15
     doc: |
         The fraction of the node's memory that
-        will be used AOFlagger (and should be
+        will be used by AOFlagger (and should be
         available before an AOFlagger job can start).
 
 steps:

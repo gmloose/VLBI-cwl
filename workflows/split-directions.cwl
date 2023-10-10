@@ -35,10 +35,6 @@ inputs:
       type: int?
       default: -1
       doc: The number of bands to group. -1 means all bands.
-    - id: do_flagging
-      type: boolean?
-      default: false
-      doc: Whether to flag the data before splitting.
     - id: truncateLastSBs
       type: boolean?
       default: true
@@ -134,8 +130,6 @@ steps:
           source: sort_concatmap/filenames
         - id: group_id
           source: flatten_groupnames/flattenedarray
-        - id: do_flagging
-          source: do_flagging
       out:
         - id: msout
       run: ./subworkflows/concatenation.cwl
