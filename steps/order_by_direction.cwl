@@ -27,8 +27,6 @@ requirements:
       listing:
         - entryname: order_by_direction.py
           entry: |
-            import sys
-            import numpy as np
             import json
 
             mss = $(inputs)['msin']
@@ -43,10 +41,11 @@ requirements:
 
             print(cwl_output)
 
-            with open('./out.json', 'w') as fp:
+            # The results are written to this file to circumvent the size
+            # restrictions placed on files that can be parsed by outputEval. See
+            # https://www.commonwl.org/v1.2/CommandLineTool.html#CommandOutputBinding
+            with open('$(runtime.outdir)/cwl.output.json', 'w') as fp:
               json.dump(cwl_output, fp)
-
-
 
 outputs:
   - id: msout
@@ -56,10 +55,7 @@ outputs:
         type: array
         items: Directory
     outputBinding:
-        loadContents: true
-        glob: out.json
-        outputEval: $(JSON.parse(self[0].contents).msout)
+        glob: $(runtime.outdir)/cwl.output.json
+        outputEval: $(self.msout)
     doc: Array of arrays of directories containing the MeasurementSet 
       files ordered by direction.
-
-
