@@ -140,7 +140,7 @@ def main(MSfile, numSB=10, NDPPPfill=True, stepname=None, mergeLastGroup=False, 
         for ms in time_groups[time]['files']:
             # Get the frequency info
             sw = pt.table(ms+'::SPECTRAL_WINDOW', ack=False)
-            freq = sw.col('REF_FREQUENCY')[0]
+            freq = sw.col('CHAN_FREQ')[0][0]
             if first:
                 file_bandwidth = sw.col('TOTAL_BANDWIDTH')[0]
                 nchans = sw.col('CHAN_WIDTH')[0].shape[0]
