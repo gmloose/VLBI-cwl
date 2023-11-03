@@ -57,10 +57,18 @@ inputs:
         If set, reference the grouping of
         files to this station subband.
 
+  - id: linc_libraries
+    type: File[]
+    doc: |
+      Scripts and reference files from the
+      LOFAR INitial calibration pipeline.
+      Must contain `sort_times_into_freqGroups.py`.
+
 requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
+      - entry: $(inputs.linc_libraries)
       - entryname: sort_times.py
         entry: |
           import sys

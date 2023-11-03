@@ -54,7 +54,12 @@ inputs:
     - id: selfcal
       type: Directory
       doc: The selfcal directory.
-    
+
+    - id: linc
+      type: Directory
+      doc: |
+        The installation directory for the
+        LOFAR INitial Calibration pipeline.
 
 steps:
     - id: target_phaseup
@@ -96,6 +101,20 @@ steps:
         - id: msout
       run: ../steps/order_by_direction.cwl
 
+    - id: collect_linc_libraries
+      label: Collect neccesary LINC libraries
+      in:
+        - id: linc
+          source: linc
+        - id: library
+          default:
+            - scripts/sort_times_into_freqGroups.py
+      out:
+        - id: libraries
+      scatter: library
+      run: ../steps/collect_linc_libraries.cwl
+
+
     - id: sort_concatmap
       label: Sort Concatmap
       in:
@@ -105,6 +124,8 @@ steps:
           source: numbands
         - id: truncateLastSBs
           source: truncateLastSBs
+        - id: linc_libraries
+          source: collect_linc_libraries/libraries
       out: 
         - id: filenames
         - id: groupnames

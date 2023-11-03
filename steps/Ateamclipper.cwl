@@ -7,6 +7,7 @@ doc: |
     using LINC`s Ateamclipper script.
 
 baseCommand:
+  - python3
   - Ateamclipper.py
 
 inputs:
@@ -25,6 +26,13 @@ inputs:
     doc: |
      Number of cores to use per job for tasks with
      high I/O or memory.
+
+  - id: linc_libraries
+    type: File[]
+    doc: |
+      Scripts and reference files from the
+      LOFAR INitial calibration pipeline.
+      Must contain `Ateamclipper.py`.
 
 outputs:
   - id: msout
@@ -50,6 +58,7 @@ hints:
     listing:
       - entry: $(inputs.msin)
         writable: true
+      - entry: $(inputs.linc_libraries)
   - class: InplaceUpdateRequirement
     inplaceUpdate: true
   - class: DockerRequirement
