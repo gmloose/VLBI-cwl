@@ -65,6 +65,12 @@ inputs:
       type: Directory
       doc: External LOFAR helper scripts for merging h5 files.
 
+    - id: linc
+      type: Directory
+      doc: |
+        The installation directory for the
+        LOFAR INitial calibration pipeline.
+
     - id: reference_stationSB
       type: int?
       default: 104
@@ -100,6 +106,8 @@ steps:
           source: phasesol
         - id: number_cores
           source: number_cores
+        - id: linc
+          source: linc
       out:
         - id: parset
         - id: logdir
@@ -119,6 +127,8 @@ steps:
           source: max_dp3_threads
         - id: ddf_solset
           source: ddf_solset
+        - id: linc
+          source: linc
       out:
         - id: logdir
         - id: concat_flags
@@ -138,6 +148,8 @@ steps:
           source: selfcal
         - id: h5merger
           source: h5merger
+        - id: linc
+          source: linc
         - id: flags
           source:
             - setup/initial_flags

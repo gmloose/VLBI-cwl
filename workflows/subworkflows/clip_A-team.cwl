@@ -35,6 +35,14 @@ inputs:
       default: 5
       doc: The maximum number of threads DP3 should use per process.
 
+    - id: linc_libraries
+      type: File[]
+      doc: |
+        Scripts and reference files from the
+        LOFAR INitial Calibration pipeline.
+        Must contain `Ateam_LBA_CC.skymodel`
+        and `Ateamclipper.py`.
+
 steps:
     - id: dp3_prep_target
       label: dp3_prep_target
@@ -60,6 +68,8 @@ steps:
           source: dp3_prep_target/msout
         - id: max_dp3_threads
           source: max_dp3_threads
+        - id: linc_libraries
+          source: linc_libraries
       out:
         - id: msout
         - id: logfile
@@ -71,6 +81,8 @@ steps:
           source: predict/msout
         - id: number_cores
           source: number_cores
+        - id: linc_libraries
+          source: linc_libraries
       out:
         - id: msout
         - id: logfile

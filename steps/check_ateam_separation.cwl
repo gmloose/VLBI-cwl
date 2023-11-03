@@ -8,6 +8,7 @@ doc: |
     image of the plotted distance.
 
 baseCommand:
+  - python3
   - check_Ateam_separation.py
 
 inputs:
@@ -37,6 +38,13 @@ inputs:
         The minimal accepted distance to an
         A-team source on the sky in degrees.
 
+  - id: linc_libraries
+    type: File[]
+    doc: |
+        Scripts and reference files from the
+        LOFAR INitial Calibration pipeline.
+        Must contain `check_Ateam_separation.py`.
+
 outputs:
   - id: output_image
     doc: The output image containing the plotted distances.
@@ -62,5 +70,8 @@ hints:
   - class: DockerRequirement
     dockerPull: astronrd/linc
   - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing:
+      - entry: $(inputs.linc_libraries)
 
 stdout: Ateam_separation.log

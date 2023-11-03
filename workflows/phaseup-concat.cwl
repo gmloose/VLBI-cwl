@@ -25,11 +25,6 @@ inputs:
     default: null
     doc: If set, reference the grouping of files to this station subband.
 
-  - id: do_flagging
-    type: boolean?
-    default: false
-    doc: Boolean to determine whether to perform flagging of the data.
-
   - id: configfile
     type: File
     doc: Settings for the delay calibration in delay_solve.
@@ -101,7 +96,26 @@ inputs:
     default: 5
     doc: The maximum number of threads DP3 should use per process.
 
+  - id: linc
+    type: Directory
+    doc: |
+      The installation directory for the
+      LOFAR INitial calibration pipeline.
+
 steps:
+  - id: collect_linc_libraries
+    label: Collect neccesary LINC libraries
+    in:
+      - id: linc
+        source: linc
+      - id: library
+        default:
+          - scripts/sort_times_into_freqGroups.py
+    out:
+      - id: libraries
+    scatter: library
+    run: ../steps/collect_linc_libraries.cwl
+
   - id: prep_delay
     in:
       - id: delay_calibrator
@@ -143,6 +157,8 @@ steps:
         source: numbands
       - id: firstSB
         source: firstSB
+      - id: linc_libraries
+        source: collect_linc_libraries/libraries
     out:
       - id: filenames
       - id: groupnames

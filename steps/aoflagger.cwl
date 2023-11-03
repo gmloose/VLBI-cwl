@@ -34,17 +34,12 @@ inputs:
         prefix: aoflagger.keepstatistics=True
       doc: Indicates whether statistics should be written to file.
 
-    - id: strategy
-      type:
-        - File?
-        - string?
-      default: $VLBI_DATA_ROOT/rfistrategies/lofar-default.lua
-      inputBinding:
-        position: 0
-        prefix: aoflagger.strategy=
-        separate: false
-        shellQuote: false
-      doc: The name of the strategy file to use.
+    - id: linc_libraries
+      type: File[]
+      doc: |
+        Scripts and reference files from the
+        LOFAR INitial calibration pipeline.
+        Must contain `lofar-default.lua`.
 
     - id: max_dp3_threads
       type: int?
@@ -68,6 +63,7 @@ inputs:
 
 arguments:
     - steps=[aoflagger]
+    - aoflagger.strategy=lofar-default.lua
     - aoflagger.type=aoflagger
     - msout=.
 
@@ -91,6 +87,7 @@ requirements:
     listing:
       - entry: $(inputs.msin)
         writable: true
+      - entry: $(inputs.linc_libraries)
   - class: ShellCommandRequirement
   - class: InlineJavascriptRequirement
   - class: ResourceRequirement

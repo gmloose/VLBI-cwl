@@ -3,9 +3,13 @@
 # Script to generate input YAML file for the VLBI pipeline.
 #
 
-H5DIR=${2}/lofar_helpers
-SELFCALDIR=${2}/lofar_facet_selfcal
-SELFCALCONFIG=${INSTALL_DIR}/vlbi/facetselfcal_config.txt
+get_path() {
+    echo $(realpath -s ${1})
+}
+LINCDIR=$(get_path ${2})/LINC
+H5DIR=$(get_path ${2})/lofar_helpers
+SELFCALDIR=$(get_path ${2})/lofar_facet_selfcal
+SELFCALCONFIG=$(get_path ${2})/vlbi/facetselfcal_config.txt
 
 usage() {
     cat <<-EOF
@@ -20,6 +24,7 @@ usage() {
 		<pipeline directory> is the directory assumed to contain
 		
 		* VLBI pipeline
+        * LINC
 		* lofar_helpers
 		* lofar_facet_selfcal
 EOF
@@ -34,11 +39,13 @@ error()
 
 # Check input arguments
 [[ $# -eq 2 ]] || usage
-DIR=$(realpath -s ${1})
+DIR=$(get_path $1)
 [[ -d ${DIR} ]] || error "Directory '${DIR}' does not exist"
 YAML="$(pwd)/input.yaml"
 
-# Check if skymodels exist
+# Check if external libraries exist
+[[ -d ${LINCDIR} ]] \
+    || error "LINC directory '${LINCDIR}' does not exist"
 [[ -d ${H5DIR} ]] \
     || error "H5merger directory '${H5DIR}' does not exist"
 [[ -d ${SELFCALDIR} ]] \
@@ -71,6 +78,9 @@ cat >&3 <<-EOF
 	solset:
 	    class: "File"
 	    path: "${SOLSET}"
+	linc:
+	    class: "Directory"
+	    path: "${LINCDIR}"
 	h5merger:
 	    class: "Directory"
 	    path: "${H5DIR}"

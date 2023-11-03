@@ -8,8 +8,17 @@ doc: |
     data to the MSOUT datacolumn of the given
     MeasurementSet.
 
-baseCommand:
-  - DP3
+baseCommand: DP3
+arguments:
+  - steps=[filter,predict]
+  - predict.sourcedb=Ateam_LBA_CC.skymodel
+  - predict.usechannelfreq=False
+  - predict.operation=replace
+  - predict.beamproximitylimit=2000
+  - filter.baseline=[CR]S*&
+  - filter.remove=False
+  - msout=.
+
 
 inputs:
   - id: msin
@@ -45,19 +54,12 @@ inputs:
         Data column of the MeasurementSet
         into which output data is written.
 
-  - id: skymodel
-    type:
-      - File?
-      - string?
-    default: $VLBI_DATA_ROOT/skymodels/Ateam_LBA_CC.skymodel
-    inputBinding:
-      position: 0
-      prefix: predict.sourcedb=
-      separate: false
-      shellQuote: false
+  - id: linc_libraries
+    type: File[]
     doc: |
-        A file containing a suitable skymodel or
-        the path to such a file.
+        Scripts and reference files from the
+        LOFAR INitial Calibration pipeline.
+        Must contain `Ateam_LBA_CC.skymodel`.
 
   - id: sources
     type: string[]?
@@ -124,17 +126,9 @@ requirements:
     listing:
       - entry: $(inputs.msin)
         writable: true
+      - entry: $(inputs.linc_libraries)
   - class: InlineJavascriptRequirement
   - class: ShellCommandRequirement
-
-arguments:
-  - steps=[filter,predict]
-  - predict.usechannelfreq=False
-  - predict.operation=replace
-  - predict.beamproximitylimit=2000
-  - filter.baseline=[CR]S*&
-  - filter.remove=False
-  - msout=.
 
 outputs:
   - id: msout
