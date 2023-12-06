@@ -11,8 +11,8 @@ doc: |
       which case DP3 memory constraints and LINC flagging
       strategies must be given as inputs.
     - After flagging the data from the Dutch stations can
-      be corrected for direction dependent effects. This
-      requires the user to specify DDF solutions.
+      be corrected with additional direction-independent corrections
+      from the ddf-pipeline. This requires the user to specify DDF solutions.
 
 inputs:
   - id: msin
