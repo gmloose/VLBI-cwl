@@ -16,6 +16,7 @@ doc: |
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
+  - class: ScatterFeatureRequirement
 
 inputs:
     - id: msin
@@ -90,6 +91,29 @@ inputs:
       default: 5
       doc: The number of threads per DP3 process.
 
+    - id: subtract_lotss_model
+      type: boolean?
+      default: false
+      doc: Enable subtraction of the LoTSS model using ddf-pipeline results.
+
+    - id: ddf_solsdir
+      type: Directory?
+      doc: Path to the SOLSDIR directory of the ddf-pipeline run.
+
+    - id: ddf_rundir
+      type: Directory?
+      doc: Path to the directory of the ddf-pipeline run.
+
+    - id: box_size
+      type: float?
+      default: 2.5
+      doc: Box size, in degrees, outside of which to subtract.
+
+    - id: force_mslist
+      type: string?
+      doc: Set to 'force' to force the generation of the mslist required for the subtract. This is needed if less than 18 MS are present. Defaults to 'force'.
+      default: "force"
+
 steps:
     - id: setup
       label: setup
@@ -135,6 +159,26 @@ steps:
         - id: msout
       run: ./concatenate-flag.cwl
       label: sort-concatenate-flag
+
+    - id: subtract_lotss
+      in:
+        - id: do_subtract
+          source: subtract_lotss_model
+        - id: ms
+          source: sort-concatenate-flag/msout
+        - id: solsdir
+          source: ddf_solsdir
+        - id: ddfdir
+          source: ddf_rundir
+        - id: box_size
+          source: box_size
+      out:
+        - id: regionbox
+        - id: mslist
+        - id: subms
+      run: ./workflow_subtract.cwl
+      scatter: ms
+      when: $(inputs.do_subtract)
 
     - id: phaseup
       in:
