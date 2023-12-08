@@ -183,7 +183,10 @@ steps:
     - id: phaseup
       in:
         - id: msin
-          source: sort-concatenate-flag/msout
+          source:
+            - subtract_lotss/msout
+            - sort-concatenate-flag/msout
+          pickValue: first_non_null
         - id: delay_calibrator
           source: delay_calibrator
         - id: configfile
