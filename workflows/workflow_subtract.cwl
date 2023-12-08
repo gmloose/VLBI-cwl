@@ -50,7 +50,7 @@ outputs:
     outputSource:
       - makemslist/mslist
     doc: Text file containing the MSes to subtract.
-  - id: subms
+  - id: msout
     type: Directory
     outputSource:
       - subtract/subms
