@@ -175,7 +175,7 @@ steps:
       out:
         - id: regionbox
         - id: mslist
-        - id: subms
+        - id: msout
       run: ./workflow_subtract.cwl
       scatter: ms
       when: $(inputs.do_subtract)
