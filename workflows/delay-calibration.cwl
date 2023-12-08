@@ -186,7 +186,8 @@ steps:
           source:
             - subtract_lotss/msout
             - sort-concatenate-flag/msout
-          pickValue: first_non_null
+          linkMerge: merge_flattened
+          pickValue: all_non_null
         - id: delay_calibrator
           source: delay_calibrator
         - id: configfile
