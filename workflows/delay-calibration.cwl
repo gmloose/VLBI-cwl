@@ -102,7 +102,7 @@ inputs:
 
     - id: ddf_rundir
       type: Directory?
-      doc: Path to the directory of the ddf-pipeline run.
+      doc: Path to the directory of the ddf-pipeline run where files required for the subtract can be found.
 
     - id: box_size
       type: float?
