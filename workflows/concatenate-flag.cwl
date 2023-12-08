@@ -91,6 +91,8 @@ steps:
         source: firstSB
       - id: linc_libraries
         source: collect_linc_libraries/libraries
+      - id: stepname
+        default: '_pre-cal.ms'
     out:
       - id: filenames
       - id: groupnames
