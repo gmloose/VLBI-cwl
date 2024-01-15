@@ -53,7 +53,7 @@ requirements:
     listing:
       - entryname: input.parset
         entry: |+
-          steps                               =   [count1,flag,flagamp,filter,applyPA,applybandpass,applyclock,applybeam,applyRM,applyphase,count2]
+          steps                               =   [filter,count1,flag,flagamp,applyPA,applybandpass,applyclock,applybeam,applyRM,applyphase,count2]
           #
           numthreads                          =   2
           #
