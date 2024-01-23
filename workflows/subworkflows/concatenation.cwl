@@ -156,6 +156,7 @@ outputs:
   - id: msout
     outputSource:
         - dp3_applycal_ddf/msout
+        - AOflagging/msout
         - dp3_concat/msout
     pickValue: first_non_null
     type: Directory
