@@ -41,7 +41,6 @@ requirements:
 
           with open('./out.json', 'w') as fp:
               json.dump(output, fp)
-
 hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
