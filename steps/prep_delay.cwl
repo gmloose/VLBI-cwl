@@ -16,9 +16,8 @@ inputs:
         The file containing the properties and
         coordinates of the delay calibrator.
 
-    - id: extract_single
-      type: boolean?
-      default: false
+    - id: mode
+      type: string
       doc: |
         A boolean that, if set to true, ensures that
         the step will only extract the source_id and
@@ -30,26 +29,18 @@ requirements:
     listing:
       - entryname: prep_delay.py
         entry: |
-          import sys
           import json
           from TargetListToCoords import plugin_main as targetListToCoords
 
           inputs = json.loads(r"""$(inputs)""")
 
           target_file = inputs['delay_calibrator']['path']
-          mode = inputs['extract_single']
+          mode = inputs['mode']
 
           output = targetListToCoords(target_file=target_file, mode=mode)
 
-          coords = output['coords']
-          name = output['name']
-
-          cwl_output = {}
-          cwl_output['coords'] = coords
-          cwl_output['name'] = name
-
           with open('./out.json', 'w') as fp:
-              json.dump(cwl_output, fp)
+              json.dump(output, fp)
 
 outputs:
     - id: source_id
