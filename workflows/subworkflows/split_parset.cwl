@@ -36,6 +36,8 @@ steps:
       in:
         - id: delay_calibrator
           source: image_cat
+        - id: mode
+          default: "split_directions"
       out:
         - id: source_id
         - id: coordinates
