@@ -120,8 +120,8 @@ steps:
     in:
       - id: delay_calibrator
         source: delay_calibrator
-      - id: extract_single
-        default: true
+      - id: mode
+        default: "delay_calibration"
     out:
       - id: source_id
       - id: coordinates

@@ -6,10 +6,11 @@ def plugin_main(**kwargs):
 
     Parameters
     ----------
-    filename: str
-        Name of output mapfile
     target_file: str
-        file containing target info
+        Name of the file containing the target info
+    mode: str
+        The name of the processing mode. must be either
+        'delay_calibration' or 'split_directions'
 
     Returns
     -------
@@ -26,7 +27,7 @@ def plugin_main(**kwargs):
     RA_val = t['RA'].data
     DEC_val = t['DEC'].data
     Source_id = t['Source_id'].data
-    if mode: # == 'single':
+    if mode == 'delay_calibration':
         RA_val = [RA_val[0]]
         DEC_val = [DEC_val[0]]
         Source_id = Source_id[:1]
@@ -37,10 +38,17 @@ def plugin_main(**kwargs):
         else:
             Source_id = ['S' + str(x) for x in Source_id[0]]
 
-    # make a string of coordinates for the NDPPP command
+    # make a string of coordinates for the DP3 command
     ss = [ '[' + str(x) + 'deg,' + str(y) + 'deg]' for x, y in zip(RA_val, DEC_val) ]
+    if mode == "delay_calibration":
+        ss = ss[0]
+    elif mode == "split_directions":
+        ss = "[" + (ss[0] if len(ss) == 1 else ",".join(ss)) + "]"
+    else:
+        raise ValueError("Argument mode must be one of"
+                        + " \"delay_calibration\", \"split_directions\""
+                        + f" but was {mode}.")
 
     result = {'name' : ",".join(Source_id),
-              'coords' : ss[0] if len(ss) == 1 else "[" + ",".join(ss) + "]"}
-
+              'coords' : ss}
     return result
