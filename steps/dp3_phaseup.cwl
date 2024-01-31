@@ -179,12 +179,12 @@ outputs:
         glob: dp3_phaseup_err.log
       doc: The file containing the stderr from the step.
 
-hints:
-  DockerRequirement:
-    dockerPull: vlbi-cwl
-
 requirements:
   - class: InlineJavascriptRequirement
+
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
 
 stdout: dp3_phaseup.log
 stderr: dp3_phaseup_err.log

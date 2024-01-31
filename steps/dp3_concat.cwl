@@ -121,7 +121,7 @@ requirements:
 
 hints:
   - class: DockerRequirement
-    dockerPull: vlbi-cwl:latest
+    dockerPull: vlbi-cwl
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)

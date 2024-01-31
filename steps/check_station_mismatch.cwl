@@ -85,8 +85,8 @@ requirements:
                 json.dump(cwl_output, fp)
 
 hints:
-  DockerRequirement:
-    dockerPull: vlbi-cwl:latest
+    - class: DockerRequirement
+      dockerPull: vlbi-cwl
 
 stdout: compareStationMismatch.log
 stderr: compareStationMismatch_err.log

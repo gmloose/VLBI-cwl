@@ -96,10 +96,6 @@ outputs:
         The files containing the stdout
         and stderr from the step.
 
-hints:
-  - class: DockerRequirement
-    dockerPull: vlbi-cwl
-
 requirements:
   - class: InitialWorkDirRequirement
     listing:
@@ -107,6 +103,10 @@ requirements:
         writable: true
   - class: InplaceUpdateRequirement
     inplaceUpdate: true
+
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
 
 stdout: dp3_applycal.log
 stderr: dp3_applycal_err.log

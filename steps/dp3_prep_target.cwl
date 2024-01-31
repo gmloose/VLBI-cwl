@@ -93,6 +93,10 @@ requirements:
   - class: ResourceRequirement
     coresMin: 6
 
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
+
 outputs:
     - id: logfile
       type: File[]
@@ -125,10 +129,6 @@ outputs:
         outputEval: $(JSON.parse(self[0].contents).flagged_fraction_dict)
       doc: |
         The flagging information of the output data as a parsed JSON string.
-
-hints:
-  DockerRequirement:
-    dockerPull: vlbi-cwl:latest
 
 stdout: dp3_prep_target.log
 stderr: dp3_prep_target_err.log

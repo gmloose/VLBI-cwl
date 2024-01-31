@@ -104,6 +104,10 @@ requirements:
           with open('./out.json', 'w') as fp:
               json.dump(cwl_output, fp)
 
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
+
 outputs:
   - id: filenames
     type: File
@@ -126,10 +130,6 @@ outputs:
     outputBinding:
       glob: sort_concatmap.log
     doc: The file containing the stdout output from the step.
-
-hints:
-  - class: DockerRequirement
-    dockerPull: vlbi-cwl
 
 stdout: sort_concatmap.log
 stderr: sort_concatmap_err.log

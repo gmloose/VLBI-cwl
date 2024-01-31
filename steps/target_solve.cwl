@@ -63,10 +63,10 @@ requirements:
           subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --weightspectrum-clipvalue 30.0 --auto --imagename {imagename}', shell = True)
 
 hints:
-  - class: DockerRequirement
-    dockerPull: vlbi-cwl
   - class: ResourceRequirement
     coresMin: 6
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
 
 stdout: target_solve.log
 stderr: target_solve_err.log
