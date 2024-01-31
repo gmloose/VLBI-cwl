@@ -45,6 +45,10 @@ hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
 
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
+
 outputs:
     - id: source_id
       type: string
