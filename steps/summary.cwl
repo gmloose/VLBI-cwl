@@ -164,7 +164,7 @@ outputs:
 
 hints:
   - class: DockerRequirement
-    dockerPull: vlbi-cwl:latest
+    dockerPull: vlbi-cwl
 
 stdout: summary.log
 stderr: summary_err.log

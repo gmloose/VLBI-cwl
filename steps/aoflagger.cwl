@@ -95,7 +95,7 @@ requirements:
     ramMin: $(inputs.memory)
 
 hints:
-  DockerRequirement:
+  - class: DockerRequirement
     dockerPull: vlbi-cwl
 
 stdout: aoflag.log

@@ -38,8 +38,8 @@ outputs:
         and stderr from the step.
 
 hints:
-  - class: DockerRequirement
-    dockerPull: vlbi-cwl
+    - class: DockerRequirement
+      dockerPull: vlbi-cwl
 
 stdout: delay_cal_model.log
 stderr: delay_cal_model_err.log

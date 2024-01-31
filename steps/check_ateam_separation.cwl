@@ -68,7 +68,7 @@ outputs:
 
 hints:
   - class: DockerRequirement
-    dockerPull: astronrd/linc
+    dockerPull: vlbi-cwl
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
