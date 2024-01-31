@@ -69,6 +69,8 @@ steps:
           source: msin
         - id: image_cat
           source: image_cat
+        - id: delay_solutions
+          source: delay_solset
       out: 
         - id: parset
       run: ./subworkflows/split_parset.cwl

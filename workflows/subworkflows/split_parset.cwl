@@ -24,6 +24,12 @@ inputs:
         The image catalogue in CSV format,
         containing the target directions.
 
+    - id: delay_solutions
+      type: File
+      doc: |
+        Delay calibrator solutions. This is used
+        to determine the beam direction.
+
 outputs:
     - id: parset
       type: File
@@ -32,7 +38,9 @@ outputs:
 
 steps:
     - id: get_coordinates
-      label: Get target ID and coordinates
+      label: get_coordinates
+      doc: |
+        Get target ID and coordinates
       in:
         - id: delay_calibrator
           source: image_cat
@@ -45,7 +53,9 @@ steps:
       run: ../../steps/prep_delay.cwl
 
     - id: generate_filenames
-      label: Generate MeasurementSet output names
+      label: generate_filenames
+      doc: |
+        Generate MeasurementSet output names
       in:
         - id: msin
           source: msin
@@ -55,13 +65,43 @@ steps:
         - id: msout_names
       run: ../../steps/generate_filenames.cwl
 
+    - id: get_delay_cal_dir
+      label: get_delay_cal_direction
+      doc: |
+        Obtains the direction of the primary delay calibrator that was used,
+        by extracting it from the delay calibration solutions.
+      in:
+        - id: delay_solutions
+          source: delay_solutions
+      out:
+        - id: delay_cal_dir
+      run: ../../steps/get_delay_cal_direction.cwl
+
+    - id: get_delay_cal_beam_dir
+      label: get_delay_cal_beam_direction
+      doc: |
+        Process the coordinates for the beam correction in
+        a format suitable for DP3.
+      in:
+        - id: delay_calibrator
+          source: get_delay_cal_dir/delay_cal_dir
+      out:
+        - id: source_id
+        - id: coordinates
+        - id: logfile
+      run: ../../steps/prep_delay.cwl
+
     - id: generate_parset
-      label: Generate direction parset.
+      label: generate_parset
+      doc: |
+        Generate direction parset.
       in:
         - id: msout_names
           source: generate_filenames/msout_names
         - id: phase_centers
           source: get_coordinates/coordinates
+        - id: beamdir_delay_cal
+          source: get_delay_cal_beam_dir/coordinates
       out:
         - id: parset
       run: ../../steps/generate_parset_split.cwl
