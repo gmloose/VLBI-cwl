@@ -146,10 +146,10 @@ outputs:
         and stderr from the step.
 
 hints:
-  - class: DockerRequirement
-    dockerPull: vlbi-cwl:latest
   - class: ResourceRequirement
     coresMin: 6
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
 
 stdout: predict_ateam.log
 stderr: predict_ateam_err.log

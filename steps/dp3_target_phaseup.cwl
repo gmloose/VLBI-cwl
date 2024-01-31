@@ -59,8 +59,6 @@ outputs:
         glob: dp3_target_phaseup_err.log
       doc: DP3 processing error log file.
 
-
-
 hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl

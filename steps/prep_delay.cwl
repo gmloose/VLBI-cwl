@@ -42,6 +42,10 @@ requirements:
           with open('./out.json', 'w') as fp:
               json.dump(output, fp)
 
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
+
 outputs:
     - id: source_id
       type: string
@@ -66,10 +70,6 @@ outputs:
       doc: |
         The files containing the stdout
         and stderr outputs from the step.
-
-hints:
-  DockerRequirement:
-    dockerPull: vlbi-cwl
 
 stdout: prep_delay.log
 stderr: prep_delay_err.log
