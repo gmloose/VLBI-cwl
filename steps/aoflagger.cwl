@@ -52,7 +52,9 @@ inputs:
       doc: The number of threads per DP3 process.
 
     - id: memory
-      type: int
+      type: 
+        - int
+        - float
       inputBinding:
         position: 0
         prefix: aoflagger.memorymax=
