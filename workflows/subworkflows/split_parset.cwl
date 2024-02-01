@@ -85,6 +85,8 @@ steps:
       in:
         - id: delay_calibrator
           source: get_delay_cal_dir/delay_cal_dir
+        - id: mode
+          default: "delay_calibration"
       out:
         - id: source_id
         - id: coordinates
