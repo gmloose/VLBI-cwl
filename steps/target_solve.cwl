@@ -37,6 +37,10 @@ outputs:
       type: File[]
       outputBinding:
          glob: target_solve*.log
+    - id: solsets
+      type: File[]
+      outputBinding:
+        glob: '*.h5'
 
 requirements:
   - class: ShellCommandRequirement

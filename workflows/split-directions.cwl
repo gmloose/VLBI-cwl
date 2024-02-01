@@ -175,6 +175,7 @@ steps:
           source: do_selfcal
       out:
         - id: images
+        - id: solsets
         - id: fits_images
       when: $(inputs.do_selfcal)
       run: ../steps/target_solve.cwl
@@ -208,4 +209,13 @@ outputs:
           items: File
       outputSource:
         - target_selfcal/fits_images
+      pickValue: all_non_null
+    - id: solsets 
+      type: 
+        type: array 
+        items:
+          type: array
+          items: File
+      outputSource:
+        - target_selfcal/solsets
       pickValue: all_non_null
