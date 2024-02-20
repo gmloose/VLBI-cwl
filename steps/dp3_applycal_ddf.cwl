@@ -10,7 +10,6 @@ baseCommand: DP3
 
 arguments:
     # Intentionally left blank. A dot does not seem to work.
-    - msout=
     - steps=[applyddf]
     - applyddf.type=applycal
     - applyddf.correction=fulljones
@@ -52,6 +51,14 @@ inputs:
         separate: false
         shellQuote: false
       doc: The name of the input data column.
+
+    - id: msout
+      type: string?
+      default: "."
+      inputBinding:
+        prefix: msout=
+        separate: false
+      doc: The MeasurementSet to write to.
 
     - id: msout_datacolumn
       type: string?
