@@ -73,7 +73,7 @@ inputs:
   - id: dicomodels
     type: File[]
     doc: The clean component model of the final image from the ddf-pipeline run.
-  - id: npys
+  - id: facet_layout
     type: File
     doc: The facet layout from the ddf-pipeline run.
 

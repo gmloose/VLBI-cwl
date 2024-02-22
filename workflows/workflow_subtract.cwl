@@ -87,7 +87,7 @@ steps:
       - id: dds3sols
       - id: fitsfiles
       - id: dicomodels
-      - id: npys
+      - id: facet_layout
     run: ../steps/gatherdds3.cwl
     label: Gather the solutions and imaged required to subtract.
 
@@ -109,8 +109,8 @@ steps:
         source: gather_dds3/fitsfiles
       - id: dicomodels
         source: gather_dds3/dicomodels
-      - id: npys
-        source: gather_dds3/npys
+      - id: facet_layout
+        source: gather_dds3/facet_layout
       - id: freqavg
         source: freqavg
       - id: timeavg

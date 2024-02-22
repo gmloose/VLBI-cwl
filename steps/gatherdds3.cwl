@@ -29,7 +29,7 @@ outputs:
     doc: Clean component model required for the subtract.
     outputBinding:
       glob: image*.DicoModel
-  - id: npys
+  - id: facet_layout
     type: File
     doc: Numpy data containing the facet layout used during imaging.
     outputBinding:
