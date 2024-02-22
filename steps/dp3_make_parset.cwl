@@ -5,23 +5,14 @@ label: Make parset
 doc: Creates a DP3 parameter set file.
 
 baseCommand:
-  - cp
-
-arguments:
-  - prefix: ''
-    shellQuote: false
-    position: 0
-    valueFrom: input.parset
-  - prefix: ''
-    shellQuote: false
-    position: 0
-    valueFrom: dp3.parset
+  - cat
+  - input.parset
 
 inputs:
   - id: flag_baselines
-    type: string?
-    default: "[]"
-    doc: The flag baseline pattern, eg "[ CS013HBA*&&* ]".
+    type: string[]?
+    default: []
+    doc: The baselines to be flagged. Can be a pattern, e.g. "[ CS013HBA*&&* ]".
 
   - id: station_mismatch
     type: string?
@@ -39,11 +30,10 @@ inputs:
     default: TGSSphase
     doc: The type of correction to perform.
 
+stdout: dp3.parset
 outputs:
   - id: parset
-    type: File
-    outputBinding:
-      glob: dp3.parset
+    type: stdout
     doc: A file containing input parameters for a call to DP3.
 
 requirements:
