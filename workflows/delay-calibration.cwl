@@ -240,7 +240,10 @@ outputs:
         format, phase-shifted to the delay calibrator.
 
   - id: msouts
-    outputSource: sort-concatenate-flag/msout
+    outputSource:
+      - subtract_lotss/msout
+      - sort-concatenate-flag/msout
+    pickValue: first_non_null
     type: Directory[]
     doc: |
         The concatenated data in MeasurementSet format after
