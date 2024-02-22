@@ -116,7 +116,7 @@ steps:
       - id: ddf_solset
         source: ddf_solset
     out:
-      - id: msout
+      - id: output_data
       - id: logfile
     when: $(inputs.ddf_solset != null)
     run: ../../steps/dp3_applycal_ddf.cwl
@@ -155,7 +155,7 @@ steps:
 outputs:
   - id: msout
     outputSource:
-        - dp3_applycal_ddf/msout
+        - dp3_applycal_ddf/output_data
         - AOflagging/msout
         - dp3_concat/msout
     pickValue: first_non_null
