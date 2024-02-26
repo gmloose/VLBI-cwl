@@ -33,11 +33,11 @@ inputs:
     default: "DATA_DI_CORRECTED"
   - id: freqavg
     type: int?
-    doc: Frequency averaging factor to average with after the subtract. Defaults to 1.
+    doc: Factor to average with in frequency after the subtract has been performed. Defaults to 1 (no averaging).
     default: 1
   - id: timeavg
     type: int?
-    doc: Time averaging factor to average with after the subtract. Defaults to 1.
+    doc: Factor to average with in time after the subtract has been performed. Defaults to 1 (no averaging).
     default: 1
   - id: ncpu
     type: int?
