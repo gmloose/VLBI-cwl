@@ -19,7 +19,7 @@ inputs:
     doc: Directory containing the output from ddf-pipeline.
   - id: box_size
     type: float?
-    doc: Side length of a square box to subtract outside in degrees. Defaults to 2.5 degrees.
+    doc: Side length of a square box in degrees. The LoTSS skymodel is subtracted outside of this box. Defaults to 2.5 degrees.
     default: 2.5
   - id: force_mslist
     type: string?
