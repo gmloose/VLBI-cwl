@@ -49,17 +49,17 @@ outputs:
     type: File
     outputSource:
       - makebox/box
-    doc: DS9 region file outside of which will be subtracted.
+    doc: DS9 region file outside of which the LoTSS skymodel has been subtracted.
   - id: mslist
     type: File
     outputSource:
       - makemslist/mslist
-    doc: Text file containing the MSes to subtract.
+    doc: Text file containing the name of the input MS from which the LoTSS skymodel hase been subtracted.
   - id: msout
     type: Directory
     outputSource:
       - subtract/subms
-    doc: MS that has been subtracted.
+    doc: MS from which the LoTSS skymodel has been subtracted.
 
 steps:
   - id: makebox
