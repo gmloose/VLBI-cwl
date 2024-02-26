@@ -6,39 +6,43 @@ import casacore.tables as ct
 
 
 def main(ms: str, box_size: float = 2.5):
-    """Generates a DS9 region file that is used to subtract a LoTSS skymodel from the data.
+    """Generates a DS9 box region file centred at the phase centre of the input MeasurementSet.
 
     Args:
-        ms (str): a MeasurementSet to obtain the phase center from.
-        box_size (float): size in degrees of the box outside of which to subtract the LoTSS skymodel. Defaults to 2.5 deg.
+        ms (str): a MeasurementSet to obtain the phase centre from.
+        box_size (float): size in degrees of the box's sides. Defaults to 2.5 deg.
     """
+    if not ms:
+        raise ValueError("Empty string passed to input")
     if type(ms) is not str:
         raise ValueError("Expected a single MeasurementSet.")
+    if box_size <= 0:
+        raise ValueError("Box size must be positive.")
     with ct.table(ms + "::FIELD") as field:
         phasedir = field.getcol("PHASE_DIR").squeeze()
         phasedir_deg = phasedir * 180.0 / math.pi
+        ra = phasedir_deg[0]
+        dec = phasedir_deg[1]
         # RA, DEC, Size, Rotation
-        regionstr = (
-            "fk5\nbox({ra:f},{dec:f},{size:f},{size:f},0.0) # color=green".format(
-                ra=phasedir_deg[0], dec=phasedir_deg[1], size=float(box_size)
-            )
-        )
+        regionstr = f"fk5\nbox({ra},{dec},{box_size},{box_size},0.0) # color=green"
     with open("boxfile.reg", "w") as f:
         f.write(regionstr)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Make a box outside of which to subtract LoTSS."
+        description="Make a DS9-compatible box region outside centred on the phase centre of a MeasurementSet."
     )
     parser.add_argument(
-        "ms", type=str, help="A MeasurementSet containing the relevant phase centre."
+        "ms",
+        type=str,
+        help="A MeasurementSet from which the phase centre will be taken.",
     )
     parser.add_argument(
         "box_size",
         type=float,
         default=2.5,
-        help="Size of the sides of the subtract box in degrees.",
+        help="Size of the sides of the box region in degrees.",
     )
 
     args = parser.parse_args()
