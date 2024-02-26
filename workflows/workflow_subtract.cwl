@@ -23,7 +23,9 @@ inputs:
     default: 2.5
   - id: force_mslist
     type: string?
-    doc: Set to 'force' to force the generation of the mslist required for the subtract. This is needed if less than 18 MS are present. Defaults to 'force'.
+    doc: |-
+      Set to 'force' to force the generation of the mslist required for the subtract.
+      This is needed if less than 18 MS are present. Defaults to 'force'.
     default: "force"
   - id: delaycalcol
     type: string?
