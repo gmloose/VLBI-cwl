@@ -10,7 +10,7 @@ def main(ms: str, box_size: float = 2.5):
 
     Args:
         ms (str): a MeasurementSet to obtain the phase center from.
-        box_size (float): size in degrees of the box outside which to subtract LoTSS. Defaults to 2.5 deg.
+        box_size (float): size in degrees of the box outside of which to subtract the LoTSS skymodel. Defaults to 2.5 deg.
     """
     if type(ms) is not str:
         raise ValueError("Expected a single MeasurementSet.")
