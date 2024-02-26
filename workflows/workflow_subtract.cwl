@@ -5,12 +5,12 @@ label: Subtract a LoTSS model from the data.
 doc: Subtract a LoTSS model from the data using results from the ddf-pipeline. This prepares the data for widefield imaging by subtracting sources outside a given region, defaulting to the approximate FWHM of the international stations.
 
 inputs:
-  - id: ms
+  - id: msin
     type: Directory
-    doc: Input MS to subtract.
+    doc: Input MeasurementSet from which the LoTSS skymodel will be subtracted.
   - id: solsdir
     type: Directory
-    doc: Path to SOLSDIR.
+    doc: Path to the SOLSDIR directory of the ddf-pipeline run.
   - id: ddfdir
     type: Directory
     doc: Directory containing the output from ddf-pipeline.
