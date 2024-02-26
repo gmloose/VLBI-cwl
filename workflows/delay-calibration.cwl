@@ -166,7 +166,7 @@ steps:
       in:
         - id: do_subtract
           source: subtract_lotss_model
-        - id: ms
+        - id: msin
           source: sort-concatenate-flag/msout
         - id: solsdir
           source: ddf_solsdir
