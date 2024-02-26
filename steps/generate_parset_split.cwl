@@ -42,10 +42,8 @@ inputs:
 
 outputs:
   - id: parset
-    type: File
+    type: stdout
     doc: A DP3 parameterset file.
-    outputBinding:
-      glob: dp3_explode.parset
 
 requirements:
   - class: InlineJavascriptRequirement

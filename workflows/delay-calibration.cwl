@@ -45,9 +45,11 @@ inputs:
       doc: The default filter constraints for the dp3_prep_target step.
 
     - id: flag_baselines
-      type: string?
-      default: "[]"
-      doc: The pattern used by DP3 to flag baselines, e.g. [ CS013HBA*&&* ].
+      type: string[]?
+      default: []
+      doc: |
+        The baselines to be flagged by DP3.
+        Can be a pattern, e.g. [ CS013HBA*&&* ].
 
     - id: phasesol
       type: string?
