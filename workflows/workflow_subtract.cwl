@@ -80,7 +80,7 @@ steps:
     out:
       - id: mslist
     run: ../steps/make_mslist.cwl
-    label: Make the list of MSes to subtract.
+    doc: Make the list of MSes to subtract.
 
   - id: gather_dds3
     in:
@@ -92,7 +92,7 @@ steps:
       - id: dicomodels
       - id: facet_layout
     run: ../steps/gatherdds3.cwl
-    label: Gather the solutions and imaged required to subtract.
+    doc: Gather the solutions and imaged required to subtract.
 
   - id: subtract
     in:
@@ -121,7 +121,7 @@ steps:
     out:
       - id: subms
     run: ../steps/subtract.cwl
-    label: Subtract the LoTSS model from the data.
+    doc: Subtract the LoTSS model from the data.
 
 requirements:
   - class: SubworkflowFeatureRequirement
