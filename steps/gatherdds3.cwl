@@ -8,8 +8,10 @@ doc: |-
   the facet layout and the clean mask.
 
 baseCommand:
-  - bash
   - gather_dds3.sh
+
+arguments:
+  - $(inputs.ddfdir.path)
 
 inputs:
   - id: ddfdir
@@ -42,11 +44,3 @@ outputs:
 
 requirements:
   - class: InlineJavascriptRequirement
-  - class: InitialWorkDirRequirement
-    listing:
-      - entryname: gather_dds3.sh
-        entry: |-
-          cp $(inputs.ddfdir.path)/DDS3*.npz .
-          cp $(inputs.ddfdir.path)/image_full_ampphase_di_m.NS.mask01.fits .
-          cp $(inputs.ddfdir.path)/image_full_ampphase_di_m.NS.DicoModel .
-          cp $(inputs.ddfdir.path)/image_dirin_SSD_m.npy.ClusterCat.npy .
