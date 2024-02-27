@@ -27,10 +27,6 @@ inputs:
       Set to 'force' to force the generation of the mslist required for the subtract.
       This is needed if less than 18 MS are present. Defaults to 'force'.
     default: "force"
-  - id: delaycalcol
-    type: string?
-    doc: Column from which to  subtract the LoTSS skymodel. Defaults to DATA_DI_CORRECTED.
-    default: "DATA_DI_CORRECTED"
   - id: freqavg
     type: int?
     doc: Factor to average with in frequency after the subtract has been performed. Defaults to 1 (no averaging).
@@ -105,7 +101,7 @@ steps:
       - id: mslist
         source: makemslist/mslist
       - id: column
-        source: delaycalcol
+        valueFrom: DATA_DI_CORRECTED
       - id: solsdir
         source: solsdir
       - id: dds3sols
