@@ -174,7 +174,7 @@ steps:
         - id: mslist
         - id: msout
       run: ./workflow_subtract.cwl
-      scatter: ms
+      scatter: msin
       when: $(inputs.do_subtract)
 
     - id: phaseup
