@@ -2,7 +2,7 @@ class: CommandLineTool
 cwlVersion: v1.2
 id: makebox
 label: Generate a square DS9 region.
-doc: Generate a square DS9 region file outside which sources will be subtracted.
+doc: Generate a square DS9 region file centred on the observation phase centre.
 
 baseCommand:
   - make_box.py
@@ -15,7 +15,7 @@ inputs:
       position: 0
   - id: box_size
     type: float?
-    doc: Size in degrees the sides of the square box. Defaults to 2.5 deg.
+    doc: Size in degrees of the sides of the square box. Defaults to 2.5 deg.
     default: 2.5
     inputBinding:
       position: 1
@@ -23,6 +23,6 @@ inputs:
 outputs:
   - id: box
     type: File
-    doc: DS9 region file indicating the subtract borders.
+    doc: DS9 region file.
     outputBinding:
       glob: boxfile.reg
