@@ -29,7 +29,7 @@ inputs:
     default: "force"
   - id: delaycalcol
     type: string?
-    doc: Column to subtract (and that will be used during the delay calibration). Defaults to DATA_DI_CORRECTED.
+    doc: Column from which to  subtract the LoTSS skymodel. Defaults to DATA_DI_CORRECTED.
     default: "DATA_DI_CORRECTED"
   - id: freqavg
     type: int?
