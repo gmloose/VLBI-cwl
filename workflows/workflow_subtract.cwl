@@ -23,12 +23,6 @@ inputs:
       Side length of a square box in degrees. The LoTSS skymodel is subtracted outside of this box.
       Defaults to 2.5 degrees.
     default: 2.5
-  - id: force_mslist
-    type: string?
-    doc: |-
-      Set to 'force' to force the generation of the mslist required for the subtract.
-      This is needed if less than 18 MS are present. Defaults to 'force'.
-    default: "force"
   - id: freqavg
     type: int?
     doc: Factor to average with in frequency after the subtract has been performed. Defaults to 1 (no averaging).
@@ -63,7 +57,7 @@ steps:
   - id: makebox
     in:
       - id: ms
-        source: ms
+        source: msin
       - id: box_size
         source: box_size
     out:
@@ -74,9 +68,7 @@ steps:
   - id: makemslist
     in:
       - id: ms
-        source: ms
-      - id: force
-        source: force_mslist
+        source: msin
     out:
       - id: mslist
     run: ../steps/make_mslist.cwl
@@ -97,7 +89,7 @@ steps:
   - id: subtract
     in:
       - id: ms
-        source: ms
+        source: msin
       - id: boxfile
         source: makebox/box
       - id: mslist
@@ -122,6 +114,3 @@ steps:
       - id: subms
     run: ../steps/subtract.cwl
     doc: Subtract the LoTSS model from the data.
-
-requirements:
-  - class: SubworkflowFeatureRequirement
