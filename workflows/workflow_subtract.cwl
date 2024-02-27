@@ -3,7 +3,7 @@ cwlVersion: v1.2
 id: subtract_lotss
 label: Subtract a LoTSS model from the data.
 doc: |-
-  Subtract a LoTSS model from the data using results from the ddf-pipeline.
+  Subtract a LoTSS model from the data using results from the DDF-pipeline.
   This prepares the data for widefield imaging by subtracting sources outside a given region,
   defaulting to the approximate FWHM of the international stations.
 
@@ -13,10 +13,10 @@ inputs:
     doc: Input data from which the LoTSS skymodel will be subtracted.
   - id: solsdir
     type: Directory
-    doc: Path to the SOLSDIR directory of the ddf-pipeline run.
+    doc: Path to the SOLSDIR directory of the DDF-pipeline run.
   - id: ddfdir
     type: Directory
-    doc: Directory containing the output from ddf-pipeline.
+    doc: Directory containing the output from DDF-pipeline.
   - id: box_size
     type: float?
     doc: Side length of a square box in degrees. The LoTSS skymodel is subtracted outside of this box. Defaults to 2.5 degrees.
