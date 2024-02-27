@@ -3,7 +3,7 @@ cwlVersion: v1.2
 id: gatherdds3
 label: Gathers the DDS3 solutions.
 doc: |-
-  Gathers the final direction dependent solutions from the ddf-pipeline
+  Gathers the final direction dependent solutions from the DDF-pipeline
   and other files required for the subtraction: the clean component model,
   the facet layout and the clean mask.
 
@@ -15,13 +15,13 @@ inputs:
   - id: ddfdir
     type: Directory
     doc: |-
-      Directory containing the output of the ddf-pipeline run,
+      Directory containing the output of the DDF-pipeline run,
       or at the very least the required files for the subtract.
 
 outputs:
   - id: dds3sols
     type: File[]
-    doc: The final direction dependent solutions from ddf-pipeline.
+    doc: The final direction dependent solutions from DDF-pipeline.
     outputBinding:
       glob: DDS3*.npz
   - id: fitsfiles
