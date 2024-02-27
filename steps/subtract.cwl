@@ -6,6 +6,8 @@ doc: Subtract a LoTSS model from the data using the images and DD solutions deri
 
 baseCommand:
   - sub-sources-outside-region.py
+
+arguments:
   - --onlyuseweightspectrum
   - --noconcat
   - --keeplongbaselines
@@ -14,7 +16,7 @@ baseCommand:
 inputs:
   - id: ms
     type: Directory
-    doc: Input MeasurementSet to subtract.
+    doc: Input MeasurementSet to subtract the LoTSS model from.
   - id: solsdir
     type: Directory
     doc: Path to the SOLSDIR directory of the ddf-pipeline run.
