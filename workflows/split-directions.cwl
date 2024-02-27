@@ -5,10 +5,9 @@ label: Split Directions
 doc: |
   This is a workflow for the LOFAR-VLBI pipeline that
   splits a LOFAR MeasurementSet into various target directions, applies delay calibrator solutions and then optionally performs
-  self-calibration on the target directions. 
+  self-calibration on the target directions.
 
   This step should be run after the delay calibration workflow.
-   
 
 requirements:
   - class: SubworkflowFeatureRequirement
@@ -25,11 +24,11 @@ inputs:
     - id: image_cat
       type: File
       doc: The image catalogue (in CSV format) containing the target directions.
-      default: lotss_catalogue.csv  
+      default: lotss_catalogue.csv
     - id: max_dp3_threads
       type: int?
       default: 4
-      doc: Number of cores to use per job for 
+      doc: Number of cores to use per job for
         tasks with high I/O or memory.
     - id: numbands
       type: int?
@@ -38,7 +37,7 @@ inputs:
     - id: truncateLastSBs
       type: boolean?
       default: true
-      doc: Whether to truncate the last subbands of the 
+      doc: Whether to truncate the last subbands of the
         MSs to the same length.
     - id: do_selfcal
       type: boolean?
@@ -46,8 +45,8 @@ inputs:
       doc: Whether to do selfcal on the direction concat MSs.
     - id: configfile
       type: File
-      doc: The configuration file to be used to run 
-        facetselfcal.py during the target_solve step. 
+      doc: The configuration file to be used to run
+        facetselfcal.py during the target_selfcal step.
     - id: h5merger
       type: Directory
       doc: The h5merger directory.
@@ -71,7 +70,7 @@ steps:
           source: image_cat
         - id: delay_solutions
           source: delay_solset
-      out: 
+      out:
         - id: parset
       run: ./subworkflows/split_parset.cwl
       scatter: msin
@@ -99,7 +98,7 @@ steps:
       in:
         - id: msin
           source: dp3_target_phaseup/msout
-      out: 
+      out:
         - id: msout
       run: ../steps/order_by_direction.cwl
 
@@ -128,7 +127,7 @@ steps:
           source: truncateLastSBs
         - id: linc_libraries
           source: collect_linc_libraries/libraries
-      out: 
+      out:
         - id: filenames
         - id: groupnames
       run: ../steps/sort_concatmap.cwl
@@ -142,7 +141,7 @@ steps:
       out:
         - id: flattenedarray
       run: ../steps/flatten.cwl
-    
+
 
     - id: concatenation
       label: concatenation
@@ -175,26 +174,26 @@ steps:
           source: do_selfcal
       out:
         - id: images
-        - id: solsets
+        - id: h5parm
         - id: fits_images
       when: $(inputs.do_selfcal)
-      run: ../steps/target_solve.cwl
+      run: ../steps/facet_selfcal.cwl
       scatter: msin
 
 outputs:
     - id: msout_phaseup
-      type: 
-        type: array 
+      type:
+        type: array
         items:
           type: array
           items: Directory
       outputSource: dp3_target_phaseup/msout
     - id: msout_concat
-      type: Directory[] 
+      type: Directory[]
       outputSource: concatenation/msout
     - id: images
-      type: 
-        type: array 
+      type:
+        type: array
         items:
           type: array
           items: File
@@ -202,20 +201,16 @@ outputs:
         - target_selfcal/images
       pickValue: all_non_null
     - id: fits_images
-      type: 
-        type: array 
+      type:
+        type: array
         items:
           type: array
           items: File
       outputSource:
         - target_selfcal/fits_images
       pickValue: all_non_null
-    - id: solsets 
-      type: 
-        type: array 
-        items:
-          type: array
-          items: File
+    - id: h5parm
+      type: File[]
       outputSource:
-        - target_selfcal/solsets
+        - target_selfcal/h5parm
       pickValue: all_non_null
