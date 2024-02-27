@@ -14,7 +14,9 @@ baseCommand:
 inputs:
   - id: ddfdir
     type: Directory
-    doc: Directory containing the output of the ddf-pipeline run, or at the very least the required files for the subtract.
+    doc: |-
+      Directory containing the output of the ddf-pipeline run,
+      or at the very least the required files for the subtract.
 
 outputs:
   - id: dds3sols
