@@ -19,7 +19,9 @@ inputs:
     doc: Directory containing the output from DDF-pipeline.
   - id: box_size
     type: float?
-    doc: Side length of a square box in degrees. The LoTSS skymodel is subtracted outside of this box. Defaults to 2.5 degrees.
+    doc: |-
+      Side length of a square box in degrees. The LoTSS skymodel is subtracted outside of this box.
+      Defaults to 2.5 degrees.
     default: 2.5
   - id: force_mslist
     type: string?
@@ -67,7 +69,7 @@ steps:
     out:
       - id: box
     run: ../steps/makebox.cwl
-    label: Make the box outside which subtraction will happen.
+    doc: Make the box outside which the LoTSS skymodel will be subtracted.
 
   - id: makemslist
     in:
