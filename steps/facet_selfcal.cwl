@@ -69,7 +69,6 @@ requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
-      - entry: $(inputs.configfile)
       - entry: $(inputs.msin)
       - entryname: run_selfcal.py
         entry: |
@@ -86,6 +85,7 @@ requirements:
 
           run_selfcal = (f"python3 {selfcal}/facetselfcal.py {msin}"
                          f" --helperscriptspath {selfcal}"
+                         f" --configpath {configfile}"
                          f" --helperscriptspathh5merge {h5merge}")
           if skymodel:
             run_selfcal += f" --skymodel {skymodel}"
