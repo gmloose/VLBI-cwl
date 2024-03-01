@@ -174,7 +174,6 @@ steps:
         - id: mslist
         - id: msout
       run: ./workflow_subtract.cwl
-      scatter: msin
       when: $(inputs.do_subtract)
 
     - id: phaseup
@@ -183,7 +182,7 @@ steps:
           source:
             - subtract_lotss/msout
             - sort-concatenate-flag/msout
-          linkMerge: merge_flattened
+          linkMerge: merge_nested
           pickValue: first_non_null
         - id: delay_calibrator
           source: delay_calibrator

@@ -9,7 +9,7 @@ doc: |-
 
 inputs:
   - id: msin
-    type: Directory
+    type: Directory[]
     doc: Input data from which the LoTSS skymodel will be subtracted.
   - id: solsdir
     type: Directory
@@ -58,6 +58,7 @@ steps:
     in:
       - id: ms
         source: msin
+        valueFrom: $(self[0])
       - id: box_size
         source: box_size
     out:
@@ -72,6 +73,7 @@ steps:
     out:
       - id: mslist
     run: ../steps/make_mslist.cwl
+    scatter: ms
     doc: Make the list of MSes to subtract.
 
   - id: gather_dds3
@@ -113,4 +115,12 @@ steps:
     out:
       - id: subms
     run: ../steps/subtract.cwl
+    scatter:
+      - ms
+      - mslist
+    scatterMethod: dotproduct
     doc: Subtract the LoTSS model from the data.
+
+requirements:
+  - class: ScatterFeatureRequirement
+  - class: StepInputExpressionRequirement
