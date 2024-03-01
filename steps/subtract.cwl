@@ -75,6 +75,8 @@ inputs:
   - id: dicomodels
     type: File[]
     doc: The clean component model of the final image from the ddf-pipeline run.
+  - id: npys
+    type: File[]
   - id: facet_layout
     type: File
     doc: The facet layout from the ddf-pipeline run.
@@ -97,4 +99,4 @@ requirements:
       - entry: $(inputs.dds3sols)
       - entry: $(inputs.fitsfiles)
       - entry: $(inputs.dicomodels)
-      - entry: $(inputs.npys)
+      - entry: $(inputs.facet_layout)
