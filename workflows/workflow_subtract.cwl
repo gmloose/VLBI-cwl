@@ -48,7 +48,7 @@ outputs:
       - makemslist/mslist
     doc: Text file containing the name of the input MS from which the LoTSS skymodel hase been subtracted.
   - id: msout
-    type: Directory
+    type: Directory[]
     outputSource:
       - subtract/subms
     doc: MS from which the LoTSS skymodel has been subtracted.
