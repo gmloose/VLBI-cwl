@@ -1,7 +1,6 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: makebox
-label: Generate a square DS9 region.
 doc: Generate a square DS9 region file centred on the observation phase centre.
 
 baseCommand:

@@ -1,7 +1,6 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: gatherdds3
-label: Gathers the DDS3 solutions.
 doc: |-
   Gathers the final direction dependent solutions from the DDF-pipeline
   and other files required for the subtraction: the clean component model,

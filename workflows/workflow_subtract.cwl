@@ -1,7 +1,6 @@
 class: Workflow
 cwlVersion: v1.2
 id: subtract_lotss
-label: Subtract a LoTSS model from the data.
 doc: |-
   Subtract a LoTSS model from the data using results from the DDF-pipeline.
   This prepares the data for widefield imaging by subtracting sources outside a given region,
