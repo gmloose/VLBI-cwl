@@ -172,7 +172,7 @@ steps:
         - id: regionbox
         - id: mslist
         - id: msout
-      run: ./workflow_subtract.cwl
+      run: ./lotss_subtract.cwl
       when: $(inputs.do_subtract)
 
     - id: phaseup
