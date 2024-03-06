@@ -41,5 +41,3 @@ outputs:
     outputBinding:
       glob: image*.npy
 
-requirements:
-  - class: InlineJavascriptRequirement
