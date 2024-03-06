@@ -98,3 +98,7 @@ requirements:
       - entry: $(inputs.fitsfiles)
       - entry: $(inputs.dicomodels)
       - entry: $(inputs.facet_layout)
+
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl

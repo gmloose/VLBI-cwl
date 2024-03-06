@@ -25,3 +25,7 @@ outputs:
     doc: DS9 region file.
     outputBinding:
       glob: boxfile.reg
+
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl

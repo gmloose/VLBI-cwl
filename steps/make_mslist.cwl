@@ -31,3 +31,6 @@ requirements:
       - entry: $(inputs.ms)
         writable: true
 
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
