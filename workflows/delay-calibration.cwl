@@ -95,20 +95,20 @@ inputs:
     - id: subtract_lotss_model
       type: boolean?
       default: false
-      doc: Enable subtraction of the LoTSS model using ddf-pipeline results.
+      doc: Enable/disable subtraction of the LoTSS model using ddf-pipeline results.
 
     - id: ddf_solsdir
       type: Directory?
-      doc: Path to the SOLSDIR directory of the ddf-pipeline run.
+      doc: "[Required if subtracting LoTSS] Path to the SOLSDIR directory of the ddf-pipeline run."
 
     - id: ddf_rundir
       type: Directory?
-      doc: Path to the directory of the ddf-pipeline run where files required for the subtract can be found.
+      doc: "[Required if subtracting LoTSS] Path to the directory of the ddf-pipeline run where files required for the subtract can be found."
 
     - id: box_size
       type: float?
       default: 2.5
-      doc: Box size, in degrees, outside of which to subtract.
+      doc: "[Required if subtracting LoTSS] Box size, in degrees, outside of which to subtract."
 
 steps:
     - id: setup
