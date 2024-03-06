@@ -31,7 +31,7 @@ def main(ms: str, box_size: float = 2.5):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Make a DS9-compatible box region outside centred on the phase centre of a MeasurementSet."
+        description="Make a DS9-compatible box region centred on the phase centre of a MeasurementSet."
     )
     parser.add_argument(
         "ms",
