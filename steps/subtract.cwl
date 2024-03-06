@@ -98,6 +98,9 @@ requirements:
       - entry: $(inputs.fitsfiles)
       - entry: $(inputs.dicomodels)
       - entry: $(inputs.facet_layout)
+  - class: ResourceRequirement
+    coresMax: $(inputs.ncpu)
+    coresMin: $(inputs.ncpu)
 
 hints:
   - class: DockerRequirement
