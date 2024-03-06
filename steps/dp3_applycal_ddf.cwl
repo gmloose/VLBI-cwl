@@ -111,6 +111,9 @@ requirements:
         writable: true
   - class: InplaceUpdateRequirement
     inplaceUpdate: true
+  - class: ResourceRequirement
+    coresMax: $(inputs.max_dp3_threads)
+    coresMin: $(inputs.max_dp3_threads)
 
 hints:
   - class: DockerRequirement
@@ -118,3 +121,4 @@ hints:
 
 stdout: dp3_applycal.log
 stderr: dp3_applycal_err.log
+
