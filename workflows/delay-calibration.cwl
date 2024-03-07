@@ -99,7 +99,9 @@ inputs:
 
     - id: ddf_solsdir
       type: Directory?
-      doc: "[Required if subtracting LoTSS] Path to the SOLSDIR directory of the ddf-pipeline run."
+      doc: |
+        [Required if subtracting LoTSS] Path to the SOLSDIR directory of the ddf-pipeline run,
+         where most of the calibration solutions are stored.
 
     - id: ddf_rundir
       type: Directory?
