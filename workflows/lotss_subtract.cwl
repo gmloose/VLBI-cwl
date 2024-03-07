@@ -24,11 +24,11 @@ inputs:
     default: 2.5
   - id: freqavg
     type: int?
-    doc: Factor to average with in frequency after the subtract has been performed. Defaults to 1 (no averaging).
+    doc: Number of frequency channels to average after the subtract has been performed. Defaults to 1 (no averaging).
     default: 1
   - id: timeavg
     type: int?
-    doc: Factor to average with in time after the subtract has been performed. Defaults to 1 (no averaging).
+    doc: Number of time slots to average after the subtract has been performed. Defaults to 1 (no averaging).
     default: 1
   - id: ncpu
     type: int?
