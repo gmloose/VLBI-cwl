@@ -116,7 +116,6 @@ steps:
       - id: ddf_solset
         source: ddf_solset
         valueFrom: $(self)
-        valueFrom: $(self)
     out:
       - id: output_data
       - id: logfile

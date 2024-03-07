@@ -16,6 +16,8 @@ doc: |
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 
 inputs:
     - id: msin
@@ -158,6 +160,18 @@ steps:
       run: ./concatenate-flag.cwl
       label: sort-concatenate-flag
 
+    - id: fix_symlinks
+      in:
+        - id: ddf_rundir
+          source: ddf_rundir
+        - id: ddf_solsdir
+          source: ddf_solsdir
+      out:
+        - id: logfiles
+        - id: solsdir
+      run: ../steps/fix_symlinks_ddf.cwl
+      when: $(inputs.ddf_rundir != null && inputs.ddf_solsdir != null)
+
     - id: subtract_lotss
       in:
         - id: do_subtract
@@ -165,12 +179,10 @@ steps:
         - id: msin
           source: sort-concatenate-flag/msout
         - id: solsdir
-        - id: solsdir
           source: ddf_solsdir
           valueFrom: $(self)
         - id: ddfdir
           source: ddf_rundir
-          valueFrom: $(self)
           valueFrom: $(self)
         - id: box_size
           source: box_size
