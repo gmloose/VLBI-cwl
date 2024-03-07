@@ -163,10 +163,12 @@ steps:
         - id: msin
           source: sort-concatenate-flag/msout
         - id: solsdir
+        - id: solsdir
           source: ddf_solsdir
           valueFrom: $(self)
         - id: ddfdir
           source: ddf_rundir
+          valueFrom: $(self)
           valueFrom: $(self)
         - id: box_size
           source: box_size
