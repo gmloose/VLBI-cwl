@@ -6,10 +6,7 @@ doc: |-
   This will be the input for the subtract. This requires DDF-pipeline to be installed.
 
 baseCommand:
-  - make_mslists.py
-
-arguments:
-  - force
+  - make_mslist_subtract.sh
 
 inputs:
   - id: ms
@@ -29,7 +26,6 @@ requirements:
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.ms)
-        writable: true
 
 hints:
   - class: DockerRequirement
