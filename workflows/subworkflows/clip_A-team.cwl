@@ -62,7 +62,7 @@ steps:
         - id: flag_statistics_before
         - id: flag_statistics_after
       run: ../../steps/dp3_prep_target.cwl
-    - id: predict
+    - id: Ateamclipper
       in:
         - id: msin
           source: dp3_prep_target/msout
@@ -70,25 +70,13 @@ steps:
           source: max_dp3_threads
         - id: linc_libraries
           source: linc_libraries
-      out:
-        - id: msout
-        - id: logfile
-      run: ../../steps/predict.cwl
-      label: predict
-    - id: Ateamcliptar
-      in:
-        - id: msin
-          source: predict/msout
         - id: number_cores
           source: number_cores
-        - id: linc_libraries
-          source: linc_libraries
       out:
         - id: msout
         - id: logfile
-        - id: output
-      run: ../../steps/Ateamclipper.cwl
-      label: Ateamcliptar
+        - id: output 
+      run: ../../steps/clipper.cwl
     - id: concat_logfiles_prep_targ
       label: concat_logfiles_prep_target
       in:
@@ -101,24 +89,13 @@ steps:
       out:
         - id: output
       run: ../../steps/concatenate_files.cwl
-    - id: concat_logfiles_predict
-      in:
-        - id: file_list
-          linkMerge: merge_flattened
-          source: predict/logfile
-        - id: file_prefix
-          default: predict
-      out:
-        - id: output
-      run: ../../steps/concatenate_files.cwl
-      label: concat_logfiles_predict
     - id: concat_logfiles_cliptar
       in:
         - id: file_list
           linkMerge: merge_flattened
-          source: Ateamcliptar/logfile
+          source: Ateamclipper/logfile
         - id: file_prefix
-          default: Ateamcliptar
+          default: Ateamclipper
       out:
         - id: output
       run: ../../steps/concatenate_files.cwl
@@ -129,7 +106,6 @@ steps:
           linkMerge: merge_flattened
           source:
             - concat_logfiles_prep_targ/output
-            - concat_logfiles_predict/output
             - concat_logfiles_cliptar/output
         - id: file_prefix
           default: Ateamcliptar
@@ -149,7 +125,7 @@ outputs:
 
     - id: msout
       outputSource:
-        - Ateamcliptar/msout
+        - Ateamclipper/msout
       type: Directory
       doc: |
         The input data in MeasurementSet format after
