@@ -32,7 +32,7 @@ def plugin_main(**kwargs):
         DEC_val = [DEC_val[0]]
         Source_id = Source_id[0]
         if isinstance(Source_id, str):
-            pass
+            Source_id = [Source_id]
         else:
             Source_id = ['S' + str(Source_id)]
 
@@ -45,6 +45,6 @@ def plugin_main(**kwargs):
     else:
         raise ValueError("Argument mode must be one of"
                         + " \"delay_calibration\", \"split_directions\""
-                        + f" but was {mode}.")
+                        + f" but was \"{mode}\".")
 
     return {'name' : ",".join(Source_id), 'coords' : ss}

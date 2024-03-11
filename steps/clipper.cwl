@@ -1,24 +1,25 @@
 class: CommandLineTool
 cwlVersion: v1.2
-id: predict_ateam
-label: DP3 predict A-team
+id: Ateamclipper
+label: clip A-team
 doc: |
-    Simulates data for the A-team sources
-    based off a skymodel. Writes the simulated
-    data to the MSOUT datacolumn of the given
-    MeasurementSet.
+    Simulates data for the A-team sources based off a skymodel,
+    and flags the visibilities of the input MeasuremenSet where
+    the model data exceeds the threshold for LBA (50 janskys)
+    or HBA (5 janksys).
 
 baseCommand: DP3
 arguments:
-  - steps=[filter,predict]
-  - predict.sourcedb=Ateam_LBA_CC.skymodel
-  - predict.usechannelfreq=False
-  - predict.operation=replace
-  - predict.beamproximitylimit=2000
+  - steps=[filter,clipper,counter]
+  - clipper.sourcedb=Ateam_LBA_CC.skymodel
+  - clipper.usechannelfreq=False
+  - clipper.operation=replace
+  - clipper.beamproximitylimit=2000
   - filter.baseline=[CR]S*&
   - filter.remove=False
+  - counter.savetojson=True
+  - counter.jsonfilename=Ateamclipper.json
   - msout=.
-
 
 inputs:
   - id: msin
@@ -42,18 +43,6 @@ inputs:
         Data column of the MeasurementSet
         from which input data is read.
 
-  - id: msout_datacolumn
-    type: string?
-    default: MODEL_DATA
-    inputBinding:
-      position: 0
-      prefix: msout.datacolumn=
-      separate: false
-      shellQuote: false
-    doc: |
-        Data column of the MeasurementSet
-        into which output data is written.
-
   - id: linc_libraries
     type: File[]
     doc: |
@@ -70,7 +59,7 @@ inputs:
         - "TauAGG"
     inputBinding:
       position: 0
-      prefix: predict.sources=
+      prefix: clipper.sources=
       separate: false
       itemSeparator: ','
       valueFrom: '"$(self)"'
@@ -84,33 +73,10 @@ inputs:
     default: true
     inputBinding:
       position: 0
-      prefix: predict.usebeammodel=True
+      prefix: clipper.usebeammodel=True
       shellQuote: false
     doc: |
         Determines whether to use the beam model.
-
-  - id: storagemanager
-    type: string?
-    default: "dysco"
-    inputBinding:
-      prefix: msout.storagemanager=
-      separate: false
-      shellQuote: false
-    doc: |
-        String that specifies what storage manager
-        to use. By default uses `dysco` compression.
-
-  - id: databitrate
-    type: int?
-    default: 0
-    inputBinding:
-      prefix: msout.storagemanager.databitrate=
-      separate: false
-      shellQuote: false
-    doc: |
-        Number of bits per float used for columns
-        containing visibilities. Default compresses
-        weights only.
 
   - id: max_dp3_threads
     type: int?
@@ -120,6 +86,13 @@ inputs:
       separate: false
       shellQuote: false
     doc: The number of threads per DP3 process.
+
+  - id: number_cores
+    type: int?
+    default: 12
+    doc: |
+     Number of cores to use per job for tasks with
+     high I/O or memory.
 
 requirements:
   - class: InitialWorkDirRequirement
@@ -140,16 +113,22 @@ outputs:
   - id: logfile
     type: File[]
     outputBinding:
-      glob: predict_ateam*.log
+      glob: clipper*.log
     doc: |
         The files containing the stdout
         and stderr from the step.
 
+  - id: output
+    type: File
+    outputBinding:
+      glob: Ateamclipper.json
+    doc: A text file containing flagging fraction statistics.
+
 hints:
   - class: ResourceRequirement
-    coresMin: 6
+    coresMin: $(inputs.number_cores)
   - class: DockerRequirement
     dockerPull: vlbi-cwl
 
-stdout: predict_ateam.log
-stderr: predict_ateam_err.log
+stdout: clipper.log
+stderr: clipper_err.log
