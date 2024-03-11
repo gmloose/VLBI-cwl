@@ -45,5 +45,9 @@ requirements:
     listing:
       - entry: $(inputs.ddf_solsdir)
 
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
+
 stdout: fixsymlinks.log
 stderr: fixsymlinks_err.log

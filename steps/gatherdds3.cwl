@@ -41,3 +41,6 @@ outputs:
     outputBinding:
       glob: image*.npy
 
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
