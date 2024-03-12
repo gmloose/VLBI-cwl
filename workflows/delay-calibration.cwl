@@ -94,11 +94,6 @@ inputs:
       default: 5
       doc: The number of threads per DP3 process.
 
-    - id: subtract_lotss_model
-      type: boolean?
-      default: false
-      doc: Enable/disable subtraction of the LoTSS model using ddf-pipeline results.
-
     - id: ddf_solsdir
       type: Directory?
       doc: |
@@ -174,8 +169,6 @@ steps:
 
     - id: subtract_lotss
       in:
-        - id: do_subtract
-          source: subtract_lotss_model
         - id: msin
           source: sort-concatenate-flag/msout
         - id: solsdir
@@ -191,7 +184,7 @@ steps:
         - id: mslist
         - id: msout
       run: ./lotss_subtract.cwl
-      when: $(inputs.do_subtract)
+      when: $(inputs.ddf_rundir != null && inputs.ddf_solsdir != null)
 
     - id: phaseup
       in:
