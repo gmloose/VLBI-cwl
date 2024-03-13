@@ -111,6 +111,8 @@ steps:
         source: freqavg
       - id: timeavg
         source: timeavg
+      - id: ncpu
+        source: ncpu
     out:
       - id: subms
     run: ../steps/subtract.cwl
