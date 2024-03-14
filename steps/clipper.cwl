@@ -20,6 +20,8 @@ arguments:
   - counter.savetojson=True
   - counter.jsonfilename=Ateamclipper.json
   - msout=.
+  - msout.storagemanager=dysco
+  - msout.storagemanager.databitrate=0
 
 inputs:
   - id: msin
