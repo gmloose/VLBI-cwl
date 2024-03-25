@@ -13,7 +13,7 @@ inputs:
   - id: solsdir
     type: Directory
     doc: Path to the SOLSDIR directory of the DDF-pipeline run.
-  - id: ddfdir
+  - id: ddf_rundir
     type: Directory
     doc: Directory containing the output from DDF-pipeline.
   - id: box_size
@@ -77,8 +77,8 @@ steps:
 
   - id: gather_dds3
     in:
-      - id: ddfdir
-        source: ddfdir
+      - id: ddf_rundir
+        source: ddf_rundir
     out:
       - id: dds3sols
       - id: fitsfiles
@@ -86,6 +86,17 @@ steps:
       - id: facet_layout
     run: ../steps/gatherdds3.cwl
     doc: Gather the solutions and imaged required to subtract.
+
+  - id: fix_symlinks
+    in:
+      - id: ddf_rundir
+        source: ddf_rundir
+      - id: ddf_solsdir
+        source: solsdir
+    out:
+      - id: logfiles
+      - id: solsdir
+    run: ../steps/fix_symlinks_ddf.cwl
 
   - id: subtract
     in:
@@ -98,7 +109,7 @@ steps:
       - id: column
         valueFrom: DATA_DI_CORRECTED
       - id: solsdir
-        source: solsdir
+        source: fix_symlinks/solsdir
       - id: dds3sols
         source: gather_dds3/dds3sols
       - id: fitsfiles

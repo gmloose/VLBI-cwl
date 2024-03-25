@@ -9,8 +9,7 @@ doc: |
 baseCommand: DP3
 
 arguments:
-    # Intentionally left blank. A dot does not seem to work.
-    - msout=
+    - msout=.
     - steps=[applyddf]
     - applyddf.type=applycal
     - applyddf.correction=fulljones

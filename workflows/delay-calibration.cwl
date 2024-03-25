@@ -9,6 +9,8 @@ doc: |
     * concatenates the data in groups of 10, performs
       flagging on the international stations, (optionally)
       applies DDF solutions to the data,
+    * optionally subtracts the LoTSS model outside a
+      user-specifiable region.
     * creates a MeasurementSet with data phase-shifted
       to a given delay calibrator, calibrated for direction-
       independent effects.
@@ -97,17 +99,22 @@ inputs:
     - id: ddf_solsdir
       type: Directory?
       doc: |
-        [Required if subtracting LoTSS] Path to the SOLSDIR directory of the ddf-pipeline run,
-         where most of the calibration solutions are stored.
+        [Required if subtracting LoTSS] Path to the SOLSDIR directory 
+        of the DDF-pipeline run, where most of the calibration solutions
+        are stored.
 
     - id: ddf_rundir
       type: Directory?
-      doc: "[Required if subtracting LoTSS] Path to the directory of the ddf-pipeline run where files required for the subtract can be found."
+      doc: |
+        [Required if subtracting LoTSS] Path to the directory of the 
+        DDF-pipeline run where files required for the subtract can be found.
 
     - id: box_size
       type: float?
       default: 2.5
-      doc: "[Required if subtracting LoTSS] Box size, in degrees, outside of which to subtract."
+      doc: |
+        [Required if subtracting LoTSS] Box size, in degrees, outside of which to subtract
+        the LoTSS model from the data.
 
 steps:
     - id: setup
@@ -144,28 +151,18 @@ steps:
           source: reference_stationSB
         - id: max_dp3_threads
           source: max_dp3_threads
-        - id: ddf_solset
-          source: ddf_solset
+        - id: ddf_solsdir
+          source: ddf_solsdir
         - id: linc
           source: linc
+        - id: h5merger
+          source: h5merger
       out:
         - id: logdir
         - id: concat_flags
         - id: msout
       run: ./concatenate-flag.cwl
       label: sort-concatenate-flag
-
-    - id: fix_symlinks
-      in:
-        - id: ddf_rundir
-          source: ddf_rundir
-        - id: ddf_solsdir
-          source: ddf_solsdir
-      out:
-        - id: logfiles
-        - id: solsdir
-      run: ../steps/fix_symlinks_ddf.cwl
-      when: $(inputs.ddf_rundir != null && inputs.ddf_solsdir != null)
 
     - id: subtract_lotss
       in:
@@ -174,7 +171,7 @@ steps:
         - id: solsdir
           source: ddf_solsdir
           valueFrom: $(self)
-        - id: ddfdir
+        - id: ddf_rundir
           source: ddf_rundir
           valueFrom: $(self)
         - id: box_size
@@ -184,7 +181,7 @@ steps:
         - id: mslist
         - id: msout
       run: ./lotss_subtract.cwl
-      when: $(inputs.ddf_rundir != null && inputs.ddf_solsdir != null)
+      when: $(inputs.ddf_rundir != null && inputs.solsdir != null)
 
     - id: phaseup
       in:
