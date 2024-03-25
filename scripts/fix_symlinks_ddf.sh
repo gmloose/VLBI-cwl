@@ -7,10 +7,9 @@ for folder in ${SOLSDIR}/L*MHz_uv_pre-cal.ms; do
     for solution in *.npz; do
         if [[ -L $solution ]]; then
             echo "Fixing symlink for ${solution}"
-            solname=$(basename $solution)
+            solname=$(basename $(readlink $solution))
             unlink $solution
             cp ${DDFDIR}/${solname} $solution
         fi
     done
-    cd -
 done
