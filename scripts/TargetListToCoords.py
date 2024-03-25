@@ -30,13 +30,11 @@ def plugin_main(**kwargs):
     if mode == 'delay_calibration':
         RA_val = [RA_val[0]]
         DEC_val = [DEC_val[0]]
-        Source_id = Source_id[:1]
-        if str(Source_id[0])[0:1] == 'I':
-            pass
-        elif str(Source_id[0])[0:1] == 'S':
-            pass
+        Source_id = Source_id[0]
+        if isinstance(Source_id, str):
+            Source_id = [Source_id]
         else:
-            Source_id = ['S' + str(x) for x in Source_id[0]]
+            Source_id = ['S' + str(Source_id)]
 
     # make a string of coordinates for the DP3 command
     ss = [ '[' + str(x) + 'deg,' + str(y) + 'deg]' for x, y in zip(RA_val, DEC_val) ]
@@ -47,8 +45,6 @@ def plugin_main(**kwargs):
     else:
         raise ValueError("Argument mode must be one of"
                         + " \"delay_calibration\", \"split_directions\""
-                        + f" but was {mode}.")
+                        + f" but was \"{mode}\".")
 
-    result = {'name' : ",".join(Source_id),
-              'coords' : ss}
-    return result
+    return {'name' : ",".join(Source_id), 'coords' : ss}

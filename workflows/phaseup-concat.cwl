@@ -255,7 +255,7 @@ steps:
       - id: h5parm
       - id: images
       - id: logfile
-    run: ../steps/delay_solve.cwl
+    run: ../steps/facet_selfcal.cwl
     label: delay_solve
 
   - id: summary
