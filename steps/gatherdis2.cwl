@@ -40,3 +40,6 @@ outputs:
     outputBinding:
       glob: DIS2_full.h5
 
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
