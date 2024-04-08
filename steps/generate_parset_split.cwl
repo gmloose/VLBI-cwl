@@ -67,6 +67,7 @@ requirements:
             applydelaybeam.type              = applybeam
             applydelaybeam.direction         = $(inputs.beamdir_delay_cal)
             applydelaybeam.beammode          = full
+            applydelaybeam.updateweights     = True
 
             # Apply delay calibrator solutions now.
             applycal.type               = applycal
@@ -78,6 +79,7 @@ requirements:
             applytargetbeam.type              = applybeam
             applytargetbeam.direction         = $(inputs.phase_centers)
             applytargetbeam.beammode          = full
+            applytargetbeam.updateweights     = True
 
             averager2.type              = averager
             averager2.freqresolution    = $(inputs.frequency_resolution)
