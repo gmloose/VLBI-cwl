@@ -1,0 +1,72 @@
+class: CommandLineTool
+cwlVersion: v1.2
+id: dp3_avg_remove_int_stations
+label: DP3 averaging and removing international stations
+doc: |
+    Averages input MS and filters out international stations
+
+baseCommand:
+  - DP3
+
+inputs:
+  - id: msin
+    doc: An array of MeasurementSets to be concatenated.
+    type: Directory[]
+    inputBinding:
+      position: 0
+      prefix: msin=
+      separate: false
+      itemSeparator: ','
+      valueFrom: |
+       ${
+          // Map directory to its basename and join with ','
+          var dirPaths = inputs.ms_dirs.map(function(dir) {
+            return dir.basename;
+          }).join(',');
+          // Return the formatted string
+          return "[" + dirPaths + "]";
+        }
+
+outputs:
+  - id: msout
+    doc: |
+        The output data with corrected
+        data in MeasurementSet format.
+    type: Directory
+    outputBinding:
+      glob: averaged_input.ms
+
+  - id: logfile
+    type: File[]
+    outputBinding:
+      glob: dp3_avg_int_st*.log
+    doc: |
+        The files containing the stdout
+        and stderr from the step.
+
+arguments:
+  - msout=averaged_input.ms
+  - steps=[av,filt]
+  - msout.storagemanager=dysco
+  - av.type=averager
+  - av.freqstep=16
+  - av.timestep=16
+  - filt.type=filter
+  - filt.baseline='[CR]S*&&'
+
+requirements:
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
+  - class: InitialWorkDirRequirement
+    listing:
+      - entry: $(inputs.msin)
+        writable: true
+  - class: ResourceRequirement
+    coresMin: 6
+
+stdout: dp3_avg_int_st.log
+stderr: dp3_avg_int_st.log

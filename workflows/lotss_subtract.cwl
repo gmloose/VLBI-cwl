@@ -51,6 +51,11 @@ outputs:
     outputSource:
       - subtract/subms
     doc: MS from which the LoTSS skymodel has been subtracted.
+  - id: subtr_fits
+    type: File
+    outputSource:
+      - inspect_subtract/sub_fits
+    doc: Fits image to inspect the subtract.
 
 steps:
   - id: makebox
@@ -133,7 +138,14 @@ steps:
     scatterMethod: dotproduct
     doc: Subtract the LoTSS model from the data.
 
+  - id: inspect_subtract
+    in:
+      - id: msin
+        source: subtract/subms
+    out:
+      - id: subtr_fits
+    run: ./subworkflows/inspect_subtract.cwl
+
 requirements:
   - class: ScatterFeatureRequirement
   - class: StepInputExpressionRequirement
-
