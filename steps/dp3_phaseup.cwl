@@ -14,6 +14,7 @@ arguments:
     - shift.type=phaseshift
     - average1.type=averager
     - applybeam.type=applybeam
+    - applybeam.updateweights=true
     - average2.type=averager
     - msout.overwrite=True
 
