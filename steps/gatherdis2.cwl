@@ -17,7 +17,6 @@ inputs:
       for adding dummy international stations to the final h5parm.
     inputBinding:
       position: 2
-      valueFrom: $(self.path)
   - id: ddf_solsdir
     type: Directory
     doc: |-
