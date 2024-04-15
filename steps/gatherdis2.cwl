@@ -24,7 +24,6 @@ inputs:
       folders with DIS2 solutions.
     inputBinding:
       position: 1
-      valueFrom: $(self.path)
   - id: h5merger
     type: Directory
     doc: Path to external LOFAR helper scripts for merging h5 files.
