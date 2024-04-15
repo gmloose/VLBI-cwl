@@ -9,12 +9,11 @@ doc: |-
 baseCommand:
   - gather_dds3.sh
 
-arguments:
-  - $(inputs.ddf_rundir.path)
-
 inputs:
   - id: ddf_rundir
     type: Directory
+    inputBinding:
+      position: 0
     doc: |-
       Directory containing the output of the DDF-pipeline run
       or at the very least the required files for the subtract.
