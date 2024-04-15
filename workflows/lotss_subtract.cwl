@@ -85,7 +85,7 @@ steps:
       - id: dicomodels
       - id: facet_layout
     run: ../steps/gatherdds3.cwl
-    doc: Gather the solutions and imaged required to subtract.
+    doc: Gather the solutions and images required to subtract the LoTSS model.
 
   - id: fix_symlinks
     in:
