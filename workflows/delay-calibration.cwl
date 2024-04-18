@@ -116,6 +116,13 @@ inputs:
         [Required if subtracting LoTSS] Box size, in degrees, outside of which to subtract
         the LoTSS model from the data.
 
+    - id: subtract_chunk_hours
+      type: float?
+      default: 0.5
+      doc: |
+        The range of time to predict the LoTSS model for at once. Lowering this value reduces
+        memory footprint at the (possible) cost of increased runtime and vice versa.
+
 steps:
     - id: setup
       label: setup
@@ -178,6 +185,8 @@ steps:
           source: box_size
         - id: ncpu
           source: number_cores
+        - id: chunkhours
+          source: subtract_chunk_hours
       out:
         - id: regionbox
         - id: mslist
