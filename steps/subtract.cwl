@@ -12,7 +12,6 @@ arguments:
   - --noconcat
   - --keeplongbaselines
   - --nophaseshift
-  - --chunkhours=0.5
   - --nofixsym
 
 inputs:
@@ -68,6 +67,13 @@ inputs:
     inputBinding:
       position: 5
       prefix: --ncpu
+  - id: chunkhours
+    type: float?
+    doc: The range of time to predict the model for at once. Lowering this value reduces memory footprint, but can increase runtime.
+    default: 0.5
+    inputBinding:
+      position: 6
+      prefix: --chunkhours
   - id: dds3sols
     type: File[]
     doc: DDS3 solution files from the ddf-pipeline run.
