@@ -176,6 +176,8 @@ steps:
           valueFrom: $(self)
         - id: box_size
           source: box_size
+        - id: ncpu
+          source: number_cores
       out:
         - id: regionbox
         - id: mslist
