@@ -34,6 +34,9 @@ inputs:
     type: int?
     doc: Number of cores to use during the subtract. Defaults to 24.
     default: 24
+  - id: chunkhours
+    type: float?
+    doc: The range of time to predict the model for at once. Lowering this value reduces memory footprint, but can increase runtime.
 
 outputs:
   - id: regionbox
@@ -124,6 +127,8 @@ steps:
         source: timeavg
       - id: ncpu
         source: ncpu
+      - id: chunkhours
+        source: chunkhours
     out:
       - id: subms
     run: ../steps/subtract.cwl
