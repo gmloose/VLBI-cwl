@@ -9,6 +9,8 @@ doc: |
     * concatenates the data in groups of 10, performs
       flagging on the international stations, (optionally)
       applies DDF solutions to the data,
+    * optionally subtracts the LoTSS model outside a
+      user-specifiable region.
     * creates a MeasurementSet with data phase-shifted
       to a given delay calibrator, calibrated for direction-
       independent effects.
@@ -16,6 +18,8 @@ doc: |
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 
 inputs:
     - id: msin
@@ -92,6 +96,33 @@ inputs:
       default: 5
       doc: The number of threads per DP3 process.
 
+    - id: ddf_solsdir
+      type: Directory?
+      doc: |
+        [Required if subtracting LoTSS] Path to the SOLSDIR directory 
+        of the DDF-pipeline run, where most of the calibration solutions
+        are stored.
+
+    - id: ddf_rundir
+      type: Directory?
+      doc: |
+        [Required if subtracting LoTSS] Path to the directory of the 
+        DDF-pipeline run where files required for the subtract can be found.
+
+    - id: box_size
+      type: float?
+      default: 2.5
+      doc: |
+        [Required if subtracting LoTSS] Box size, in degrees, outside of which to subtract
+        the LoTSS model from the data.
+
+    - id: subtract_chunk_hours
+      type: float?
+      default: 0.5
+      doc: |
+        The range of time to predict the LoTSS model for at once. Lowering this value reduces
+        memory footprint at the (possible) cost of increased runtime and vice versa.
+
 steps:
     - id: setup
       label: setup
@@ -127,10 +158,12 @@ steps:
           source: reference_stationSB
         - id: max_dp3_threads
           source: max_dp3_threads
-        - id: ddf_solset
-          source: ddf_solset
+        - id: ddf_solsdir
+          source: ddf_solsdir
         - id: linc
           source: linc
+        - id: h5merger
+          source: h5merger
       out:
         - id: logdir
         - id: concat_flags
@@ -138,10 +171,37 @@ steps:
       run: ./concatenate-flag.cwl
       label: sort-concatenate-flag
 
-    - id: phaseup
+    - id: subtract_lotss
       in:
         - id: msin
           source: sort-concatenate-flag/msout
+        - id: solsdir
+          source: ddf_solsdir
+          valueFrom: $(self)
+        - id: ddf_rundir
+          source: ddf_rundir
+          valueFrom: $(self)
+        - id: box_size
+          source: box_size
+        - id: ncpu
+          source: number_cores
+        - id: chunkhours
+          source: subtract_chunk_hours
+      out:
+        - id: regionbox
+        - id: mslist
+        - id: msout
+      run: ./lotss_subtract.cwl
+      when: $(inputs.ddf_rundir != null && inputs.solsdir != null)
+
+    - id: phaseup
+      in:
+        - id: msin
+          source:
+            - subtract_lotss/msout
+            - sort-concatenate-flag/msout
+          linkMerge: merge_nested
+          pickValue: first_non_null
         - id: delay_calibrator
           source: delay_calibrator
         - id: configfile
@@ -194,7 +254,10 @@ outputs:
         format, phase-shifted to the delay calibrator.
 
   - id: msouts
-    outputSource: sort-concatenate-flag/msout
+    outputSource:
+      - subtract_lotss/msout
+      - sort-concatenate-flag/msout
+    pickValue: first_non_null
     type: Directory[]
     doc: |
         The concatenated data in MeasurementSet format after

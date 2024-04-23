@@ -48,3 +48,6 @@ outputs:
       outputBinding:
         glob: delay_dir.csv
 
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
