@@ -49,6 +49,6 @@ def test_compare_stations():
     filter = "*&" 
     solset = f"{data_dir}/results_target/cal_solutions.h5"
     solset_name = "vlbi"
-    msin = glob.glob(f"{data_dir}/L*")
+    msin = glob.glob(f"{data_dir}/L667520*.MS")
     result = main_compare_stations(msin, filter=filter, h5parmdb=solset, solset_name=solset_name)
     assert result == reference

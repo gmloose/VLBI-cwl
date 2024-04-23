@@ -53,7 +53,7 @@ steps:
           source: msin
         - id: msout_name
           source: msin
-          valueFrom: $("out_"+self.basename)
+          valueFrom: $(self.basename)
         - id: solset
           source: solset
       out:
