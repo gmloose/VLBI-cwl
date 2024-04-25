@@ -7,7 +7,7 @@ SOLSDIR=${2}
 MSNAME=${3}
 
 C=0
-for f in ${SOLSDIR}/*MHz_uv_pre-cal.ms/*DIS2*.sols.npz; do
+for f in ${SOLSDIR}/*pre-cal.ms/*DIS2*.sols.npz; do
     killMS2H5parm.py --solset sol000 --verbose DIS2_$(printf "%02d" $C).h5 $f
     ((C++))
 done
