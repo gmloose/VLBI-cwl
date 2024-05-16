@@ -35,7 +35,7 @@ inputs:
       doc: Indicates whether statistics should be written to file.
 
     - id: linc_libraries
-      type: File[]
+      type: File[]? # This is optional as a workaround for toil, see https://github.com/DataBiosphere/toil/issues/4930
       doc: |
         Scripts and reference files from the
         LOFAR INitial calibration pipeline.
@@ -53,8 +53,8 @@ inputs:
 
     - id: memory
       type: 
-        - int
-        - float
+        - int?
+        - float? # These are optional as a workaround for toil, see https://github.com/DataBiosphere/toil/issues/4930
       inputBinding:
         position: 0
         prefix: aoflagger.memorymax=
