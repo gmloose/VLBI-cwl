@@ -63,7 +63,7 @@ def main(flagFiles=None, pipeline='LINC', run_type='calibrator', filtered_antenn
 				flagged_solutions[soltab_name] = {}
 				if not history.strip('\n') == '':
 					values_to_print += history + '\n'
-				for vals, weights, coord, selection in soltab.getValuesIter(returnAxes=axes, weight=True):
+				for _, weights, _, _ in soltab.getValuesIter(returnAxes=axes, weight=True):
 					weights = losoto.reorderAxes(weights, soltab.getAxesNames(), axes)
 				for i, ant in enumerate(ants):
 					if ant not in antennas:
