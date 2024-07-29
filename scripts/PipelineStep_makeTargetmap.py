@@ -178,22 +178,22 @@ class MapfileManager(DataMap):
     def expand(self, number, hostlist=None, filelist=None):
         if hostlist:
             if len(hostlist) != number:
-                print 'Error: length of hostlist should correspond to number of expansions'
+                print ('Error: length of hostlist should correspond to number of expansions')
                 exit(1)
         else:
-            print 'Info: no hostlist given. Will use "localhost" instead'
+            print ('Info: no hostlist given. Will use "localhost" instead')
             hostlist = []
-            for item in range(number):
+            for _ in range(number):
                 hostlist.append('localhost')
 
         if filelist:
             if len(filelist) != number:
-                print 'Error: length of hostlist should correspond to number of expansions'
+                print ('Error: length of hostlist should correspond to number of expansions')
                 exit(1)
         else:
-            print 'Info: no filelist given. Will use "dummy" instead'
+            print ('Info: no filelist given. Will use "dummy" instead')
             filelist = []
-            for item in range(number):
+            for _ in range(number):
                 filelist.append('dummy')
 
         prodlist = []
@@ -270,21 +270,21 @@ class MapfileManager(DataMap):
         datalist = self._input_to_list(data)
         skiplist = self._input_to_list(skip)
         if len(hostlist) is not len(datalist) or len(hostlist) is not len(skiplist) or len(hostlist) is not ntimes:
-            print 'Length of parts is not equal. Will expand to max length given.'
+            print ('Length of parts is not equal. Will expand to max length given.')
             maxval = max(len(hostlist), len(datalist), len(skiplist), ntimes)
             lastval = hostlist[(-1)]
             if len(hostlist) is not maxval:
-                for x in range(len(hostlist), maxval):
+                for _ in range(len(hostlist), maxval):
                     hostlist.append(lastval)
 
             lastval = datalist[(-1)]
             if len(datalist) is not maxval:
-                for x in range(len(datalist), maxval):
+                for _ in range(len(datalist), maxval):
                     datalist.append(lastval)
 
             lastval = skiplist[(-1)]
             if len(skiplist) is not maxval:
-                for x in range(len(skiplist), maxval):
+                for _ in range(len(skiplist), maxval):
                     skiplist.append(lastval)
 
         prodlist = []
@@ -313,7 +313,7 @@ class MultiDataProduct(DataProduct):
             self.file = list()
         else:
             self._set_file(file)
-        print 'FILE: ', self.file
+        print ('FILE: ', self.file)
 
     def __repr__(self):
         """Represent an instance as a Python dict"""
@@ -335,13 +335,13 @@ class MultiDataProduct(DataProduct):
             raise DataProduct('No known method to set a filelist from %s' % str(file))
 
     def _from_dataproduct(self, prod):
-        print 'setting filelist from DataProduct'
+        print ('setting filelist from DataProduct')
         self.host = prod.host
         self.file = prod.file
         self.skip = prod.skip
 
     def _from_datamap(self, inmap):
-        print 'setting filelist from DataMap'
+        print ('setting filelist from DataMap')
         filelist = {}
         for item in inmap:
             if item.host not in filelist:
@@ -376,7 +376,7 @@ class MultiDataMap(DataMap):
 
             self._set_data(mdplist, dtype=MultiDataProduct)
         else:
-            print 'HELP: ', data
+            print ('HELP: ', data)
             self._set_data(data, dtype=MultiDataProduct)
 
     def split_list(self, number):
