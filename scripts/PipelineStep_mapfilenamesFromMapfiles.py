@@ -8,7 +8,7 @@ from lofarpipe.support.data_map import DataProduct
 # mandatory arguments:
 # cmdline for type of mapfile creation
 # options: mapfile-dir, filename, identifier(name in parsetparset)
-def plugin_main(_, **kwargs):
+def plugin_main(args, **kwargs):
     """
     Gets several mapfiles of length 1 as input, extracts names (pathes) from these
     mapfiles and returns those as mapfiles.
@@ -36,7 +36,7 @@ def plugin_main(_, **kwargs):
             if len(keyname) < 10:
                 raise ValueError("MapfilenamesFromMapfiles: Key: "+keyname+" is too short!")
         else:
-            print ("MapfilenamesFromMapfiles: input key:",keyname,"in unkown!")
+            print "MapfilenamesFromMapfiles: input key:",keyname,"in unkown!"
     for keyname in mapfile_keys:
         inmap = DataMap.load(kwargs[keyname])
         if len(inmap) != 1:

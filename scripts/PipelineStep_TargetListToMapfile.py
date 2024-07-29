@@ -1,9 +1,13 @@
 import os
 from lofarpipe.support.data_map import DataMap
 from lofarpipe.support.data_map import DataProduct
+import numpy as np
+import pyrap.tables, math
+from astropy import units as u
+from astropy.coordinates import SkyCoord
 from astropy.table import Table
 
-def plugin_main(_, **kwargs):
+def plugin_main(args, **kwargs):
     """
     Takes in a catalogue with a target and returns an appropriate mapfile
     
@@ -47,9 +51,9 @@ def plugin_main(_, **kwargs):
     DEC_val = t['DEC_LOTSS'].data[0]
     Source_id = t['Source_id'].data[0]
     if str(Source_id)[0:1] == 'I':
-        pass
+	pass
     elif str(Source_id)[0:1] == 'S':
-        pass
+	pass
     else:
 	Source_id = 'S' + str(Source_id)
     # make a string of coordinates for the NDPPP command
@@ -69,8 +73,9 @@ def plugin_main(_, **kwargs):
         ms_file = datalist[0]
         map_out.data.append(DataProduct(data[msID].host, '/'.join(data[msID].file.split('/')[:-1]) + '/' + current_name + '_' + data[msID].file.split('/')[-1], data[msID].skip))
     else:
+        print( 'HELLO HELLO HELLO' )
         for msID, ms_file in enumerate(datalist):
-            map_out.data.append(DataProduct(data[msID].host, '/'.join(data[msID].file.split('/')[:-1]) + '/' + current_name + '_' + data[msID].file.split('/')[-1], data[msID].skip))
+	    map_out.data.append(DataProduct(data[msID].host, '/'.join(data[msID].file.split('/')[:-1]) + '/' + current_name + '_' + data[msID].file.split('/')[-1], data[msID].skip))
     # save the file
     map_out.save(fileid)
     result = {'coordfile': coordfileid,
