@@ -1,7 +1,9 @@
 # Alexander Drabent, December 2017
 # make losoto v2.0 parset file
 
-def plugin_main(_, **kwargs):
+import os
+
+def plugin_main(args, **kwargs):
 
 	steps = kwargs['steps'].lstrip('[').rstrip(']').replace(' ','').split(',')
 	
