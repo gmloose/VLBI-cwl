@@ -80,6 +80,30 @@ inputs:
     doc: |
         Determines whether to use the beam model.
 
+  - id: timestep
+    type: int?
+    default: 4
+    inputBinding:
+      position: 0
+      prefix: clipper.timestep=
+      separate: false
+      shellQuote: false
+    doc: |
+        DP3 will perform the visibility prediction once every timestep time slots.
+        The next timestep - 1 time slots will use the previously predicted values.
+
+  - id: freqstep
+    type: int?
+    default: 4
+    inputBinding:
+      position: 0
+      prefix: clipper.freqstep=
+      separate: false
+      shellQuote: false
+    doc: |
+        DP3 will perform the visibility prediction once every freqstep time slots.
+        The next freqstep - 1 time slots will use the previously predicted values.
+
   - id: max_dp3_threads
     type: int?
     default: 5
