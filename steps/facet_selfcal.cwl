@@ -12,7 +12,9 @@ baseCommand:
 
 inputs:
     - id: msin
-      type: Directory
+      type:
+        - Directory
+        - Directory[]
       doc: |
         Input data phase-shifted to the
         delay calibrator in MeasurementSet format.
@@ -22,6 +24,11 @@ inputs:
       doc: |
         The skymodel to be used in the first
         cycle in the self-calibration.
+
+    - id: stack
+      type: boolean?
+      doc: |
+        Do multi-source self-calibration by stacking sources in the visibility plane.
 
     - id: configfile
       type: File
@@ -39,7 +46,7 @@ outputs:
     - id: h5parm
       type: File
       outputBinding:
-        glob: merged_addCS_selfcalcyle009_linear*.h5
+        glob: merged_addCS_selfcalcyle009*.h5
       doc: |
         The calibration solution files generated
         by lofar_facet_selfcal in HDF5 format.
@@ -82,6 +89,7 @@ requirements:
           skymodel = inputs['skymodel']['path'] if inputs['skymodel'] else None
           selfcal = inputs['selfcal']['path']
           h5merge = inputs['h5merger']['path']
+          stack = inputs['stack']
 
           run_selfcal = (f"python3 {selfcal}/facetselfcal.py {msin}"
                          f" --helperscriptspath {selfcal}"
@@ -89,6 +97,8 @@ requirements:
                          f" --helperscriptspathh5merge {h5merge}")
           if skymodel:
             run_selfcal += f" --skymodel {skymodel}"
+          if stack
+            run_selfcal += f" --stack"
 
           subprocess.run(run_selfcal, shell = True)
 
