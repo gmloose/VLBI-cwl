@@ -40,6 +40,8 @@ steps:
         source: selfcal
       - id: h5merger
         source: h5merger
+      - id: stack
+        default: true
     out:
       - id: h5parm
       - id: images
