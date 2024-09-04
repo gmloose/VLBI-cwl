@@ -100,7 +100,7 @@ def main (MS, delayCalFile):
 
     print('generating point model')
     point_model = np.array( [ [0.0,0.0,smodel,0.1,0.0,0.0] ] )
-    write_skymodel (ra,dec,point_model,'skymodel')
+    write_skymodel (ra,dec,point_model,'skymodel.txt')
 
 if __name__ == "__main__":
     import argparse

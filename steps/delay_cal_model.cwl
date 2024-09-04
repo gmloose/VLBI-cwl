@@ -26,7 +26,7 @@ outputs:
     - id: skymodel
       type: File
       outputBinding:
-        glob: skymodel
+        glob: skymodel.txt
       doc: The skymodel of the delay calibrator.
 
     - id: logfile
