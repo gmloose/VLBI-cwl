@@ -182,6 +182,8 @@ outputs:
 
 requirements:
   - class: InlineJavascriptRequirement
+  - class: ResourceRequirement
+    coresMin: $(inputs.max_dp3_threads)
 
 hints:
   - class: DockerRequirement
