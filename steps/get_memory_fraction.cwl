@@ -27,9 +27,13 @@ outputs:
         The fraction of the node's memory in
         mebibytes (MiB).
       outputBinding:
-        glob: memory.txt
+        glob: memory.json
         loadContents: true
-        outputEval: $(JSON.parse(self[0].contents))
+        outputEval: $(JSON.parse(self[0].contents).memory)
+
+hints:
+    - class: DockerRequirement
+      dockerPull: vlbi-cwl
 
 requirements:
     - class: InlineJavascriptRequirement
@@ -37,10 +41,16 @@ requirements:
       listing:
         - entryname: query_memory.py
           entry: |
+            import json
             import psutil
+
             # psuitil outputs the memory in bytes.
             # This is converted into mebibytes (1 MiB = 2^20 B)
             # to match CWL's ResourceRequirement input.
             required_memory = int(psutil.virtual_memory().available / 2**20
                                     * $(inputs.fraction) / 100)
-            print(required_memory)
+            print("The available memory is ", required_memory)
+            result = {"memory" : required_memory}
+
+            with open('./memory.json', 'w') as fp:
+                json.dump(result, fp)
