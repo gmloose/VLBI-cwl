@@ -2,7 +2,7 @@ class: CommandLineTool
 cwlVersion: v1.2
 id: get_facet_layout
 label: DS9 Facet Generator
-doc: This step generates DS9 facet layout using a specified HDF5 file and MS.
+doc: This step generates DS9 facet layout for DD facet imaging using a specified HDF5 file and MS.
 
 baseCommand: python3
 
@@ -61,10 +61,8 @@ outputs:
     outputBinding:
       glob: get_facet_layout*.log
 
-
 arguments:
   - valueFrom: $( inputs.selfcal.path + '/ds9facetgenerator.py' )
-
 
 requirements:
   - class: ShellCommandRequirement
@@ -73,7 +71,6 @@ requirements:
     listing:
       - entry: $(inputs.h5parm)
       - entry: $(inputs.msin)
-
 
 hints:
   - class: DockerRequirement

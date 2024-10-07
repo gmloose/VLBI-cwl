@@ -4,7 +4,7 @@ id: subtract_with_wsclean
 label: Subtract with WSClean
 doc: This step subtracts all sources using WSClean.
 
-baseCommand: python
+baseCommand: python3
 
 inputs:
   - id: msin
@@ -16,7 +16,7 @@ inputs:
 
   - id: model_image_folder
     type: Directory
-    doc: Directory containing 1.2" model images.
+    doc: Directory containing 1.2" (or optionally other resolution) model images.
     inputBinding:
       prefix: "--model_image_folder"
       position: 2

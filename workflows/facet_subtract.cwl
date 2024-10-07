@@ -34,7 +34,7 @@ inputs:
       type: boolean?
       default: true
       doc: |
-        Whether you are running the final predict on scratch. This is crucial for running sub-arcsecond imaging on clusters.
+        Whether you are running the final predict on scratch. This is important for running sub-arcsecond imaging on HPC clusters.
         If 'scratch' is set to 'true' (the default and recommended setting), ensure that there is sufficient scratch storage
         space on the running nodes (at least ~400 GB per 15 cores). Alternatively, if 'scratch' set to 'false', you must limit the number
         of parallel predict jobs to prevent excessive use of intermediate storage disk space. However, this approach
@@ -115,7 +115,7 @@ steps:
               type: Directory[]
               outputSource: predict_facet/facet_ms
          steps:
-            - id: subtract_fov
+            - id: subtract_fov_wsclean
               label: Subtract complete FoV
               in:
                  - id: msin
@@ -130,13 +130,13 @@ steps:
                    source: lofar_helpers
               out:
                  - subtracted_ms
-              run: ../steps/subtract_fov.cwl
+              run: ../steps/subtract_fov_wsclean.cwl
 
             - id: predict_facet
               label: Predict a polygon back in empty MS
               in:
                  - id: subtracted_ms
-                   source: subtract_fov/subtracted_ms
+                   source: subtract_fov_wsclean/subtracted_ms
                  - id: polygon_region
                    source: polygon_regions
                  - id: h5parm

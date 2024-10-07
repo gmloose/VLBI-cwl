@@ -4,7 +4,7 @@ id: predict_facet
 label: Predict with WSClean
 doc: This step predicts sources within a facet and adds these to the data using WSClean.
 
-baseCommand: python
+baseCommand: python3
 
 inputs:
   - id: subtracted_ms

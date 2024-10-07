@@ -4,13 +4,9 @@ id: split_polygons
 label: Split Polygon Facets
 doc: This step splits polygon facets using an HDF5 file and a DS9 region file.
 
-baseCommand: python
+baseCommand: python3
 
 inputs:
-  - id: lofar_helpers
-    type: Directory
-    doc: The lofar_helpers directory.
-
   - id: h5parm
     type: File
     doc: Merged HDF5 file.
@@ -24,6 +20,10 @@ inputs:
     inputBinding:
       prefix: "--reg"
       position: 2
+
+  - id: lofar_helpers
+    type: Directory
+    doc: The lofar_helpers directory.
 
 outputs:
   - id: polygon_regions
