@@ -62,7 +62,7 @@ outputs:
       glob: get_facet_layout*.log
 
 arguments:
-  - valueFrom: $( inputs.selfcal.path + '/ds9facetgenerator.py' )
+  - $( inputs.selfcal.path + '/ds9facetgenerator.py' )
 
 requirements:
   - class: ShellCommandRequirement

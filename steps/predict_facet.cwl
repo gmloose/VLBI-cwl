@@ -66,11 +66,12 @@ outputs:
 
 
 arguments:
-  - valueFrom: $( inputs.lofar_helpers.path + '/subtract/subtract_with_wsclean.py' )
-  - valueFrom: --applybeam
-  - valueFrom: --applycal
-  - valueFrom: --forwidefield
-  - valueFrom: --inverse
+  - $( inputs.lofar_helpers.path + '/subtract/subtract_with_wsclean.py' )
+  - --applybeam
+  - --applycal
+  - --forwidefield
+  - --inverse
+  - --speedup_facet_subtract
 
 requirements:
   - class: StepInputExpressionRequirement

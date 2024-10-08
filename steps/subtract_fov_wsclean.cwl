@@ -53,7 +53,7 @@ outputs:
 
 
 arguments:
-  - valueFrom: $( inputs.lofar_helpers.path + '/subtract/subtract_with_wsclean.py' )
+  - $( inputs.lofar_helpers.path + '/subtract/subtract_with_wsclean.py' )
 
 requirements:
   - class: StepInputExpressionRequirement
