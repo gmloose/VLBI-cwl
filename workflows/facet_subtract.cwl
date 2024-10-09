@@ -165,7 +165,7 @@ steps:
       run: ../steps/flatten.cwl
 
     - id: make_concat_parset
-      label: Make parsets
+      label: Make concat parsets
       in:
          - id: msin
            source: flatten_facet_ms/flattenedarray
@@ -176,7 +176,7 @@ steps:
       run: ../steps/make_concat_parsets.cwl
 
     - id: concat_facets
-      label: dp3_parset
+      label: Run DP3 parsets
       in:
         - id: parset
           source: make_concat_parset/concat_parsets
