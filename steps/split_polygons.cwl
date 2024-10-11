@@ -44,6 +44,7 @@ outputs:
 
 arguments:
   - $(inputs.lofar_helpers.path)/ds9_helpers/split_polygon_facets.py
+  - --extra_boundary=0.05
 
 requirements:
   - class: StepInputExpressionRequirement
