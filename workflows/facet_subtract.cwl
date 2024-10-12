@@ -187,11 +187,22 @@ steps:
       run: ../steps/dp3_parset.cwl
       scatter: parset
 
+    - id: remove_flagged_stations
+      run: ../steps/remove_flagged_stations.cwl
+      in:
+        - id: ms
+          source: concat_facets/msout
+        - id: lofar_helpers
+          source: lofar_helpers
+      out:
+        - cleaned_ms
+      scatter: ms
+
 
 outputs:
     - id: facet_ms
       type: Directory[]
-      outputSource: concat_facets/msout
+      outputSource: remove_flagged_stations/cleaned_ms
     - id: polygon_info
       type: File
       outputSource: split_polygons/polygon_info
