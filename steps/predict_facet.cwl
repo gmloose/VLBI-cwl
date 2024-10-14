@@ -90,7 +90,7 @@ hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
   - class: ResourceRequirement
-    coresMin: 15
+    coresMin: 20
 
 stdout: predict_facet.log
 stderr: predict_facet_err.log
