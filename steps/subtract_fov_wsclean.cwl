@@ -39,6 +39,15 @@ inputs:
     type: Directory
     doc: LOFAR helpers directory.
 
+  - id: scratch
+    type: boolean?
+    default: false
+    doc: Run job on scratch.
+    inputBinding:
+      prefix: "--scratch_toil"
+      position: 5
+      separate: false
+
 outputs:
   - id: logfile
     type: File[]
@@ -72,7 +81,7 @@ hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
   - class: ResourceRequirement
-    coresMin: 15
+    coresMin: 20
 
 stdout: subtract_fov.log
 stderr: subtract_fov_err.log

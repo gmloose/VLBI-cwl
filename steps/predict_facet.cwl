@@ -44,8 +44,8 @@ inputs:
     doc: CSV with polygon information (RA/DEC of calibrator and facet centres and averaging factor)
 
   - id: scratch
-    type: boolean
-    default: true
+    type: boolean?
+    default: false
     doc: Run job on scratch.
     inputBinding:
       prefix: "--scratch_toil"

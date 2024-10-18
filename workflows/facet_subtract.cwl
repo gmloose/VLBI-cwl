@@ -32,11 +32,11 @@ inputs:
       doc: The selfcal directory.
     - id: scratch
       type: boolean?
-      default: true
+      default: false
       doc: |
         Whether you are running the final predict on scratch. This is important for running sub-arcsecond imaging on HPC clusters.
         If 'scratch' is set to 'true' (the default and recommended setting), ensure that there is sufficient scratch storage
-        space on the running nodes (at least ~400 GB per 15 cores). Alternatively, if 'scratch' set to 'false', you must limit the number
+        space on the running nodes (at least 1 TB per 20 cores). Alternatively, if 'scratch' set to 'false', you must limit the number
         of parallel predict jobs to prevent excessive use of intermediate storage disk space. However, this approach
         may increase the overall wall-time.
 
@@ -128,6 +128,8 @@ steps:
                    source: model_image_folder
                  - id: lofar_helpers
                    source: lofar_helpers
+                 - id: scratch
+                   source: scratch
               out:
                  - subtracted_ms
               run: ../steps/subtract_fov_wsclean.cwl
