@@ -71,7 +71,6 @@ requirements:
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)
-        writable: true
       - entry: $(inputs.model_image_folder)
         writable: true
       - entry: $(inputs.facet_regions)
