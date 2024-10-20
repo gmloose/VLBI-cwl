@@ -58,7 +58,7 @@ outputs:
     type: Directory
     doc: MS subtracted data
     outputBinding:
-      glob: $(inputs.msin.path)
+      glob: subfov_*.ms
 
 
 arguments:
