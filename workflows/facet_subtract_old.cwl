@@ -12,6 +12,7 @@ requirements:
   - class: MultipleInputFeatureRequirement
   - class: ScatterFeatureRequirement
   - class: InlineJavascriptRequirement
+  - class: SubworkflowFeatureRequirement
 
 inputs:
     - id: msin
@@ -59,26 +60,6 @@ steps:
         - id: facet_regions
       run: ../steps/get_facet_layout.cwl
 
-    - id: subtract_fov_wsclean
-      label: Subtract complete FoV
-      in:
-         - id: msin
-           source: msin
-         - id: h5parm
-           source: h5parm
-         - id: facet_regions
-           source: get_facet_layout/facet_regions
-         - id: model_image_folder
-           source: model_image_folder
-         - id: lofar_helpers
-           source: lofar_helpers
-         - id: scratch
-           source: scratch
-      out:
-         - subtracted_ms
-      run: ../steps/subtract_fov_wsclean.cwl
-      scatter: msin
-
     - id: split_polygons
       label: Split polygon file
       in:
@@ -93,34 +74,108 @@ steps:
          - id: polygon_regions
       run: ../steps/split_polygons.cwl
 
-    - id: predict_facet
-      label: Predict a polygon back in empty MS
+    - id: subtract_predict_facets
       in:
-         - id: subtracted_ms
-           source: subtract_fov_wsclean/subtracted_ms
-         - id: polygon_region
-           source: split_polygons/polygon_regions
+         - id: msin
+           source: msin
          - id: h5parm
            source: h5parm
-         - id: polygon_info
-           source: split_polygons/polygon_info
+         - id: facet_regions
+           source: get_facet_layout/facet_regions
          - id: model_image_folder
            source: model_image_folder
          - id: lofar_helpers
            source: lofar_helpers
+         - id: polygon_info
+           source: split_polygons/polygon_info
+         - id: polygon_regions
+           source: split_polygons/polygon_regions
          - id: scratch
            source: scratch
       out:
          - facet_ms
-      run: ../steps/predict_facet.cwl
-      scatter: [subtracted_ms, polygon_region]
-      scatterMethod: flat_crossproduct
+      scatter: msin
+      run:
+         class: Workflow
+         cwlVersion: v1.2
+         inputs:
+            - id: msin
+              type: Directory
+            - id: h5parm
+              type: File
+            - id: facet_regions
+              type: File
+            - id: model_image_folder
+              type: Directory
+            - id: lofar_helpers
+              type: Directory
+            - id: polygon_info
+              type: File
+            - id: polygon_regions
+              type: File[]
+            - id: scratch
+              type: boolean
+         outputs:
+            - id: facet_ms
+              type: Directory[]
+              outputSource: predict_facet/facet_ms
+         steps:
+            - id: subtract_fov_wsclean
+              label: Subtract complete FoV
+              in:
+                 - id: msin
+                   source: msin
+                 - id: h5parm
+                   source: h5parm
+                 - id: facet_regions
+                   source: facet_regions
+                 - id: model_image_folder
+                   source: model_image_folder
+                 - id: lofar_helpers
+                   source: lofar_helpers
+                 - id: scratch
+                   source: scratch
+              out:
+                 - subtracted_ms
+              run: ../steps/subtract_fov_wsclean.cwl
+
+            - id: predict_facet
+              label: Predict a polygon back in empty MS
+              in:
+                 - id: subtracted_ms
+                   source: subtract_fov_wsclean/subtracted_ms
+                 - id: polygon_region
+                   source: polygon_regions
+                 - id: h5parm
+                   source: h5parm
+                 - id: polygon_info
+                   source: polygon_info
+                 - id: model_image_folder
+                   source: model_image_folder
+                 - id: lofar_helpers
+                   source: lofar_helpers
+                 - id: scratch
+                   source: scratch
+              out:
+                 - facet_ms
+              run: ../steps/predict_facet.cwl
+              scatter: polygon_region
+         # end of subtract-predict workflow
+
+    - id: flatten_facet_ms
+      label: Flatten MS
+      in:
+        - id: nestedarray
+          source: subtract_predict_facets/facet_ms
+      out:
+        - id: flattenedarray
+      run: ../steps/flatten.cwl
 
     - id: make_concat_parset
       label: Make concat parsets
       in:
          - id: msin
-           source: predict_facet/facet_ms
+           source: flatten_facet_ms/flattenedarray
          - id: lofar_helpers
            source: lofar_helpers
       out:
@@ -134,7 +189,7 @@ steps:
         - id: parset
           source: make_concat_parset/concat_parsets
         - id: msin
-          source: predict_facet/facet_ms
+          source: flatten_facet_ms/flattenedarray
       out:
         - id: msout
       run: ../steps/dp3_parset.cwl
@@ -147,7 +202,7 @@ outputs:
       type: Directory[]
       outputSource:
         - concat_facets/msout
-        - predict_facet/facet_ms
+        - flatten_facet_ms/flattenedarray
       pickValue: first_non_null
     - id: polygon_info
       type: File
