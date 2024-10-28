@@ -32,8 +32,7 @@ inputs:
     - id: concat
       type: boolean?
       default: false
-      doc: |
-        Concat final subbands into one big facet MeasurementSet.
+      doc: Concat final subbands into one big facet MeasurementSet.
     - id: scratch
       type: boolean?
       default: false
@@ -137,8 +136,8 @@ steps:
           source: predict_facet/facet_ms
       out:
         - id: msout
-      run: ../steps/dp3_parset.cwl
       when: $(inputs.concat)
+      run: ../steps/dp3_parset.cwl
       scatter: parset
 
 
