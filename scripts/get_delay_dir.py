@@ -25,8 +25,9 @@ def main(h5_in: str, solset: str, direction_name: str):
     delay_direction = SkyCoord(ss_dir[0], ss_dir[1], unit="rad")
     ra = delay_direction.ra.to("deg").value
     dec = delay_direction.dec.to("deg").value
-    print("Source_id,RA,DEC")
-    print(f"DelayCal,{ra},{dec}")
+    with open("delay_dir.csv", "w") as f:
+        f.write("Source_id,RA,DEC\n")
+        f.write(f"DelayCal,{ra},{dec}")
 
 
 if __name__ == "__main__":
