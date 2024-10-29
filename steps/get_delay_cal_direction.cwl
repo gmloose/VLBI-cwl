@@ -8,7 +8,7 @@ doc: |
 baseCommand:
     - get_delay_dir.py
 
-stdout: delay_dir.csv
+stdout: get_delay_dir.txt
 stderr: get_delay_dir_err.txt
 
 inputs:
