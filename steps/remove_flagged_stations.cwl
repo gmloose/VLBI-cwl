@@ -10,15 +10,17 @@ baseCommand:
 inputs:
     - id: ms
       type: Directory
+      doc: MeasurementSet
       inputBinding:
         position: 3
     - id: lofar_helpers
       type: Directory
+      doc: LOFAR helpers directory.
 
 outputs:
     - id: cleaned_ms
       type: Directory
-      doc: MeasurementSet where flagged stations are removed
+      doc: MeasurementSet where fully flagged stations are removed
       outputBinding:
         glob: $( 'flagged_' + inputs.ms.basename )
     - id: logfile
@@ -26,7 +28,6 @@ outputs:
       doc: Log files corresponding to this step
       outputBinding:
         glob: remove_flagged_stations*.log
-
 
 requirements:
   - class: InlineJavascriptRequirement

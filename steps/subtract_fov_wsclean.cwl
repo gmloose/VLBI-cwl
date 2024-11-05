@@ -42,7 +42,7 @@ inputs:
   - id: scratch
     type: boolean?
     default: false
-    doc: Run job on scratch.
+    doc: Run job on local scratch.
     inputBinding:
       prefix: "--scratch_toil"
       position: 5
@@ -65,8 +65,6 @@ arguments:
   - $( inputs.lofar_helpers.path + '/subtract/subtract_with_wsclean.py' )
 
 requirements:
-  - class: StepInputExpressionRequirement
-  - class: ShellCommandRequirement
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:

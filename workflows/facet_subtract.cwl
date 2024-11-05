@@ -3,15 +3,11 @@ cwlVersion: v1.2
 id: facet_subtract
 label: Facet subtraction
 doc: |
-  This workflow employs wsclean predicts to split all facets into separate measurement sets,
-  before an optional calibration refinement and final imaging. Note that it is highly recommended
-  to run this on an HPC cluster with toil-cwl-runner and to use the scratch option
-  (see documentation 'scratch' parameter below).
-
-requirements:
-  - class: MultipleInputFeatureRequirement
-  - class: ScatterFeatureRequirement
-  - class: InlineJavascriptRequirement
+  This workflow employs wsclean to predict and subtract model data, such that we can split all facets
+  into separate measurement sets. This is a computationally heavy step. So, note that it is highly
+  recommended to run this on an HPC cluster with toil-cwl-runner. If you want to copy data to the scratch
+  of the running node during processing, you should put scratch=True and set --tmpdir-prefix to the scratch
+  folder (this is usually /tmp, which should in most cases be fine).
 
 inputs:
     - id: msin
@@ -26,9 +22,9 @@ inputs:
     - id: lofar_helpers
       type: Directory
       doc: LOFAR helpers directory.
-    - id: selfcal
+    - id: facetselfcal
       type: Directory
-      doc: The selfcal directory.
+      doc: facetselfcal directory.
     - id: concat
       type: boolean?
       default: false
@@ -37,11 +33,9 @@ inputs:
       type: boolean?
       default: false
       doc: |
-        Whether you are running the final predict on scratch. This is important for running sub-arcsecond imaging on HPC clusters.
-        If 'scratch' is set to 'true' (the default and recommended setting), ensure that there is sufficient scratch storage
-        space on the running nodes (at least 1 TB per 20 cores). Alternatively, if 'scratch' set to 'false', you must limit the number
-        of parallel predict jobs to prevent excessive use of intermediate storage disk space. However, this approach
-        may increase the overall wall-time.
+        Whether you want the subtract step to copy data to local scratch space of your running node.
+        If 'scratch' is set to 'true', ensure that there is sufficient scratch storage space on the running nodes
+        (at least 1 TB per 15 cores).
 
 steps:
     - id: get_facet_layout
@@ -52,8 +46,8 @@ steps:
           valueFrom: $(inputs.msin[0])
         - id: h5parm
           source: h5parm
-        - id: selfcal
-          source: selfcal
+        - id: facetselfcal
+          source: facetselfcal
       out:
         - id: facet_regions
       run: ../steps/get_facet_layout.cwl
@@ -140,6 +134,10 @@ steps:
       run: ../steps/dp3_parset.cwl
       scatter: parset
 
+requirements:
+  - class: MultipleInputFeatureRequirement
+  - class: ScatterFeatureRequirement
+  - class: InlineJavascriptRequirement
 
 outputs:
     - id: facet_ms

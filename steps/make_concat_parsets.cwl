@@ -2,8 +2,7 @@ class: CommandLineTool
 cwlVersion: v1.2
 id: makeparsets
 label: Make concat parsets
-doc: |
-    Generate direction concatenation parsets
+doc: Generate parsets for MeasurementSet concatenation.
 
 baseCommand:
   - python3
@@ -22,20 +21,16 @@ inputs:
 
 outputs:
   - id: concat_parsets
-    doc: |
-        The output data with corrected
-        data in MeasurementSet format.
+    doc: The output data with corrected data in MeasurementSet format.
     type: File[]
     outputBinding:
       glob: '*.parset'
 
   - id: logfile
+    doc: The files containing the stdout and stderr from the step.
     type: File[]
     outputBinding:
       glob: python_concat*.log
-    doc: |
-        The files containing the stdout
-        and stderr from the step.
 
 arguments:
   - $( inputs.lofar_helpers.path + '/ms_helpers/concat_with_dummies.py' )

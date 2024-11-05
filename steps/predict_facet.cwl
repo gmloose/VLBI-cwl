@@ -9,7 +9,7 @@ baseCommand: python3
 inputs:
   - id: subtracted_ms
     type: Directory
-    doc: MeasurementSet for source prediction.
+    doc: MeasurementSet.
     inputBinding:
       prefix: "--mslist"
       position: 1
@@ -74,8 +74,6 @@ arguments:
   - --speedup_facet_subtract
 
 requirements:
-  - class: StepInputExpressionRequirement
-  - class: ShellCommandRequirement
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
