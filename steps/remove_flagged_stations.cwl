@@ -20,12 +20,12 @@ inputs:
 outputs:
     - id: cleaned_ms
       type: Directory
-      doc: MeasurementSet where fully flagged stations are removed
+      doc: MeasurementSet where fully flagged stations are removed.
       outputBinding:
         glob: $( 'flagged_' + inputs.ms.basename )
     - id: logfile
       type: File[]
-      doc: Log files corresponding to this step
+      doc: Log files from current step.
       outputBinding:
         glob: remove_flagged_stations*.log
 

@@ -30,7 +30,7 @@ inputs:
 
   - id: h5parm
     type: File
-    doc: The HDF5 file containing the solutions for prediction.
+    doc: The HDF5 solution file containing the solutions for prediction.
     inputBinding:
       prefix: "--h5parm_predict"
       position: 4
@@ -51,7 +51,7 @@ inputs:
 outputs:
   - id: logfile
     type: File[]
-    doc: Log files from subtraction fov.
+    doc: Log files from current step.
     outputBinding:
       glob: subtract_fov*.log
   - id: subtracted_ms

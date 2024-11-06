@@ -7,7 +7,7 @@ doc: |
   into separate measurement sets. This is a computationally heavy step. So, note that it is highly
   recommended to run this on an HPC cluster with toil-cwl-runner. If you want to copy data to the scratch
   of the running node during processing, you should put scratch=True and set --tmpdir-prefix to the scratch
-  folder (this is usually /tmp, which should in most cases be fine).
+  folder (this is /tmp by default).
 
 inputs:
     - id: msin
@@ -15,7 +15,7 @@ inputs:
       doc: Unaveraged MeasurementSets with coverage of the target directions.
     - id: model_image_folder
       type: Directory
-      doc: Folder with 1.2" model images
+      doc: Folder with 1.2" model images.
     - id: h5parm
       type: File
       doc: Merged h5parms

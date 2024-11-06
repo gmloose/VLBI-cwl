@@ -33,12 +33,12 @@ outputs:
       glob: "poly*.reg"
   - id: polygon_info
     type: File
-    doc: Polygon csv information file.
+    doc: Polygon CSV file.
     outputBinding:
       glob: "*.csv"
   - id: logfile
     type: File[]
-    doc: Log files from subtraction fov.
+    doc: Log files from current step.
     outputBinding:
       glob: split_polygons*.log
 
