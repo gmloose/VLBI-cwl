@@ -38,7 +38,7 @@ inputs:
     doc: External LOFAR helper scripts for merging h5 files.
 
   - id: flags
-    type: File[]
+    type: File[]?
     doc: Flagging information in JSON format.
 
   - id: pipeline
@@ -66,7 +66,7 @@ inputs:
     default: '[CR]S*&'
 
   - id: check_Ateam_separation.json
-    type: File
+    type: File?
     doc: |
         A list of angular distances between the
         delay calibrator and the A-team sources.
@@ -265,6 +265,8 @@ steps:
           - flags
           - phaseup_flags_join/flagged_fraction_antenna
         linkMerge: merge_flattened
+        pickValue: all_non_null
+        valueFrom: $(self)
       - id: pipeline
         source: pipeline
       - id: run_type
