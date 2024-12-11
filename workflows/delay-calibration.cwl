@@ -9,11 +9,10 @@ doc: |
       A-team sources,
     * [If LINC target solutions are supplied]
       concatenates the data in groups of 10, performs
-      flagging on the international stations, (optionally)
-      applies DDF solutions to the data,
+      flagging on the international stations.
     * [If a DDF pipeline SOLSDIR directory is supplied]
-      subtracts the LoTSS model outside a
-      user-specifiable region.
+      corrects direction-dependent effects for the Dutch stations and
+      optionally subtracts the LoTSS model outside a user-specifiable region.
     * creates a MeasurementSet with data phase-shifted
       to a given delay calibrator, calibrated for direction-
       independent effects.
@@ -120,6 +119,11 @@ inputs:
         The range of time to predict the LoTSS model for at once. Lowering this value reduces
         memory footprint at the (possible) cost of increased runtime and vice versa.
 
+    - id: do_subtraction
+      type: boolean?
+      default: false
+      doc: When set to true, the LoTSS model will be subtracted from the DDF corrected data.
+
 steps:
     - id: setup
       label: setup
@@ -159,12 +163,8 @@ steps:
           source: reference_stationSB
         - id: max_dp3_threads
           source: max_dp3_threads
-        - id: ddf_solsdir
-          source: ddf_solsdir
         - id: linc
           source: linc
-        - id: h5merger
-          source: h5merger
       out:
         - id: logdir
         - id: concat_flags
@@ -173,7 +173,7 @@ steps:
       label: sort-concatenate-flag
       when: $(inputs.msin != null)
 
-    - id: subtract_lotss
+    - id: process_ddf
       in:
         - id: msin
           source:
@@ -193,18 +193,22 @@ steps:
           source: number_cores
         - id: chunkhours
           source: subtract_chunk_hours
+        - id: h5merger
+          source: h5merger
+        - id: do_subtraction
+          source: do_subtraction
       out:
         - id: regionbox
         - id: mslist
         - id: msout
-      run: ./lotss_subtract.cwl
+      run: ./process_ddf.cwl
       when: $(inputs.ddf_rundir != null && inputs.solsdir != null)
 
     - id: phaseup
       in:
         - id: msin
           source:
-            - subtract_lotss/msout
+            - process_ddf/msout
             - sort-concatenate-flag/msout
             - msin
           linkMerge: merge_nested
@@ -258,15 +262,15 @@ steps:
     # Selection of the concatenated MSs, as pickValue doesn't allow
     # us to do this in the msouts output of the workflow. The reasoning
     # is the following:
-    # If subtract_lotss was run, take that output.
-    # If subtract_lotss was not run but sort-concatenate-flag was, take that instead.
+    # If process_ddf was run, take that output.
+    # If process_ddf was not run but sort-concatenate-flag was, take that instead.
     # Otherwise, don't collect anything.
     - id: select_concatenated_mss
       in:
         - id: input1
           source: sort-concatenate-flag/msout
         - id: input2
-          source: subtract_lotss/msout
+          source: process_ddf/msout
       out:
         - id: output
       when: $(inputs.input1 != null || inputs.input2 != null)
