@@ -5,8 +5,7 @@ label: VLBI concatenation and flagging
 doc: |
     Reduces the number of MeasurementSets by concatenating
     of subbands into groups by frequency, and flags bad data
-    in the resulting MeasurementSets. Optionally applies the
-    solutions from the DDF pipeline, if these are given.
+    in the resulting MeasurementSets.
 
 inputs:
   - id: msin
@@ -14,12 +13,6 @@ inputs:
     doc: |
         Input data in MeasurementSets. A-team data
         has been removed in the setup workflow.
-
-  - id: ddf_solsdir
-    type: Directory?
-    doc: |
-        The SOLSDIR directory of the ddf-pipeline run
-        containing the DIS2 solutions.
 
   - id: numbands
     type: int?
@@ -55,10 +48,6 @@ inputs:
         The fraction of the node's memory that
         will be used by AOFlagger (and should be
         available before an AOFlagger job can start).
-
-  - id: h5merger
-    type: Directory
-    doc: External LOFAR helper scripts for merging h5 files.
 
 steps:
   - id: get_memory
@@ -103,27 +92,11 @@ steps:
       - id: logfile
     run: ../steps/sort_concatmap.cwl
     label: sort_concatmap
-  - id: convert_ddf_dis2
-    in:
-      - id: msin
-        source: msin
-        valueFrom: $(self[0])
-      - id: ddf_solsdir
-        source: ddf_solsdir
-        valueFrom: $(self)
-      - id: h5merger
-        source: h5merger
-    out:
-      - id: dis2_h5parm
-    when: $(inputs.ddf_solsdir != null)
-    run: ../steps/gatherdis2.cwl
   - id: concatenate-flag
     in:
       - id: msin
         source:
           - msin
-      - id: ddf_solset
-        source: convert_ddf_dis2/dis2_h5parm
       - id: group_id
         source: sort_concatenate/groupnames
       - id: groups_specification

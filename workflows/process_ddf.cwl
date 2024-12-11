@@ -1,9 +1,13 @@
 class: Workflow
 cwlVersion: v1.2
-id: subtract_lotss
+id: process_ddf
 doc: |-
-  Subtract a LoTSS model from the data using results from the DDF-pipeline.
-  This prepares the data for widefield imaging by subtracting sources outside a given region,
+  Uses the results from the DDF pipeline to the data to effect the following:
+
+  * Correct the data from the Dutch stations for direction-dependent effects.
+  * [Optionally] subtract a LoTSS model from the data.
+
+  Subtracting the LoTSS skymodel prepares the data for widefield imaging by subtracting sources outside a given region,
   defaulting to the approximate FWHM of the international stations.
 
 inputs:
@@ -37,90 +41,73 @@ inputs:
   - id: chunkhours
     type: float?
     doc: The range of time to predict the model for at once. Lowering this value reduces memory footprint, but can increase runtime.
+  - id: h5merger
+    type: Directory
+    doc: External LOFAR helper scripts for merging h5 files.
+  - id: do_subtraction
+    type: boolean?
+    default: false
+    doc: When set to true, the LoTSS model will be subtracted from the DDF corrected data.
 
 outputs:
   - id: regionbox
-    type: File
+    type: File?
     outputSource:
-      - makebox/box
+      - subtract_lotss/regionbox
+    pickValue: all_non_null
     doc: DS9 region file outside of which the LoTSS skymodel has been subtracted.
   - id: mslist
-    type: File[]
+    type: File[]?
     outputSource:
-      - makemslist/mslist
+      - subtract_lotss/mslist
+    pickValue: all_non_null
     doc: Text file containing the name of the input MS from which the LoTSS skymodel hase been subtracted.
   - id: msout
     type: Directory[]
     outputSource:
-      - subtract/subms
-    doc: MS from which the LoTSS skymodel has been subtracted.
+      - subtract_lotss/msout
+      - dp3_applycal_ddf/output_data
+    pickValue: first_non_null
+    doc: MSs from which the LoTSS skymodel has been subtracted.
 
 steps:
-  - id: makebox
+  - id: convert_ddf_dis2
     in:
-      - id: ms
+      - id: msin
         source: msin
         valueFrom: $(self[0])
-      - id: box_size
-        source: box_size
-    out:
-      - id: box
-    run: ../steps/makebox.cwl
-    doc: Make the box outside which the LoTSS skymodel will be subtracted.
-
-  - id: makemslist
-    in:
-      - id: ms
-        source: msin
-    out:
-      - id: mslist
-    run: ../steps/make_mslist.cwl
-    scatter: ms
-    doc: Make the list of MSes to subtract.
-
-  - id: gather_dds3
-    in:
-      - id: ddf_rundir
-        source: ddf_rundir
-    out:
-      - id: dds3sols
-      - id: fitsfiles
-      - id: dicomodels
-      - id: facet_layout
-    run: ../steps/gatherdds3.cwl
-    doc: Gather the solutions and images required to subtract the LoTSS model.
-
-  - id: fix_symlinks
-    in:
-      - id: ddf_rundir
-        source: ddf_rundir
       - id: ddf_solsdir
         source: solsdir
+        valueFrom: $(self)
+      - id: h5merger
+        source: h5merger
     out:
-      - id: logfiles
-      - id: solsdir
-    run: ../steps/fix_symlinks_ddf.cwl
+      - id: dis2_h5parm
+    run: ../steps/gatherdis2.cwl
 
-  - id: subtract
+  - id: dp3_applycal_ddf
     in:
-      - id: ms
+      - id: msin
         source: msin
-      - id: boxfile
-        source: makebox/box
-      - id: mslist
-        source: makemslist/mslist
-      - id: column
-        valueFrom: DATA_DI_CORRECTED
+      - id: ddf_solset
+        source: convert_ddf_dis2/dis2_h5parm
+    out:
+      - id: output_data
+      - id: logfile
+    run: ../steps/dp3_applycal_ddf.cwl
+    label: dp3_applycal_ddf
+    scatter: msin
+
+  - id: subtract_lotss
+    in:
+      - id: msin
+        source: dp3_applycal_ddf/output_data
       - id: solsdir
-        source: fix_symlinks/solsdir
-      - id: dds3sols
-        source: gather_dds3/dds3sols
-      - id: fitsfiles
-        source: gather_dds3/fitsfiles
-      - id: dicomodels
-        source: gather_dds3/dicomodels
-      - id: facet_layout
-        source: gather_dds3/facet_layout
+        source: solsdir
+      - id: ddf_rundir
+        source: ddf_rundir
+      - id: box_size
+        source: box_size
       - id: freqavg
         source: freqavg
       - id: timeavg
@@ -130,15 +117,15 @@ steps:
       - id: chunkhours
         source: chunkhours
     out:
-      - id: subms
-    run: ../steps/subtract.cwl
-    scatter:
-      - ms
-      - mslist
-    scatterMethod: dotproduct
-    doc: Subtract the LoTSS model from the data.
+      - id: regionbox
+      - id: mslist
+      - id: msout
+    label: subtract_lotss
+    when: $(inputs.do_subtraction)
+    run: ./subworkflows/subtract_lotss.cwl
 
 requirements:
   - class: ScatterFeatureRequirement
   - class: StepInputExpressionRequirement
+  - class: SubworkflowFeatureRequirement
 
