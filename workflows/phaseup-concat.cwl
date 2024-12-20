@@ -254,6 +254,7 @@ steps:
     out:
       - id: h5parm
       - id: images
+      - id: fits_images
       - id: logfile
     run: ../steps/facet_selfcal.cwl
     label: delay_solve
@@ -344,6 +345,13 @@ outputs:
     outputSource: delay_solve/images
     doc: |
         The inspection plots generated
+        by delay_solve.
+
+  - id: fits_images
+    type: File[]
+    outputSource: delay_solve/fits_images
+    doc: |
+        The MFS FITS images of the source generated
         by delay_solve.
 
   - id: summary_file
