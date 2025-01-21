@@ -128,4 +128,5 @@ requirements:
   - class: ScatterFeatureRequirement
   - class: StepInputExpressionRequirement
   - class: SubworkflowFeatureRequirement
+  - class: InlineJavascriptRequirement
 
