@@ -116,6 +116,8 @@ steps:
         source: ncpu
       - id: chunkhours
         source: chunkhours
+      - id: do_subtraction
+        source: do_subtraction
     out:
       - id: regionbox
       - id: mslist
