@@ -2,7 +2,8 @@ class: CommandLineTool
 cwlVersion: v1.2
 id: predict_facet
 label: Predict with WSClean
-doc: This step predicts sources within a facet and adds back to the data using WSClean. Comes after subtract_fov_wsclean.cwl
+doc: Uses WSClean to predict sources within a facet and adds the predicted visibilities to the input data.
+
 
 baseCommand: python3
 
