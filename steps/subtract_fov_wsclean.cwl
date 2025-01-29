@@ -2,7 +2,7 @@ class: CommandLineTool
 cwlVersion: v1.2
 id: subtract_with_wsclean
 label: Subtract with WSClean
-doc: This step subtracts all sources using WSClean.
+doc: This step uses WSClean to subtract visibilities corresponding to model images.
 
 baseCommand: python3
 
@@ -42,11 +42,14 @@ inputs:
   - id: scratch
     type: boolean?
     default: false
-    doc: Run job on local scratch.
     inputBinding:
       prefix: "--scratch_toil"
       position: 5
       separate: false
+    doc: |
+      Whether you want the subtract step to copy data to local scratch space from your running node.
+      If 'scratch' is set to 'true', ensure that there is sufficient scratch storage space on the running nodes
+      (at least 1 TB per 15 cores).
 
 outputs:
   - id: logfile
