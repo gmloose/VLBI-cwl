@@ -2,12 +2,7 @@ class: Workflow
 cwlVersion: v1.2
 id: facet_subtract
 label: Facet subtraction
-doc: |
-  This workflow employs wsclean to predict and subtract model data, such that we can split all facets
-  into separate measurement sets. This is a computationally heavy step. So, note that it is highly
-  recommended to run this on an HPC cluster with toil-cwl-runner. If you want to copy data to the scratch
-  of the running node during processing, you should put scratch=True and set --tmpdir-prefix to the scratch
-  folder (this is /tmp by default).
+doc: Use WSClean to predict and subtract model data, to split all facets into separate MeasurementSets.
 
 inputs:
     - id: msin
