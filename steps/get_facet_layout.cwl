@@ -2,7 +2,7 @@ class: CommandLineTool
 cwlVersion: v1.2
 id: get_facet_layout
 label: DS9 Facet Generator
-doc: This step generates DS9 facet layout for DD facet imaging.
+doc: Generates DS9 facet layout for direction-dependent facet imaging.
 
 baseCommand: python3
 
