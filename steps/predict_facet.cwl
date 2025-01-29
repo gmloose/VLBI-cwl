@@ -42,7 +42,7 @@ inputs:
 
   - id: polygon_info
     type: File
-    doc: CSV with polygon information (RA/DEC of calibrator and facet centres and averaging factor)
+    doc: CSV file with polygon information (RA/DEC of calibrator and facet centers and averaging factor)
 
   - id: scratch
     type: boolean?
