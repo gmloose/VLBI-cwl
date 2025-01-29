@@ -2,14 +2,14 @@ class: CommandLineTool
 cwlVersion: v1.2
 id: split_polygons
 label: Split Polygon Facets
-doc: This step splits polygon facets using an HDF5 file and a DS9 region file.
+doc: This step splits a multi-facet region file into individual facet region files.
 
 baseCommand: python3
 
 inputs:
   - id: h5parm
     type: File
-    doc: Merged HDF5 file.
+    doc: Multi-directional HDF5 file.
     inputBinding:
       prefix: "--h5"
       position: 1
