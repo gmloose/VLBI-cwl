@@ -43,7 +43,7 @@ steps:
       in:
         - id: msin
           source: msin
-          valueFrom: $(inputs.msin[0])
+          valueFrom: $(self[0])
         - id: h5parm
           source: h5parm
         - id: facetselfcal
