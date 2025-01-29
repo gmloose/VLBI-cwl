@@ -62,7 +62,7 @@ outputs:
       glob: get_facet_layout*.log
 
 arguments:
-  - $( inputs.facetselfcal.path + '/ds9facetgenerator.py' )
+  - $( inputs.facetselfcal.path + '/submods/ds9facetgenerator.py' )
 
 requirements:
   - class: InlineJavascriptRequirement
