@@ -137,7 +137,6 @@ steps:
 requirements:
   - class: MultipleInputFeatureRequirement
   - class: ScatterFeatureRequirement
-  - class: InlineJavascriptRequirement
 
 outputs:
     - id: facet_ms
