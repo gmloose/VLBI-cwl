@@ -33,7 +33,7 @@ inputs:
       type: boolean?
       default: false
       doc: |
-        Whether you want the subtract step to copy data to local scratch space of your running node.
+        Whether you want the subtract step to copy data to local scratch space from your running node.
         If 'scratch' is set to 'true', ensure that there is sufficient scratch storage space on the running nodes
         (at least 1 TB per 15 cores).
 
