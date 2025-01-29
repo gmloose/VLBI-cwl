@@ -2,7 +2,7 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: remove_flagged_stations
 label: Remove fully flagged stations
-doc: Remove stations in MeasurementSet that are fully flagged to help safe data volume and compute time.
+doc: Removes from the MeasurementSet all stations for which all data are flagged.
 
 baseCommand:
   - python3
