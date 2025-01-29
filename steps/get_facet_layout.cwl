@@ -16,7 +16,7 @@ inputs:
 
   - id: h5parm
     type: File
-    doc: Merged HDF5 file.
+    doc: Multi-directional HDF5 file.
     inputBinding:
       prefix: "--h5"
       position: 3
