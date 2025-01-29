@@ -61,7 +61,7 @@ outputs:
       glob: predict_facet*.log
   - id: facet_ms
     type: Directory
-    doc: MS subtracted data
+    doc: MeasurementSet after predicting back facet model visibilities
     outputBinding:
       glob: facet*.ms
 
