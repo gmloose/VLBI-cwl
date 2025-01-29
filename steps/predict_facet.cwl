@@ -10,7 +10,7 @@ baseCommand: python3
 inputs:
   - id: subtracted_ms
     type: Directory
-    doc: MeasurementSet.
+    doc: Input data in MeasurementSet format.
     inputBinding:
       prefix: "--mslist"
       position: 1
