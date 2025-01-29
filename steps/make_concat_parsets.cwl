@@ -21,7 +21,7 @@ inputs:
 
 outputs:
   - id: concat_parsets
-    doc: The output data with corrected data in MeasurementSet format.
+    doc: Parsets for concatenation of input MeasurementSets
     type: File[]
     outputBinding:
       glob: '*.parset'
