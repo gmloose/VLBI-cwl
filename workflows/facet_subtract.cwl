@@ -24,12 +24,12 @@ inputs:
       type: boolean?
       default: false
       doc: Concat final subbands into one big facet MeasurementSet.
-    - id: scratch
+    - id: copy_to_local_scratch
       type: boolean?
       default: false
       doc: |
         Whether you want the subtract step to copy data to local scratch space from your running node.
-        If 'scratch' is set to 'true', ensure that there is sufficient scratch storage space on the running nodes
+        If 'copy_to_local_scratch' is set to 'true', ensure that there is sufficient scratch storage space on the running nodes
         (at least 1 TB per 15 cores).
 
 steps:
@@ -60,8 +60,8 @@ steps:
            source: model_image_folder
          - id: lofar_helpers
            source: lofar_helpers
-         - id: scratch
-           source: scratch
+         - id: copy_to_local_scratch
+           source: copy_to_local_scratch
       out:
          - subtracted_ms
       run: ../steps/subtract_fov_wsclean.cwl
@@ -96,8 +96,8 @@ steps:
            source: model_image_folder
          - id: lofar_helpers
            source: lofar_helpers
-         - id: scratch
-           source: scratch
+         - id: copy_to_local_scratch
+           source: copy_to_local_scratch
       out:
          - facet_ms
       run: ../steps/predict_facet.cwl

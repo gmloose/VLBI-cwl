@@ -44,16 +44,16 @@ inputs:
     type: File
     doc: CSV file with polygon information (RA/DEC of calibrator and facet centers and averaging factor)
 
-  - id: scratch
+  - id: copy_to_local_scratch
     type: boolean?
     default: false
     inputBinding:
-      prefix: "--scratch_toil"
+      prefix: "--copy_to_local_scratch"
       position: 5
       separate: false
     doc: |
         Whether you want the subtract step to copy data to local scratch space from your running node.
-        If 'scratch' is set to 'true', ensure that there is sufficient scratch storage space on the running nodes
+        If 'copy_to_local_scratch' is set to 'true', ensure that there is sufficient scratch storage space on the running nodes
         (at least 1 TB per 15 cores).
 
 outputs:
