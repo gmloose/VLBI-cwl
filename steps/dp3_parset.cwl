@@ -8,7 +8,7 @@ baseCommand: DP3
 
 inputs:
   - id: parset
-    type: File?
+    type: File
     doc: Parset for DP3
     inputBinding:
       position: 0
