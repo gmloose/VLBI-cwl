@@ -28,6 +28,10 @@ inputs:
       type: boolean?
       default: false
       doc: Whether you want the subtract step to copy data to local scratch space from your running node.
+    - id: ncpu
+      type: int?
+      doc: Number of cores to use during predict and subtract.
+      default: 15
 
 steps:
     - id: get_facet_layout
@@ -68,6 +72,8 @@ steps:
            source: lofar_helpers
          - id: copy_to_local_scratch
            source: copy_to_local_scratch
+         - id: ncpu
+           source: ncpu
       out:
          - subtracted_ms
       run: ../steps/subtract_fov_wsclean.cwl
@@ -104,6 +110,8 @@ steps:
            source: lofar_helpers
          - id: copy_to_local_scratch
            source: copy_to_local_scratch
+         - id: ncpu
+           source: ncpu
       out:
          - facet_ms
       run: ../steps/predict_facet.cwl

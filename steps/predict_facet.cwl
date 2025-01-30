@@ -53,6 +53,11 @@ inputs:
       separate: false
     doc: Whether you want the subtract step to copy data to local scratch space from your running node.
 
+  - id: ncpu
+    type: int?
+    doc: Number of cores to use during the subtract.
+    default: 15
+
 outputs:
   - id: logfile
     type: File[]
@@ -88,7 +93,7 @@ hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
   - class: ResourceRequirement
-    coresMin: 15
+    coresMin: $(inputs.ncpu)
 
 stdout: predict_facet.log
 stderr: predict_facet_err.log
