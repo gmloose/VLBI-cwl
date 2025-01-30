@@ -47,6 +47,15 @@ steps:
         - id: facet_regions
       run: ../steps/get_facet_layout.cwl
 
+    - id: get_model_images
+      label: Get WSClean model images
+      in:
+        - id: model_image_folder
+          source: model_image_folder
+      out:
+        - id: filtered_model_image_folder
+      run: ../steps/copy_model_images.cwl
+
     - id: subtract_fov_wsclean
       label: Subtract complete FoV
       in:
@@ -57,7 +66,7 @@ steps:
          - id: facet_regions
            source: get_facet_layout/facet_regions
          - id: model_image_folder
-           source: model_image_folder
+           source: get_model_images/filtered_model_image_folder
          - id: lofar_helpers
            source: lofar_helpers
          - id: copy_to_local_scratch
@@ -93,7 +102,7 @@ steps:
          - id: polygon_info
            source: split_polygons/polygon_info
          - id: model_image_folder
-           source: model_image_folder
+           source: get_model_images/filtered_model_image_folder
          - id: lofar_helpers
            source: lofar_helpers
          - id: copy_to_local_scratch
