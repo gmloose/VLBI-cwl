@@ -4,7 +4,7 @@ id: gatherdis2
 doc: Gather the correct WSClean model images from model_image_folder
 
 baseCommand:
-  - copy_model_images.sh
+  - gather_model_images.sh
 
 inputs:
   - id: model_image_folder

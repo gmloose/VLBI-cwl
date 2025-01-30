@@ -27,10 +27,7 @@ inputs:
     - id: copy_to_local_scratch
       type: boolean?
       default: false
-      doc: |
-        Whether you want the subtract step to copy data to local scratch space from your running node.
-        If 'copy_to_local_scratch' is set to 'true', ensure that there is sufficient scratch storage space on the running nodes
-        (at least 1 TB per 15 cores).
+      doc: Whether you want the subtract step to copy data to local scratch space from your running node.
 
 steps:
     - id: get_facet_layout
@@ -54,7 +51,7 @@ steps:
           source: model_image_folder
       out:
         - id: filtered_model_image_folder
-      run: ../steps/copy_model_images.cwl
+      run: ../steps/gather_model_images.cwl
 
     - id: subtract_fov_wsclean
       label: Subtract complete FoV

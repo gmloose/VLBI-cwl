@@ -46,10 +46,7 @@ inputs:
       prefix: "--copy_to_local_scratch"
       position: 5
       separate: false
-    doc: |
-      Whether you want the subtract step to copy data to local scratch space from your running node.
-      If 'copy_to_local_scratch' is set to 'true', ensure that there is sufficient scratch storage space on the running nodes
-      (at least 1 TB per 15 cores).
+    doc: Whether you want the subtract step to copy data to local scratch space from your running node.
 
 outputs:
   - id: logfile
@@ -73,7 +70,6 @@ requirements:
     listing:
       - entry: $(inputs.msin)
       - entry: $(inputs.model_image_folder)
-        writable: true
       - entry: $(inputs.facet_regions)
       - entry: $(inputs.h5parm)
 
