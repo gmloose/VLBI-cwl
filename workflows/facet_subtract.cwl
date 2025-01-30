@@ -22,12 +22,16 @@ inputs:
       doc: facetselfcal directory.
     - id: copy_to_local_scratch
       type: boolean?
-      default: false
       doc: Whether you want the subtract step to copy data to local scratch space from your running node.
+      default: false
     - id: ncpu
       type: int?
       doc: Number of cores to use during predict and subtract.
       default: 15
+    - id: dysco_bitrate
+      type: int?
+      doc: Number of bits per float used for columns containing visibilities.
+      default: 8
 
 steps:
     - id: get_facet_layout
@@ -121,6 +125,8 @@ steps:
            source: predict_facet/facet_ms
          - id: lofar_helpers
            source: lofar_helpers
+         - id: dysco_bitrate
+           source: dysco_bitrate
       out:
          - id: concat_parsets
       run: ../steps/make_concat_parsets.cwl
