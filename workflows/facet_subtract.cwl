@@ -20,10 +20,6 @@ inputs:
     - id: facetselfcal
       type: Directory
       doc: facetselfcal directory.
-    - id: concat
-      type: boolean?
-      default: false
-      doc: Concat final subbands into one big facet MeasurementSet.
     - id: copy_to_local_scratch
       type: boolean?
       default: false
@@ -125,11 +121,8 @@ steps:
            source: predict_facet/facet_ms
          - id: lofar_helpers
            source: lofar_helpers
-         - id: concat
-           source: concat
       out:
          - id: concat_parsets
-      when: $(inputs.concat)
       run: ../steps/make_concat_parsets.cwl
 
     - id: concat_facets
@@ -139,11 +132,8 @@ steps:
           source: make_concat_parset/concat_parsets
         - id: msin
           source: predict_facet/facet_ms
-        - id: concat
-          source: concat
       out:
         - id: msout
-      when: $(inputs.concat)
       run: ../steps/dp3_parset.cwl
       scatter: parset
 
