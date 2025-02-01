@@ -72,11 +72,20 @@ arguments:
 requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
-    listing:
-      - entry: $(inputs.msin)
-      - entry: $(inputs.model_image_folder)
-      - entry: $(inputs.facet_regions)
-      - entry: $(inputs.h5parm)
+    listing: >
+      ${
+        // Set 'writable' on the "msin" entry only if copy_to_local_scratch is true.
+        let stagedListing = [
+          { entry: inputs.msin },
+          { entry: inputs.model_image_folder },
+          { entry: inputs.facet_regions },
+          { entry: inputs.h5parm }
+        ];
+        if (inputs.copy_to_local_scratch) {
+          stagedListing[0].writable = true;
+        }
+        return stagedListing;
+      }
 
 hints:
   - class: DockerRequirement

@@ -82,12 +82,22 @@ arguments:
 requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
-    listing:
-      - entry: $(inputs.subtracted_ms)
-      - entry: $(inputs.model_image_folder)
-      - entry: $(inputs.polygon_region)
-      - entry: $(inputs.h5parm)
-      - entry: $(inputs.polygon_info)
+    listing: >
+      ${
+        // Set 'writable' on the "subtracted_ms" entry only if copy_to_local_scratch is true.
+        let stagedListing = [
+          { entry: inputs.subtracted_ms },
+          { entry: inputs.model_image_folder },
+          { entry: inputs.polygon_region },
+          { entry: inputs.h5parm },
+          { entry: inputs.polygon_info }
+        ];
+        if (inputs.copy_to_local_scratch) {
+          stagedListing[0].writable = true;
+        }
+        return stagedListing;
+      }
+
 
 hints:
   - class: DockerRequirement
