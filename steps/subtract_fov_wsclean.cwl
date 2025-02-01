@@ -81,7 +81,7 @@ requirements:
           { entry: inputs.facet_regions },
           { entry: inputs.h5parm }
         ];
-        if (inputs.copy_to_local_scratch) {
+        if (!inputs.copy_to_local_scratch) {
           stagedListing[0].writable = true;
         }
         return stagedListing;

@@ -92,7 +92,7 @@ requirements:
           { entry: inputs.h5parm },
           { entry: inputs.polygon_info }
         ];
-        if (inputs.copy_to_local_scratch) {
+        if (!inputs.copy_to_local_scratch) {
           stagedListing[0].writable = true;
         }
         return stagedListing;
