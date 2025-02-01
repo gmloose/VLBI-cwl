@@ -78,6 +78,7 @@ arguments:
   - --forwidefield
   - --inverse
   - --speedup_facet_subtract
+  - --cleanup_input_ms
 
 requirements:
   - class: InlineJavascriptRequirement
