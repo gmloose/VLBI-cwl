@@ -5,7 +5,7 @@ label: Make DD config file
 doc: Return config file as input for facetselfcal DD solve for international stations with pre-applied Dutch solutions
 
 baseCommand:
-    - make_config_int_dutch_resets.py
+    - make_config_int_with_resets.py
 
 inputs:
   - id: ms

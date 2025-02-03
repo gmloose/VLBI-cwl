@@ -38,9 +38,6 @@ arguments:
 
 requirements:
   - class: InlineJavascriptRequirement
-  - class: InitialWorkDirRequirement
-    listing:
-      - entry: $( inputs.h5parms )
 
 hints:
   - class: DockerRequirement
