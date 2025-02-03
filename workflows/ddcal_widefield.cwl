@@ -1,7 +1,7 @@
 class: Workflow
 cwlVersion: v1.2
 id: ddcal-widefield
-label: Direction-dependent calibration for wide-field imaging
+label: Automated direction-dependent calibration for wide-field imaging
 doc: |
   This is a workflow for the LOFAR-VLBI pipeline that
     * Splits a LOFAR MeasurementSet into various target directions with split-directions.cwl
