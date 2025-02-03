@@ -8,7 +8,7 @@ baseCommand:
     - make_config_dutch.py
 
 inputs:
-    - id: lotss_catalogue
+    - id: source_catalogue
       type: File
       doc: LoTSS 6" catalogue
       inputBinding:

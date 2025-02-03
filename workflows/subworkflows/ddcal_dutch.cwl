@@ -8,7 +8,7 @@ inputs:
     - id: msin
       type: Directory[]
       doc: Input unaveraged MeasurementSets
-    - id: lotss_catalogue
+    - id: source_catalogue
       type: File
       doc: LoTSS 6" catalogue
     - id: facetselfcal
@@ -25,8 +25,8 @@ steps:
       run: ../../steps/dutch_avg.cwl
     - id: make_dd_config
       in:
-        - id: lotss_catalogue
-          source: lotss_catalogue
+        - id: source_catalogue
+          source: source_catalogue
         - id: ms
           source: average_6asec/ms_avg
       out:

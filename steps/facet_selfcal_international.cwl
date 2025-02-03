@@ -50,19 +50,24 @@ outputs:
     - id: h5_facetselfcal
       type: File
       outputBinding:
-        glob: merged_addCS*006*.h5
+        glob: 'merged_addCS*006*.h5'
       doc: The merged calibration solution files generated in HDF5 format.
 
-    - id: images
+    - id: selfcal_images
       type: File[]
       outputBinding:
-        glob: ['*.png', plotlosoto*/*.png]
+         glob: 'ILTJ*.png'
       doc: Selfcal PNG images.
+
+    - id: solution_inspection_images
+      type: Directory[]
+      outputBinding:
+         glob: 'plotlosoto*'
 
     - id: fits_images
       type: File[]
       outputBinding:
-        glob: '*MFS-image.fits'
+         glob: '*MFS-image.fits'
       doc: Selfcal FITS images
 
     - id: logfile

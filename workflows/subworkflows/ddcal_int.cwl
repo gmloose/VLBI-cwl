@@ -12,7 +12,7 @@ inputs:
     type: File
     doc: Multi-directional h5parm with Dutch DD solutions
   - id: dd_selection_csv
-    type: File?
+    type: File
     doc: DD selection CSV (with phasediff scores)
   - id: lofar_helpers
     type: Directory
@@ -36,7 +36,8 @@ steps:
           source: facetselfcal
       out:
         - merged_h5
-        - images
+        - selfcal_images
+        - solution_inspection_images
       scatter: msin
       run:
         # start ddcal for each ms
@@ -86,7 +87,7 @@ steps:
             out:
               - dd_config
 
-          - id: facetselfcal
+          - id: run_facetselfcal
             run: ../../steps/facet_selfcal_international.cwl
             in:
               msin: applycal/ms_out
@@ -94,7 +95,8 @@ steps:
               configfile: make_dd_config/dd_config
             out:
               - h5_facetselfcal
-              - images
+              - selfcal_images
+              - solution_inspection_images
               - fits_images
 
           - id: merge_all_in_one
@@ -102,7 +104,7 @@ steps:
             label: Merge preapplied h5parm and output h5parm in one h5parm
             in:
               first_h5: addCS/preapply_h5
-              second_h5: facetselfcal/h5_facetselfcal
+              second_h5: run_facetselfcal/h5_facetselfcal
               facetselfcal: facetselfcal
             out:
               - merged_h5
@@ -111,9 +113,12 @@ steps:
           merged_h5:
             type: File
             outputSource: merge_all_in_one/merged_h5
-          images:
+          selfcal_images:
             type: File[]
-            outputSource: facetselfcal/images
+            outputSource: run_facetselfcal/selfcal_images
+          solution_inspection_images:
+            type: Directory[]
+            outputSource: run_facetselfcal/solution_inspection_images
 
         # end ddcal for each ms
 
@@ -132,7 +137,16 @@ steps:
       label: Flatten image array of arrays
       in:
         - id: nestedarray
-          source: ddcal/images
+          source: ddcal/selfcal_images
+      out:
+        - flattenedarray
+      run: ../../steps/flatten.cwl
+
+    - id: flatten_solutions
+      label: Flatten solution array of arrays
+      in:
+        - id: nestedarray
+          source: ddcal/solution_inspection_images
       out:
         - flattenedarray
       run: ../../steps/flatten.cwl
@@ -149,4 +163,8 @@ outputs:
   - id: selfcal_images
     type: File[]
     outputSource: flatten_images/flattenedarray
-    doc: Selfcal images for inspection
+    doc: Selfcal images
+  - id: solution_inspection_images
+    type: Directory[]
+    outputSource: flatten_solutions/flattenedarray
+    doc: Selfcal inspection plots
