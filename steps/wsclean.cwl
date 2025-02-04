@@ -9,8 +9,7 @@ inputs:
     inputBinding:
       position: 2
       shellQuote: false
-      itemSeparator: ','
-      valueFrom: $(concatenate_path_wsclean(self))
+      itemSeparator: ' '
   - id: size
     type: int[]?
     default: 22500 22500
@@ -49,7 +48,7 @@ inputs:
       shellQuote: false
       prefix: '-mgain'
   - id: data-column
-    value: string?
+    type: string?
     default: DATA
     inputBinding:
       position: 1
@@ -195,6 +194,13 @@ inputs:
       position: 1
       shellQuote: false
       prefix: '-use-differential-lofar-beam'
+
+outputs:
+  - id: MFS_images
+    type: File[]
+    doc: DS9 region file containing the facet layout from Voronoi tesselation of the DD calibrators.
+    outputBinding:
+      glob: facets.reg
 
 label: WSClean
 hints:
