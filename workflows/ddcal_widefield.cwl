@@ -13,7 +13,6 @@ doc: |
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
-  - class: ScatterFeatureRequirement
 
 inputs:
     - id: msin
@@ -26,6 +25,11 @@ inputs:
       type: File
       doc: External image catalogue (in CSV format) containing candidate target directions (e.g. LoTSS catalogue).
       default: lotss_catalogue.csv
+    - id: dd_dutch_solutions
+      type: File
+      doc: Provide already obtained direction-dependent solutions for the Dutch LOFAR array.
+         If not provided to the workflow, the workflow will make its own Dutch DD solutions.
+      default: null
     - id: max_dp3_threads
       type: int?
       default: 4
@@ -38,8 +42,7 @@ inputs:
     - id: truncateLastSBs
       type: boolean?
       default: true
-      doc: Whether to truncate the last subbands of the
-        MSs to the same length.
+      doc: Whether to truncate the last subbands of the MSs to the same length.
     - id: dd_selection
       type: boolean?
       default: true
@@ -47,7 +50,7 @@ inputs:
     - id: other_phasediff_score_csv
       type: File?
       default: null
-      doc: Provide own phasediff_score_csv (if you don't want to overwrite the one generated in the dd-selection)
+      doc: Provide own phasediff_score_csv (overwrites the one already generated in the dd-selection).
     - id: lofar_helpers
       type: Directory
       doc: The LOFAR helpers directory.
@@ -67,6 +70,7 @@ steps:
       out:
         - merged_h5
         - selfcal_images
+      when: $(inputs.dd_dutch_solutions != null)
       run: ./subworkflows/ddcal_dutch.cwl
 
     - id: split_directions
@@ -95,7 +99,10 @@ steps:
         - id: msin
           source: split_directions/msout_concat
         - id: dutch_multidir_h5
-          source: ddcal_dutch/merged_h5
+          source:
+            - dd_dutch_solutions
+            - ddcal_dutch/merged_h5
+          pickValue: first_non_null
         - id: dd_selection_csv
           source:
             - other_phasediff_score_csv
