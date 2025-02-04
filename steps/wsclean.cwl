@@ -10,6 +10,12 @@ inputs:
       position: 2
       shellQuote: false
       itemSeparator: ' '
+  - id: cores
+    type: int
+    inputBinding:
+      position: 1
+      shellQuote: false
+      prefix: '-j'
   - id: size
     type: int[]?
     default: 22500 22500
@@ -213,5 +219,7 @@ requirements:
         writable: true
   - class: ShellCommandRequirement
   - class: InlineJavascriptRequirement
+  - class: ResourceRequirement
+    coresMin: $(inputs.core)
 stdout: wsclean.log
 stderr: wsclean_err.log
