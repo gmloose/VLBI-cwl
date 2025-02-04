@@ -35,7 +35,7 @@ outputs:
     type: File
     doc: DS9 region file containing the facet layout from Voronoi tesselation of the DD calibrators.
     outputBinding:
-      glob: fcets.reg
+      glob: facets.reg
 
 hints:
   - class: DockerRequirement
