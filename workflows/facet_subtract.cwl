@@ -27,7 +27,7 @@ inputs:
     - id: ncpu
       type: int?
       doc: Number of cores to use during predict and subtract.
-      default: 15
+      default: 16
     - id: dysco_bitrate
       type: int?
       doc: Number of bits per float used for columns containing visibilities.

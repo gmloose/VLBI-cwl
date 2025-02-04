@@ -56,7 +56,7 @@ inputs:
   - id: ncpu
     type: int?
     doc: Number of cores to use during the subtract.
-    default: 15
+    default: 16
 
 outputs:
   - id: logfile
