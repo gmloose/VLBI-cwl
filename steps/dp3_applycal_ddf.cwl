@@ -78,16 +78,6 @@ inputs:
         String that specifies what storage manager
         to use. By default uses dysco compression.
 
-    - id: fullresflags
-      type: boolean?
-      default: False
-      inputBinding:
-        prefix: msout.writefullresflag=
-        separate: false
-      doc: |
-        Specifies whether to write
-        the full resolution flags.
-
 outputs:
     - id: output_data
       type: Directory

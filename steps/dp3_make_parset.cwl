@@ -57,7 +57,6 @@ requirements:
           msout                               =   .
           msout.storagemanager                =   "Dysco"
           msout.datacolumn                    =   DATA
-          msout.writefullresflag              =   False
           #
           flag.type                           =   preflagger
           flag.baseline                       =   $(inputs.flag_baselines)
