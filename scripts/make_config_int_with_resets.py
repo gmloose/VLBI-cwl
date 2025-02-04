@@ -162,6 +162,7 @@ get_diagnostics                 = True
 parallelgridding                = 6
 channelsout                     = 12
 fitspectralpol                  = 5
+early_stopping                  = True
 """
     if avgstep>1:
         config+=f"""avgtimestep                     = {avgstep}
