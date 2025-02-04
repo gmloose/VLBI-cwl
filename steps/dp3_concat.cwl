@@ -111,7 +111,6 @@ arguments:
   - msin.orderms=False
   - msin.missingdata=True
   - msout.overwrite=True
-  - msout.writefullresflag=False
   - count.savetojson=True
   - count.jsonfilename=out.json
 
