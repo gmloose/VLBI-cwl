@@ -49,7 +49,7 @@ outputs:
     - id: h5parm
       type: File
       outputBinding:
-        glob: merged*006*.h5
+        glob: merged*003*.h5
       doc: The merged calibration solution files generated in HDF5 format.
 
     - id: images

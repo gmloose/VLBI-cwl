@@ -39,7 +39,7 @@ arguments:
   - steps=[avg]
   - avg.type=averager
   - avg.timeresolution=16
-  - avg.freqstep=16
+  - avg.freqresolution='195.312kHz'
   - msout.storagemanager='dysco'
   - msout=concat_6asec.ms
 

@@ -50,7 +50,7 @@ outputs:
     - id: h5_facetselfcal
       type: File
       outputBinding:
-        glob: 'merged_addCS*006*.h5'
+        glob: 'best_solutions.h5'
       doc: The merged calibration solution files generated in HDF5 format.
 
     - id: selfcal_images

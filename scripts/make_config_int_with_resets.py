@@ -68,7 +68,7 @@ def make_config(solint, ms):
     antennaconstraint_list = "[None,None,None,None,None]"
     soltype_list = "['scalarphase','scalarphase','scalarphase','scalarcomplexgain','scalarcomplexgain']"
     solint_list = f"['{int(solint_scalarphase_1 * 60)}s','{int(solint_scalarphase_2 * 60)}s','{int(solint_scalarphase_3 * 60)}s','{int(solint_complexgain_1*60)}s','{int(solint_complexgain_2*60)}s']"
-    stop = 10
+    stop = 16
     imsize = 2048
     if solint_scalarphase_1 * 60 > deltime * 2:
         avgstep = 2

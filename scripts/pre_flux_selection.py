@@ -27,6 +27,35 @@ def is_csv(file_path):
     return False
 
 
+def ra_dec_to_iltj(ra_deg, dec_deg):
+    """
+    Convert RA/DEC to ILTJ source name format: ILTJhhmmss.ss±ddmmss.s
+
+    Args:
+        ra_deg: Right Ascension in degrees
+        dec_deg: Declination in degrees
+
+    Returns: Source name in ILTJhhmmss.ss±ddmmss.s format
+    """
+    # Convert RA from degrees to hours
+    ra_hours = ra_deg / 15
+    ra_h = int(ra_hours)
+    ra_m = int((ra_hours - ra_h) * 60)
+    ra_s = ((ra_hours - ra_h) * 60 - ra_m) * 60
+
+    # Convert DEC to degrees, minutes, seconds
+    dec_sign = "+" if dec_deg >= 0 else "-"
+    dec_deg_abs = abs(dec_deg)
+    dec_d = int(dec_deg_abs)
+    dec_m = int((dec_deg_abs - dec_d) * 60)
+    dec_s = ((dec_deg_abs - dec_d) * 60 - dec_m) * 60
+
+    # Format output string
+    source_name = f"ILTJ{ra_h:02}{ra_m:02}{ra_s:05.2f}{dec_sign}{dec_d:02}{dec_m:02}{dec_s:04.1f}"
+
+    return source_name
+
+
 def get_phase_centre(ms):
     """
     Get phase centre from MeasurementSet
@@ -62,11 +91,15 @@ def select_bright_sources(phase_centre: list = None, catalogue: str = None, flux
     df['sourcedir'] = SkyCoord(ra=df['RA'].to_numpy() * u.degree, dec=df['DEC'].to_numpy() * u.degree)
 
     indices = []
+    sourceid = []
     for i, row in df.reset_index().iterrows():
         if abs(row['sourcedir'].ra-phase_centre.ra).value < 1.25 and abs(row['sourcedir'].dec-phase_centre.dec).value < 1.25:
             indices.append(i)
-    df = df.iloc[indices][['RA', 'DEC', 'Peak_flux', 'Total_flux']]
-    df['Source_id'] = range(len(df))
+            sourceid.append(ra_dec_to_iltj(row['RA'], row['DEC']))
+
+    df = df.iloc[indices]
+    df['Source_id'] = sourceid
+    df = df[['Source_id','RA', 'DEC', 'Peak_flux', 'Total_flux']]
 
     return df
 

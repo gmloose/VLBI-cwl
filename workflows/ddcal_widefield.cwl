@@ -13,6 +13,7 @@ doc: |
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
 
 inputs:
     - id: msin
@@ -24,9 +25,8 @@ inputs:
     - id: source_catalogue
       type: File
       doc: External image catalogue (in CSV format) containing candidate target directions (e.g. LoTSS catalogue).
-      default: lotss_catalogue.csv
     - id: dd_dutch_solutions
-      type: File
+      type: File?
       doc: Provide already obtained direction-dependent solutions for the Dutch LOFAR array.
          If not provided to the workflow, the workflow will make its own Dutch DD solutions.
       default: null
@@ -51,6 +51,10 @@ inputs:
       type: File?
       default: null
       doc: Provide own phasediff_score_csv (overwrites the one already generated in the dd-selection).
+    - id: flux_density_cut
+      type: float?
+      default: 0.025
+      doc: Flux density (mJy) cut to pre-select sources from catalogue.
     - id: lofar_helpers
       type: Directory
       doc: The LOFAR helpers directory.
@@ -70,7 +74,7 @@ steps:
       out:
         - merged_h5
         - selfcal_images
-      when: $(inputs.dd_dutch_solutions != null)
+      when: $(inputs.dd_dutch_solutions == null)
       run: ./subworkflows/ddcal_dutch.cwl
 
     - id: split_directions
@@ -89,6 +93,8 @@ steps:
           source: lofar_helpers
         - id: selfcal
           source: facetselfcal
+        - id: flux_density_cut
+          source: flux_density_cut
       out:
         - msout_concat
         - phasediff_score_csv
