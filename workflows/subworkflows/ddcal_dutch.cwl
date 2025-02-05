@@ -6,7 +6,7 @@ doc: Performing wide-field DD calibration for Dutch stations only
 
 inputs:
     - id: msin
-      type: Directory[]
+      type: Directory[]?
       doc: Input unaveraged MeasurementSets
 
     - id: source_catalogue

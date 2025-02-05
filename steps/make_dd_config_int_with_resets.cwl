@@ -18,7 +18,7 @@ inputs:
       separate: true
 
   - id: phasediff_output
-    type: File
+    type: File?
     doc: Phasediff scoring output csv
     inputBinding:
       prefix: "--phasediff_output"

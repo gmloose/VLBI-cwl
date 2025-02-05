@@ -19,7 +19,7 @@ inputs:
     doc: Wide-field imaging mode, which focuses in this step in optimizing 1.2" imaging for best facet-subtraction in the next step.
 
   - id: dd_selection_csv
-    type: File
+    type: File?
     doc: CSV with DD selection positions and phasediff scores
 
   - id: lofar_helpers
@@ -58,7 +58,7 @@ steps:
         inputs:
           msin: Directory
           dutch_multidir_h5: File?
-          dd_selection_csv: File
+          dd_selection_csv: File?
           lofar_helpers: Directory
           facetselfcal: Directory
           forwidefield: boolean
@@ -71,6 +71,7 @@ steps:
               h5parm: dutch_multidir_h5
               ms: msin
               lofar_helpers: lofar_helpers
+              dutch_multidir_h5: dutch_multidir_h5
             out:
               - closest_h5
 
@@ -81,6 +82,7 @@ steps:
               ms: msin
               h5parm: find_closest_h5/closest_h5
               facetselfcal: facetselfcal
+              dutch_multidir_h5: dutch_multidir_h5
             out:
               - preapply_h5
 
@@ -91,6 +93,7 @@ steps:
               ms: msin
               h5parm: addCS/preapply_h5
               lofar_helpers: lofar_helpers
+              dutch_multidir_h5: dutch_multidir_h5
             out:
               - ms_out
 
@@ -107,10 +110,8 @@ steps:
             run: ../../steps/facet_selfcal_international.cwl
             in:
               msin:
-                source:
-                  - applycal/ms_out
-                  - msin
-                pickValue: first_non_null
+                valueFrom: >-
+                  $( (inputs["applycal/ms_out"] && inputs["applycal/ms_out"].length > 0) ? inputs["applycal/ms_out"][0] : inputs.msin )
               facetselfcal: facetselfcal
               configfile: make_dd_config/dd_config
             out:
@@ -127,6 +128,7 @@ steps:
               first_h5: addCS/preapply_h5
               second_h5: run_facetselfcal/h5_facetselfcal
               facetselfcal: facetselfcal
+              dutch_multidir_h5: dutch_multidir_h5
             out:
               - merged_h5
 

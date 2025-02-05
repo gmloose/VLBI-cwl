@@ -87,9 +87,11 @@ steps:
           source: delay_solset
         - id: lofar_helpers
           source: lofar_helpers
+        - id: forwidefield
+          source: forwidefield
       out:
         - ms_out
-      when: $(inputs.forwidefield == true)
+      when: $(inputs.forwidefield)
       run: ../steps/applycal.cwl
       scatter: ms
 
@@ -101,6 +103,10 @@ steps:
           source: source_catalogue
         - id: facetselfcal
           source: facetselfcal
+        - id: dd_dutch_solutions
+          source: dd_dutch_solutions
+        - id: forwidefield
+          source: forwidefield
       out:
         - merged_h5
         - selfcal_widefield_images
@@ -172,7 +178,5 @@ outputs:
       outputSource: ddcal_int/solution_inspection_images
 
     - id: delay_corrected_ms
-      type: Directory[]
-      outputSource:
-        - applycal_solutions/ms_out
-      pickValue: all_non_null
+      type: ["null", {"type": "array", "items": "Directory"}]
+      outputSource: applycal_solutions/ms_out
