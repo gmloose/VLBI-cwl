@@ -11,7 +11,8 @@ inputs:
       shellQuote: false
       itemSeparator: ' '
   - id: cores
-    type: int
+    type: int?
+    default: 24
     inputBinding:
       position: 1
       shellQuote: false
@@ -220,6 +221,6 @@ requirements:
   - class: ShellCommandRequirement
   - class: InlineJavascriptRequirement
   - class: ResourceRequirement
-    coresMin: $(inputs.core)
+    coresMin: $(inputs.cores)
 stdout: wsclean.log
 stderr: wsclean_err.log
