@@ -205,9 +205,9 @@ inputs:
 outputs:
   - id: MFS_images
     type: File[]
-    doc: DS9 region file containing the facet layout from Voronoi tesselation of the DD calibrators.
+    doc: The final MFS images created by WSClean.
     outputBinding:
-      glob: facets.reg
+      glob: '*MFS*.fits'
 
 label: WSClean
 hints:
