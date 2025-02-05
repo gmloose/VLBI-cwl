@@ -201,7 +201,7 @@ steps:
         - id: regionbox
         - id: mslist
         - id: msout
-      run: ./process_ddf.cwl
+      run: ./process-ddf.cwl
       when: $(inputs.ddf_rundir != null && inputs.solsdir != null)
 
     - id: phaseup
