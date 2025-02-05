@@ -107,8 +107,10 @@ steps:
             run: ../../steps/facet_selfcal_international.cwl
             in:
               msin:
-                valueFrom: |
-                  $(inputs.applycal/ms_out ? inputs.applycal/ms_out : inputs.msin)
+                source:
+                  - applycal/ms_out
+                  - msin
+                pickValue: first_non_null
               facetselfcal: facetselfcal
               configfile: make_dd_config/dd_config
             out:
