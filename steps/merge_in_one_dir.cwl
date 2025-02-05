@@ -9,10 +9,10 @@ baseCommand:
 
 inputs:
   - id: first_h5
-    type: File
+    type: File?
     doc: Input h5parm 1
   - id: second_h5
-    type: File
+    type: File?
     doc: Input h5parm 2
   - id: facetselfcal
     type: Directory

@@ -8,19 +8,24 @@ inputs:
   - id: msin
     type: Directory[]
     doc: Input MeasurementSets from individual calibrator directions
+
   - id: dutch_multidir_h5
     type: File?
     doc: Multi-directional h5parm with Dutch DD solutions
+
   - id: forwidefield
-    type: boolean?
+    type: boolean
     default: false
     doc: Wide-field imaging mode, which focuses in this step in optimizing 1.2" imaging for best facet-subtraction in the next step.
+
   - id: dd_selection_csv
     type: File
-    doc: DD selection CSV (with phasediff scores)
+    doc: CSV with DD selection positions and phasediff scores
+
   - id: lofar_helpers
     type: Directory
     doc: lofar_helpers directory
+
   - id: facetselfcal
     type: Directory
     doc: facetselfcal directory
@@ -171,16 +176,19 @@ steps:
 requirements:
   - class: ScatterFeatureRequirement
   - class: SubworkflowFeatureRequirement
+  - class: InlineJavascriptRequirement
 
 outputs:
   - id: final_merged_h5
     type: File
     outputSource: multidir_merge/multidir_h5
     doc: Final merged h5parm with multiple directions
+
   - id: selfcal_images
     type: File[]
     outputSource: flatten_images/flattenedarray
     doc: Selfcal images
+
   - id: solution_inspection_images
     type: Directory[]
     outputSource: flatten_solutions/flattenedarray

@@ -17,7 +17,7 @@ inputs:
       itemSeparator: " "
       separate: true
   - id: h5parm
-    type: File
+    type: File?
     doc: Input h5parm
     inputBinding:
       prefix: "-in"

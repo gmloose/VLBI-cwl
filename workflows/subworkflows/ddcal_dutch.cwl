@@ -8,9 +8,11 @@ inputs:
     - id: msin
       type: Directory[]
       doc: Input unaveraged MeasurementSets
+
     - id: source_catalogue
       type: File
       doc: LoTSS 6" catalogue
+
     - id: facetselfcal
       type: Directory
       doc: facetselfcal directory
@@ -49,13 +51,13 @@ steps:
         - fits_images
       run: ../../steps/facet_selfcal_dutch_only.cwl
 
-
 outputs:
   - id: merged_h5
     type: File
     outputSource: run_facetselfcal/h5parm
     doc: Final merged h5parm with multiple directions
-  - id: selfcal_images
+
+  - id: selfcal_widefield_images
     type: File[]
     outputSource: run_facetselfcal/images
     doc: Selfcal images for inspection

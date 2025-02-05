@@ -14,7 +14,7 @@ inputs:
       inputBinding:
         position: 5
     - id: h5parm
-      type: File
+      type: File?
       doc: Input h5parm
       inputBinding:
         prefix: "--h5"

@@ -46,8 +46,14 @@ inputs:
       doc: Whether to do selfcal on the direction concat MSs.
     - id: dd_selection
       type: boolean?
-      default: false
+      default: true
       doc: If set to true the pipeline will perform direction-dependent calibrator selection.
+    - id: phasediff_score
+      type: float
+      default: 9
+      doc: |
+         Phasediff-score for calibrator selection <2.3 good for DD-calibrators and <0.7 good for DI-calibrators.
+         Only used when dd_selection==true.
     - id: flux_density_cut
       type: float
       default: 0.0
@@ -156,6 +162,8 @@ steps:
           source: selfcal
         - id: dd_selection
           source: dd_selection
+        - id: phasediff_score
+          source: phasediff_score
       out:
         - id: phasediff_score_csv
         - id: best_ms
