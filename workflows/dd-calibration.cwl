@@ -14,6 +14,7 @@ requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
   - class: InlineJavascriptRequirement
+  - class: ScatterFeatureRequirement
 
 inputs:
     - id: msin
@@ -29,7 +30,6 @@ inputs:
       type: File?
       doc: Provide already obtained direction-dependent solutions for the Dutch LOFAR array.
          If not provided to the workflow, the workflow will make its own Dutch DD solutions.
-      default: null
     - id: max_dp3_threads
       type: int?
       default: 4
@@ -45,8 +45,14 @@ inputs:
       doc: Whether to truncate the last subbands of the MSs to the same length.
     - id: dd_selection
       type: boolean?
-      default: true
-      doc: If set to true the pipeline will perform direction-dependent calibrator selection.
+      default: false
+      doc: |
+         If set to true the pipeline will perform direction-dependent calibrator selection.
+         This selection metric is described in Section 3.3.1 from de Jong et al. (2024; https://arxiv.org/pdf/2407.13247)
+    - id: forwidefield
+      type: boolean?
+      default: false
+      doc: Wide-field imaging mode, which focuses in this step in optimizing 1.2" imaging for best facet-subtraction in the next step.
     - id: other_phasediff_score_csv
       type: File?
       default: null
@@ -63,10 +69,24 @@ inputs:
       doc: The selfcal directory.
 
 steps:
+    - id: applycal_solutions
+      in:
+        - id: ms
+          source: msin
+        - id: h5parm
+          source: delay_solset
+        - id: lofar_helpers
+          source: lofar_helpers
+      out:
+        - ms_out
+      when: $(inputs.forwidefield)
+      run: ../steps/applycal.cwl
+      scatter: ms
+
     - id: ddcal_dutch
       in:
         - id: msin
-          source: msin
+          source: applycal_solutions/ms_out
         - id: source_catalogue
           source: source_catalogue
         - id: facetselfcal
@@ -74,7 +94,7 @@ steps:
       out:
         - merged_h5
         - selfcal_images
-      when: $(inputs.dd_dutch_solutions == null)
+      when: $((inputs.dd_dutch_solutions == null) && (inputs.forwidefield))
       run: ./subworkflows/ddcal_dutch.cwl
 
     - id: split_directions
@@ -137,3 +157,8 @@ outputs:
     - id: solution_inspection_images
       type: Directory[]
       outputSource: ddcal_int/solution_inspection_images
+    - id: delay_corrected_ms
+      type: Directory[]
+      outputSource:
+        - applycal_solutions/ms_out
+      pickValue: all_non_null

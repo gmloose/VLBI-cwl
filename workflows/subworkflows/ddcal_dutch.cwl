@@ -33,7 +33,7 @@ steps:
         - dd_config_dutch
         - directions
       run: ../../steps/make_dd_config_dutch.cwl
-    - id: facetselfcal
+    - id: run_facetselfcal
       in:
         - id: msin
           source: average_6asec/ms_avg
@@ -53,9 +53,9 @@ steps:
 outputs:
   - id: merged_h5
     type: File
-    outputSource: facetselfcal/h5parm
+    outputSource: run_facetselfcal/h5parm
     doc: Final merged h5parm with multiple directions
   - id: selfcal_images
     type: File[]
-    outputSource: facetselfcal/images
+    outputSource: run_facetselfcal/images
     doc: Selfcal images for inspection

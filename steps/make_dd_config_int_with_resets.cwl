@@ -26,6 +26,14 @@ inputs:
       itemSeparator: " "
       separate: true
 
+  - id: forwidefield
+    type: boolean?
+    default: false
+    doc: Wide-field imaging mode for optimising 1.2" imaging.
+    inputBinding:
+      prefix: "--forwidefield"
+      position: 4
+
 outputs:
     - id: dd_config
       type: File

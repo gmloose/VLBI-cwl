@@ -9,8 +9,12 @@ inputs:
     type: Directory[]
     doc: Input MeasurementSets from individual calibrator directions
   - id: dutch_multidir_h5
-    type: File
+    type: File?
     doc: Multi-directional h5parm with Dutch DD solutions
+  - id: forwidefield
+    type: boolean?
+    default: false
+    doc: Wide-field imaging mode, which focuses in this step in optimizing 1.2" imaging for best facet-subtraction in the next step.
   - id: dd_selection_csv
     type: File
     doc: DD selection CSV (with phasediff scores)
@@ -34,6 +38,8 @@ steps:
           source: lofar_helpers
         - id: facetselfcal
           source: facetselfcal
+        - id: forwidefield
+          source: forwidefield
       out:
         - merged_h5
         - selfcal_images
@@ -46,13 +52,15 @@ steps:
 
         inputs:
           msin: Directory
-          dutch_multidir_h5: File
+          dutch_multidir_h5: File?
           dd_selection_csv: File
           lofar_helpers: Directory
           facetselfcal: Directory
+          forwidefield: boolean
 
         steps:
           - id: find_closest_h5
+            when: $(inputs.dutch_multidir_h5 != null)
             run: ../../steps/find_closest_h5.cwl
             in:
               h5parm: dutch_multidir_h5
@@ -62,6 +70,7 @@ steps:
               - closest_h5
 
           - id: addCS
+            when: $(inputs.dutch_multidir_h5 != null)
             run: ../../steps/addCS.cwl
             in:
               ms: msin
@@ -71,6 +80,7 @@ steps:
               - preapply_h5
 
           - id: applycal
+            when: $(inputs.dutch_multidir_h5 != null)
             run: ../../steps/applycal.cwl
             in:
               ms: msin
@@ -84,13 +94,16 @@ steps:
             in:
               phasediff_output: dd_selection_csv
               ms: msin
+              forwidefield: forwidefield
             out:
               - dd_config
 
           - id: run_facetselfcal
             run: ../../steps/facet_selfcal_international.cwl
             in:
-              msin: applycal/ms_out
+              msin:
+                valueFrom: |
+                  $(inputs.applycal/ms_out ? inputs.applycal/ms_out : inputs.msin)
               facetselfcal: facetselfcal
               configfile: make_dd_config/dd_config
             out:
@@ -101,6 +114,7 @@ steps:
 
           - id: merge_all_in_one
             run: ../../steps/merge_in_one_dir.cwl
+            when: $(inputs.dutch_multidir_h5 != null)
             label: Merge preapplied h5parm and output h5parm in one h5parm
             in:
               first_h5: addCS/preapply_h5
@@ -112,7 +126,10 @@ steps:
         outputs:
           merged_h5:
             type: File
-            outputSource: merge_all_in_one/merged_h5
+            outputSource:
+              - merge_all_in_one/merged_h5
+              - run_facetselfcal/h5_facetselfcal
+            pickValue: first_non_null
           selfcal_images:
             type: File[]
             outputSource: run_facetselfcal/selfcal_images

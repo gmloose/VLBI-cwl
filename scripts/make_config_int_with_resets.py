@@ -26,13 +26,14 @@ def parse_source_id(inp_str: str = None):
     return parsed_inp
 
 
-def make_config(solint, ms):
+def make_config(solint, ms, forwidefield):
     """
     Make config for facetselfcal
 
     Args:
         solint: solution interval
         ms: MeasurementSet
+        forwidefield: Boolean to decide for postage stamp or widefield imaging
 
     """
 
@@ -80,28 +81,40 @@ def make_config(solint, ms):
         smoothness_phase = 8.0
         smoothness_complex = 10.0
         smoothnessconstraint_list = f"[{smoothness_phase},{smoothness_phase*1.5},{smoothness_phase*1.5},{smoothness_complex},{smoothness_complex+5.0}]"
-        resetsols_list = "['alldutchandclosegerman','alldutch','coreandfirstremotes','alldutch','coreandfirstremotes']"
+        if forwidefield:
+            resetsols_list = "['alldutchandclosegerman','alldutch','coreandfirstremotes','alldutch','coreandfirstremotes']"
+        else:
+            resetsols_list = "['alldutchandclosegerman','alldutch',None,'alldutch',None]"
 
     elif solint<0.1:
         uvmin=40000
         smoothness_phase = 10.0
         smoothness_complex = 10.0
         smoothnessconstraint_list = f"[{smoothness_phase},{smoothness_phase*1.25},{smoothness_phase*1.25},{smoothness_complex},{smoothness_complex+5.0}]"
-        resetsols_list = "['alldutchandclosegerman','alldutch','coreandallbutmostdistantremotes','alldutch','coreandallbutmostdistantremotes']"
+        if forwidefield:
+            resetsols_list = "['alldutchandclosegerman','alldutch','coreandallbutmostdistantremotes','alldutch','coreandallbutmostdistantremotes']"
+        else:
+            resetsols_list = "['alldutchandclosegerman','alldutch',None,'alldutch',None]"
 
     elif solint<1:
         uvmin=35000
         smoothness_phase = 10.0
         smoothness_complex = 12.5
         smoothnessconstraint_list = f"[{smoothness_phase},{smoothness_phase*1.25},{smoothness_phase*1.25},{smoothness_complex},{smoothness_complex+5.0}]"
-        resetsols_list = "['alldutchandclosegerman','alldutch','coreandallbutmostdistantremotes','alldutch','coreandallbutmostdistantremotes']"
+        if forwidefield:
+            resetsols_list = "['alldutchandclosegerman','alldutch','coreandallbutmostdistantremotes','alldutch','coreandallbutmostdistantremotes']"
+        else:
+            resetsols_list = "['alldutchandclosegerman','alldutch',None,'alldutch',None]"
 
     elif solint<2.5:
         uvmin=30000
         smoothness_phase = 10.0
         smoothness_complex = 15.0
         smoothnessconstraint_list = f"[{smoothness_phase},{smoothness_phase*1.25},{smoothness_phase*1.25},{smoothness_complex},{smoothness_complex+10.0}]"
-        resetsols_list = "['alldutchandclosegerman','alldutch','coreandallbutmostdistantremotes','alldutch','coreandallbutmostdistantremotes']"
+        if forwidefield:
+            resetsols_list = "['alldutchandclosegerman','alldutch','coreandallbutmostdistantremotes','alldutch','coreandallbutmostdistantremotes']"
+        else:
+            resetsols_list = "['alldutchandclosegerman','alldutch',None,'alldutch',None]"
 
     elif solint<4:
         uvmin=25000
@@ -113,7 +126,10 @@ def make_config(solint, ms):
         smoothnessspectralexponent_list = "[-1.0,-1.0,-1.0,-1.0]"
         solint_list = f"['{int(solint_scalarphase_1*60)}s','{int(solint_scalarphase_2*60)}s','{int(solint_complexgain_1*60)}s','{int(solint_complexgain_2*60)}s']"
         soltype_list = "['scalarphase','scalarphase','scalarcomplexgain','scalarcomplexgain']"
-        resetsols_list = "['alldutchandclosegerman','alldutch','alldutchandclosegerman','alldutch']"
+        if forwidefield:
+            resetsols_list = "['alldutchandclosegerman','alldutch','alldutchandclosegerman','alldutch']"
+        else:
+            resetsols_list = "['alldutch',None,'alldutch',None]"
         antennaconstraint_list = "[None,None,None,None]"
 
     elif solint<15:
@@ -124,7 +140,10 @@ def make_config(solint, ms):
         smoothnessspectralexponent_list = "[-1.0,-1.0,-1.0]"
         solint_list = f"['{int(solint_scalarphase_1*60)}s','{int(solint_scalarphase_2*60)}s','{int(solint_complexgain_1*60)}s']"
         soltype_list = "['scalarphase','scalarphase','scalarcomplexgain']"
-        resetsols_list = "['alldutchandclosegerman','alldutch','alldutch']"
+        if forwidefield:
+            resetsols_list = "['alldutchandclosegerman','alldutch','alldutch']"
+        else:
+            resetsols_list = "['alldutchandclosegerman','alldutch',None]"
         antennaconstraint_list = "[None,None,None]"
 
     else:
@@ -135,7 +154,10 @@ def make_config(solint, ms):
         smoothnessspectralexponent_list = "[-1.0,-1.0]"
         solint_list = f"['{int(solint_scalarphase_1*60)}s','{int(solint_scalarphase_2*60)}s']"
         soltype_list = "['scalarphase','scalarphase']"
-        resetsols_list = "['alldutchandclosegerman','alldutch']"
+        if forwidefield:
+            resetsols_list = "['alldutchandclosegerman','alldutch']"
+        else:
+            resetsols_list = "['alldutch',None]"
         antennaconstraint_list = "[None,None]"
 
 
@@ -205,6 +227,7 @@ def parse_args():
     parser = ArgumentParser(description='Make config for facetselfcal international DD solves')
     parser.add_argument('--ms', type=str, help='MeasurementSet')
     parser.add_argument('--phasediff_output', type=str, help='Phasediff CSV output')
+    parser.add_argument('--forwidefield', action='store_true', help='Make config for wide-field imaging.')
     return parser.parse_args()
 
 
@@ -216,7 +239,7 @@ def main():
     args = parse_args()
 
     solint = get_solint(args.ms, args.phasediff_output)
-    make_config(solint, args.ms)
+    make_config(solint, args.ms, args.forwidefield)
 
 
 if __name__ == "__main__":
