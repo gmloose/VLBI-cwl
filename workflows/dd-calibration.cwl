@@ -79,7 +79,7 @@ steps:
           source: lofar_helpers
       out:
         - ms_out
-      when: $(inputs.forwidefield)
+      when: $(inputs.forwidefield == true)
       run: ../steps/applycal.cwl
       scatter: ms
 
@@ -94,7 +94,7 @@ steps:
       out:
         - merged_h5
         - selfcal_images
-      when: $((inputs.dd_dutch_solutions == null) && (inputs.forwidefield))
+      when: $((inputs.dd_dutch_solutions == null) && (inputs.forwidefield == true))
       run: ./subworkflows/ddcal_dutch.cwl
 
     - id: split_directions
