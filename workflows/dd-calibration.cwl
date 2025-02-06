@@ -158,7 +158,7 @@ steps:
         - final_merged_h5
         - selfcal_images
         - solution_inspection_images
-      run: ./subworkflows/ddcal_int.cwl
+      run: ./subworkflows/ddcal_calibrators.cwl
 
 outputs:
     - id: final_merged_h5

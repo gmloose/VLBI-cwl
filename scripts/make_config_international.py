@@ -180,7 +180,6 @@ paralleldeconvolution           = 1024
 targetcalILT                    = "scalarphase"
 stop                            = {stop}
 compute_phasediffstat           = True
-get_diagnostics                 = True
 parallelgridding                = 6
 channelsout                     = 12
 fitspectralpol                  = 5
