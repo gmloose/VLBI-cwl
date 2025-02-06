@@ -9,7 +9,7 @@ baseCommand:
 
 inputs:
   - id: msin
-    type: Directory[]?
+    type: Directory[]
     doc: Input MeasurementSet subbands.
     inputBinding:
       position: 0
