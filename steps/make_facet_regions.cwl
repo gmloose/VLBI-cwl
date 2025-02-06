@@ -20,12 +20,12 @@ inputs:
       position: 0
       prefix: '--h5'
   - id: image_size
-    type: int
+    type: int?
     inputBinding:
       position: 0
       prefix: '--imsize'
   - id: pixel_scale
-    type: float
+    type: float?
     inputBinding:
       position: 0
       prefix: '--pixelscale'
