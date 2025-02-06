@@ -51,7 +51,7 @@ steps:
         - solution_inspection_images
       scatter: msin
       run:
-        # start ddcal for each ms
+        # ddcal for each ms
         cwlVersion: v1.2
         class: Workflow
 
@@ -110,8 +110,10 @@ steps:
             run: ../../steps/facet_selfcal_international.cwl
             in:
               msin:
-                valueFrom: >-
-                  $( (inputs["applycal/ms_out"] && inputs["applycal/ms_out"].length > 0) ? inputs["applycal/ms_out"][0] : inputs.msin )
+                source:
+                  - applycal/ms_out
+                  - msin
+                pickValue: first_non_null
               facetselfcal: facetselfcal
               configfile: make_dd_config/dd_config
             out:
