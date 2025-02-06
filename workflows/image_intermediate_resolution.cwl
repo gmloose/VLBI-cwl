@@ -67,6 +67,8 @@ steps:
           source: msin
         - id: cores
           source: number_cores
+        - id: taper-gaussian
+          valueFrom: $(1.2)
       out:
         - id: MFS_images
 
@@ -79,3 +81,9 @@ outputs:
       type: File
       doc: |
         DS9 region file containing the facet layout.
+    - id: MFS_images
+      outputSource:
+        - make_intermediate_resolution_image/MFS_images
+      type: File[]
+      doc: |
+        Final MFS FITS images at intermediate resolution.
