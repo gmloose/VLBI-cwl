@@ -64,11 +64,11 @@ outputs:
       outputBinding:
          glob: 'plotlosoto*'
 
-    - id: fits_images
-      type: File[]
+    - id: fits_image
+      type: File
       outputBinding:
-         glob: '*MFS-image.fits'
-      doc: Selfcal FITS images
+         glob: 'best_*MFS-image.fits'
+      doc: Best selfcal FITS image
 
     - id: logfile
       type: File[]

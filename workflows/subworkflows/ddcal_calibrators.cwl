@@ -47,7 +47,8 @@ steps:
           source: forwidefield
       out:
         - merged_h5
-        - selfcal_images
+        - fits_images
+        - selfcal_inspection_images
         - solution_inspection_images
       run: ./auto_selfcal.cwl
       scatter: msin
@@ -67,7 +68,7 @@ steps:
       label: Flatten image array of arrays
       in:
         - id: nestedarray
-          source: ddcal/selfcal_images
+          source: ddcal/selfcal_inspection_images
       out:
         - flattenedarray
       run: ../../steps/flatten.cwl
@@ -94,10 +95,15 @@ outputs:
 
   - id: selfcal_images
     type: File[]
+    outputSource: ddcal/fits_images
+    doc: Selfcal FITS images
+
+  - id: selfcal_inspection_images
+    type: File[]
     outputSource: flatten_images/flattenedarray
-    doc: Selfcal images
+    doc: Selfcal inspection images
 
   - id: solution_inspection_images
     type: Directory[]
     outputSource: flatten_solutions/flattenedarray
-    doc: Selfcal inspection plots
+    doc: Solution inspection images

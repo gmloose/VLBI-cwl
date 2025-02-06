@@ -57,7 +57,7 @@ steps:
         - id: dutch_multidir_h5
           source: dutch_multidir_h5
       out:
-        - preapply_h5
+        - addCS_out_h5
       when: $(inputs.dutch_multidir_h5 != null)
       run: ../../steps/addCS.cwl
 
@@ -66,7 +66,7 @@ steps:
         - id: ms
           source: msin
         - id: h5parm
-          source: addCS/preapply_h5
+          source: addCS/addCS_out_h5
         - id: lofar_helpers
           source: lofar_helpers
         - id: dutch_multidir_h5
@@ -103,16 +103,28 @@ steps:
         - h5_facetselfcal
         - selfcal_images
         - solution_inspection_images
-        - fits_images
+        - fits_image
       run: ../../steps/facet_selfcal_international.cwl
+
+    - id: addCS_selfcal
+      in:
+        - id: ms
+          source: msin
+        - id: h5parm
+          source: run_facetselfcal/h5_facetselfcal
+        - id: facetselfcal
+          source: facetselfcal
+      out:
+        - addCS_out_h5
+      run: ../../steps/addCS.cwl
 
     - id: merge_all_in_one
       label: Merge preapplied h5parm and output h5parm in one h5parm
       in:
         - id: first_h5
-          source: addCS/preapply_h5
+          source: addCS/addCS_out_h5
         - id: second_h5
-          source: run_facetselfcal/h5_facetselfcal
+          source: addCS_selfcal/addCS_out_h5
         - id: facetselfcal
           source: facetselfcal
         - id: dutch_multidir_h5
@@ -131,10 +143,14 @@ outputs:
     type: File
     outputSource:
       - merge_all_in_one/merged_h5
-      - run_facetselfcal/h5_facetselfcal
+      - addCS_selfcal/addCS_out_h5
     pickValue: first_non_null
 
-  - id: selfcal_images
+  - id: fits_images
+    type: File
+    outputSource: run_facetselfcal/fits_image
+
+  - id: selfcal_inspection_images
     type: File[]
     outputSource: run_facetselfcal/selfcal_images
 

@@ -157,6 +157,7 @@ steps:
       out:
         - final_merged_h5
         - selfcal_images
+        - selfcal_inspection_images
         - solution_inspection_images
       run: ./subworkflows/ddcal_calibrators.cwl
 
@@ -169,9 +170,13 @@ outputs:
       type: File?
       outputSource: split_directions/phasediff_score_csv
 
-    - id: selfcal_PNG_images
+    - id: best_FITS_images
       type: File[]
       outputSource: ddcal_int/selfcal_images
+
+    - id: selfcal_PNG_images
+      type: File[]
+      outputSource: ddcal_int/selfcal_inspection_images
 
     - id: solution_inspection_images
       type: Directory[]

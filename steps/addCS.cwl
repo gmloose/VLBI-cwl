@@ -29,11 +29,11 @@ inputs:
     doc: facetselfcal directory
 
 outputs:
-    - id: preapply_h5
+    - id: addCS_out_h5
       type: File
       doc: h5parm with preapplied solutions and core stations
       outputBinding:
-        glob: preapply_addCS.h5
+        glob: h5_addCS.h5
     - id: logfile
       type: File[]
       doc: Log files corresponding to this step
@@ -43,7 +43,7 @@ outputs:
 
 arguments:
   - $( inputs.facetselfcal.path + '/submods/h5_merger.py' )
-  - --h5_out=preapply_addCS.h5
+  - --h5_out=$( inputs.h5parm + '.addCS.h5' )
   - --add_ms_stations
 
 requirements:
