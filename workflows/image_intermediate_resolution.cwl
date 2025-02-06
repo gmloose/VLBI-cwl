@@ -8,6 +8,7 @@ doc: |
 requirements:
     - class: InlineJavascriptRequirement
     - class: StepInputExpressionRequirement
+    - class: ScatterFeatureRequirement
 
 inputs:
     - id: msin
@@ -34,12 +35,20 @@ inputs:
       doc: Pixel size in arcseconds.
 
 steps:
+    - id: average_data
+      label: average
+      in:
+        - id: msin
+          source: msin
+      out:
+        - id: ms_avg
+      run: ../steps/average_intermediate_resolution.cwl
+
     - id: make_facet_layout
       label: facet_layout
       in:
         - id: ms
-          source: msin
-          valueFrom: $(inputs.msin[0])
+          source: average_data/ms_avg
         - id: dd_solutions
           source: dd_solutions
         - id: image_size
