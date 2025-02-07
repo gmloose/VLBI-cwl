@@ -22,7 +22,7 @@ def main():
         "--pixel_size", type=float, help="Pixel size of the image to be made."
     )
     parser.add_argument(
-        "--padding", type=float, help="Percentage to pad the calculated image size with. This allows some extra freedom in tweaking the final image size."
+        "--padding", type=float, help="Padding factor to pad the calculated image size with. This allows some extra freedom in tweaking the final image size."
     )
     args = parser.parse_args()
 
