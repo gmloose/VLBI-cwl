@@ -80,29 +80,11 @@ inputs:
       doc: The facetselfcal directory.
 
 steps:
-    - id: applycal_solutions
-      in:
-        - id: ms
-          source: msin
-        - id: h5parm
-          source: delay_solset
-        - id: lofar_helpers
-          source: lofar_helpers
-        - id: forwidefield
-          source: forwidefield
-      out:
-        - ms_out
-      when: $((inputs.forwidefield == true) && (inputs.delay_solset != null))
-      run: ../steps/applycal.cwl
-      scatter: ms
 
     - id: ddcal_dutch
       in:
         - id: msin
-          source:
-            - applycal_solutions/ms_out
-            - msin
-          pickValue: first_non_null
+          source: msin
         - id: source_catalogue
           source: source_catalogue
         - id: facetselfcal
@@ -114,16 +96,13 @@ steps:
       out:
         - merged_h5
         - selfcal_widefield_images
-      when: $((inputs.dd_dutch_solutions == null) && (inputs.forwidefield == true))
+      when: $((inputs.dd_dutch_solutions == null) && (inputs.forwidefield == true) && (inputs.delay_solset == null))
       run: ./subworkflows/ddcal_dutch.cwl
 
     - id: split_directions
       in:
         - id: msin
-          source:
-            - applycal_solutions/ms_out
-            - msin
-          pickValue: first_non_null
+          source: msin
         - id: delay_solset
           source: delay_solset
         - id: image_cat
@@ -188,7 +167,3 @@ outputs:
     - id: solution_inspection_images
       type: Directory[]
       outputSource: ddcal_int/solution_inspection_images
-
-    - id: delay_corrected_ms
-      type: ["null", {"type": "array", "items": "Directory"}]
-      outputSource: applycal_solutions/ms_out

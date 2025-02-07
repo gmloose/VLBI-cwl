@@ -79,7 +79,7 @@ steps:
       out:
         - id: delay_cal_dir
       run: ../../steps/get_delay_cal_direction.cwl
-      when: $(input.delay_solutions != null)
+      when: $(inputs.delay_solutions != null)
 
     - id: get_delay_cal_beam_dir
       label: get_delay_cal_beam_direction
@@ -96,8 +96,7 @@ steps:
         - id: coordinates
         - id: logfile
       run: ../../steps/prep_delay.cwl
-      when: $(input.delay_solutions != null)
-
+      when: $(inputs.delay_solutions != null)
 
     - id: generate_parset
       label: generate_parset
@@ -113,7 +112,7 @@ steps:
       out:
         - id: parset
       run: ../../steps/generate_parset_split.cwl
-      when: $(input.delay_solutions != null)
+      when: $(inputs.delay_solutions != null)
 
     - id: generate_parset_nosol
       label: generate_parset_nosol
@@ -127,4 +126,4 @@ steps:
       out:
         - id: parset
       run: ../../steps/generate_parset_split_nosol.cwl
-      when: $(input.delay_solutions == null)
+      when: $(inputs.delay_solutions == null)

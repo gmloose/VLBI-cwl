@@ -25,6 +25,7 @@ steps:
       out:
         - ms_avg
       run: ../../steps/dutch_avg.cwl
+
     - id: make_dd_config
       in:
         - id: source_catalogue
