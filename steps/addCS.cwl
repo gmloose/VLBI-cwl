@@ -33,7 +33,7 @@ outputs:
       type: File
       doc: h5parm with preapplied solutions and core stations
       outputBinding:
-        glob: h5_addCS.h5
+        glob: "*.addCS.h5"
     - id: logfile
       type: File[]
       doc: Log files corresponding to this step

@@ -23,7 +23,7 @@ outputs:
       type: File
       doc: Merged h5parm
       outputBinding:
-        glob: merged_dir.h5
+        glob: "*.onedir.h5"
     - id: logfile
       type: File[]
       doc: Log files corresponding to this step
