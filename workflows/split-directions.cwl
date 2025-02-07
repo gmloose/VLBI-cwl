@@ -54,10 +54,10 @@ inputs:
       doc: |
          Phasediff-score for calibrator selection <2.3 good for DD-calibrators and <0.7 good for DI-calibrators.
          Only used when dd_selection==true.
-    - id: flux_density_cut
+    - id: peak_flux_cut
       type: float
       default: 0.0
-      doc: Flux density (Jy) cut to pre-select sources from catalogue.
+      doc: Peak flux (Jy/beam) cut to pre-select sources from catalogue.
     - id: configfile
       type: File
       default: null
@@ -72,14 +72,14 @@ inputs:
 
 steps:
     - id: select_bright_sources
-      label: Select bright sources above flux_density_cut (see Sweijen et al. 2022; de Jong et al. 2024)
+      label: Select bright sources
       in:
         - id: msin
           source: msin
         - id: image_cat
           source: image_cat
-        - id: flux_density_cut
-          source: flux_density_cut
+        - id: peak_flux_cut
+          source: peak_flux_cut
       out:
         - bright_cat
       run: ../steps/select_bright_sources.cwl

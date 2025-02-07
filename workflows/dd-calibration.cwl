@@ -65,10 +65,10 @@ inputs:
       type: File?
       doc: Provide own phasediff_score_csv (overwrites the one generated in the dd-selection).
 
-    - id: flux_density_cut
+    - id: peak_flux_cut
       type: float
       default: 0.025
-      doc: Flux density (Jy) cut to pre-select sources from catalogue.
+      doc: Peak flux (Jy/beam) cut to pre-select sources from catalogue.
 
     - id: lofar_helpers
       type: Directory
@@ -135,8 +135,8 @@ steps:
           source: lofar_helpers
         - id: selfcal
           source: facetselfcal
-        - id: flux_density_cut
-          source: flux_density_cut
+        - id: peak_flux_cut
+          source: peak_flux_cut
       out:
         - msout_concat
         - phasediff_score_csv

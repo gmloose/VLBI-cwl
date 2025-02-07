@@ -25,9 +25,9 @@ inputs:
         prefix: "--catalogue"
         itemSeparator: " "
         separate: true
-    - id: flux_density_cut
+    - id: peak_flux_cut
       type: float
-      doc: Flux density cut in mJy
+      doc: Peak flux (Jy/beam) cut to pre-select sources from catalogue.
       inputBinding:
         prefix: "--fluxcut"
         position: 3
