@@ -43,7 +43,7 @@ outputs:
 
 arguments:
   - $( inputs.facetselfcal.path + '/submods/h5_merger.py' )
-  - --h5_out=$( inputs.h5parm + '.addCS.h5' )
+  - --h5_out=$( inputs.h5parm.basename + '.addCS.h5' )
   - --add_ms_stations
 
 requirements:
