@@ -33,7 +33,7 @@ outputs:
 arguments:
   - $( inputs.facetselfcal.path + '/submods/h5_merger.py' )
   - --h5_tables=$([inputs.first_h5.path, inputs.second_h5.path].join(' '))
-  - --h5_out=merged_dir.h5
+  - --h5_out=$( inputs.second_h5.basename + '.onedir.h5' )
   - --merge_all_in_one
 
 requirements:
