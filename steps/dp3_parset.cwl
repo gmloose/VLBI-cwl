@@ -2,8 +2,7 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: dp3_parset
 label: DP3 with parset
-doc: |
-    Run DP3 with a parset
+doc: Run DP3 with a parset
 
 baseCommand: DP3
 
@@ -13,9 +12,6 @@ inputs:
     doc: Parset for DP3
     inputBinding:
       position: 0
-  - id: msin
-    type: Directory[]
-    doc: input MS
 
 outputs:
   - id: msout
@@ -30,11 +26,6 @@ outputs:
     doc: |
         The files containing the stdout
         and stderr from the step.
-
-requirements:
-  - class: InitialWorkDirRequirement
-    listing:
-      - entry: $(inputs.msin)
 
 hints:
   - class: DockerRequirement
