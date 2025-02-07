@@ -30,8 +30,8 @@ def main():
     ra = reg[0].vertices.ra.value
     dec = reg[0].vertices.dec.value
     width, height = calculate_image_size(ra, dec)
-    with open("bouding_box.csv", "w") as f:
-        f.write(f"{width},{height}")
+    with open("bouding_box.txt", "w") as f:
+        f.write(f"{width} {height}")
 
 if __name__ == "__main__":
     main()
