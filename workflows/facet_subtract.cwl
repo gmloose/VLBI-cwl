@@ -136,8 +136,6 @@ steps:
       in:
         - id: parset
           source: make_concat_parset/concat_parsets
-        - id: msin
-          source: predict_facet/facet_ms
       out:
         - id: msout
       run: ../steps/dp3_parset.cwl
