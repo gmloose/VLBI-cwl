@@ -2,7 +2,7 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: make_dd_config
 label: Make Dutch DD config file
-doc: Return configuration file as input for facetselfcal Dutch direction-dependent solve in facet-mode.
+doc: Return configuration files as input for facetselfcal Dutch direction-dependent solve in facet-mode.
 
 baseCommand:
     - make_config_dutch.py
@@ -28,12 +28,12 @@ inputs:
 outputs:
     - id: dd_config_dutch
       type: File
-      doc: config file for facetselfcal
+      doc: Parameter configuration file for facetselfcal
       outputBinding:
         glob: "dutch_config.txt"
     - id: directions
       type: File
-      doc: direction file for facetselfcal
+      doc: Direction file with information about averaging settings for each direction
       outputBinding:
         glob: "directions.txt"
     - id: logfile

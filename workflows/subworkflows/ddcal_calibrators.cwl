@@ -20,11 +20,11 @@ inputs:
 
   - id: dd_selection_csv
     type: File?
-    doc: CSV with DD selection positions and phasediff scores
+    doc: CSV with DD selection positions and phasediff scores.
 
   - id: lofar_helpers
     type: Directory
-    doc: lofar_helpers directory
+    doc: LOFAR helpers directory
 
   - id: facetselfcal
     type: Directory
@@ -32,6 +32,7 @@ inputs:
 
 steps:
     - id: ddcal
+      label: Direction-dependent calibration for all input MeasurementSets.
       in:
         - id: msin
           source: msin
@@ -54,7 +55,7 @@ steps:
       scatter: msin
 
     - id: multidir_merge
-      label: Merge multiple directions into one h5
+      label: Merge multiple directions into one h5parm
       in:
         - id: h5parms
           source: ddcal/merged_h5

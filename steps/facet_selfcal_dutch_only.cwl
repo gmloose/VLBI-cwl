@@ -10,7 +10,7 @@ baseCommand:
 inputs:
     - id: msin
       type: Directory
-      doc: Input MeasurementSet data of full field-of-view.
+      doc: Input MeasurementSet data with full field-of-view coverage at 6".
       inputBinding:
         position: 6
 

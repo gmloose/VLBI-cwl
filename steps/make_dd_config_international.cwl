@@ -37,7 +37,7 @@ inputs:
 outputs:
     - id: dd_config
       type: File
-      doc: config file for facetselfcal
+      doc: Parameter configuration file for facetselfcal
       outputBinding:
         glob: "*.config.txt"
     - id: logfile

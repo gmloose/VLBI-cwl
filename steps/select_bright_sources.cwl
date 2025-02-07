@@ -2,7 +2,7 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: select_bright_sources
 label: Select sources above flux density threshold
-doc: Select bright sources above flux_density_cut and within 2.5deg box (see Sweijen et al. 2022; de Jong et al. 2024)
+doc: Select bright sources above Peak flux threshold and within 2.5deg box (see Sweijen et al. 2022; de Jong et al. 2024)
 
 baseCommand:
     - pre_flux_selection.py
@@ -10,7 +10,7 @@ baseCommand:
 inputs:
     - id: msin
       type: Directory[]
-      doc: MeasurementSet
+      doc: MeasurementSets for getting phase centre of observations.
       inputBinding:
         position: 1
         prefix: "--ms"
@@ -19,7 +19,7 @@ inputs:
         separate: true
     - id: image_cat
       type: File
-      doc: LoTSS 6" catalogue
+      doc: Source catalogue (e.g. LoTSS 6" catalogue)
       inputBinding:
         position: 2
         prefix: "--catalogue"

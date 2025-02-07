@@ -5,10 +5,11 @@ label: Automated direction-dependent calibration for wide-field imaging
 doc: |
   This is a workflow for the LOFAR-VLBI pipeline that
     * Splits a LOFAR MeasurementSet into various target directions with split-directions.cwl
-    * Performs wide-field facet-calibration with the Dutch LOFAR stations
-    * Performs direction-dependent calibrator selection
+    * Performs wide-field facet-calibration with the Dutch LOFAR stations (optional)
+    * Performs direction-dependent calibrator selection (with parameter tuning settings)
     * Performs self-calibration on the target directions
-  This step should be run after the delay calibration workflow for wide-field imaging.
+  This step should be run after the delay calibration workflow for wide-field imaging and can take both MeasurementSets
+  with and without delay-calibration solutions applied.
 
 requirements:
   - class: SubworkflowFeatureRequirement
@@ -32,7 +33,7 @@ inputs:
     - id: dd_dutch_solutions
       type: File?
       doc: Provide already obtained direction-dependent solutions for the Dutch LOFAR array.
-         If not provided to the workflow, the workflow will produce new Dutch DD solutions.
+         If not provided to the workflow and forwidefield==true, the workflow will produce new Dutch DD solutions.
 
     - id: max_dp3_threads
       type: int?
@@ -53,13 +54,13 @@ inputs:
       type: float
       default: 2.3
       doc: |
-         Phasediff-score when dd_selection==true. See Section 3.3.1 from de Jong et al. (2024; https://arxiv.org/pdf/2407.13247)
-         For calibrator selection <2.3 good for DD-calibrators and <0.7 good for DI-calibrators. If no selection set on value >5.
+         Phasediff-score to select good calibrators. See Section 3.3.1 from de Jong et al. (2024; https://arxiv.org/pdf/2407.13247)
+         For calibrator selection <2.3 good for DD-calibrators and <0.7 good for DI-calibrators. If no selection set on for example value >5.
 
     - id: forwidefield
       type: boolean?
       default: false
-      doc: Wide-field imaging mode, which focuses in this step in optimizing 1.2" imaging for best facet-subtraction in the next step.
+      doc: Wide-field imaging mode, which focuses in this step on optimizing 1.2" imaging for best facet-subtraction in the next step.
 
     - id: other_phasediff_score_csv
       type: File?
@@ -76,7 +77,7 @@ inputs:
 
     - id: facetselfcal
       type: Directory
-      doc: The selfcal directory.
+      doc: The facetselfcal directory.
 
 steps:
     - id: applycal_solutions

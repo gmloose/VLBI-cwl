@@ -2,7 +2,7 @@ class: CommandLineTool
 cwlVersion: v1.2
 id: dp3_avg_dutch
 label: DP3 averaging for Dutch resolution calibration
-doc: Average MeasurementSet in time and frequency for direction-dependent calibration with Dutch stations in DDE-mode
+doc: Average MeasurementSet in time and frequency for direction-dependent calibration with Dutch stations in DDE-mode.
 
 baseCommand:
   - DP3
@@ -10,7 +10,7 @@ baseCommand:
 inputs:
   - id: msin
     type: Directory[]?
-    doc: Input MeasurementSet subbands.
+    doc: Input MeasurementSet frequency bands.
     inputBinding:
       position: 0
       prefix: msin=
@@ -20,9 +20,7 @@ inputs:
 
 outputs:
   - id: ms_avg
-    doc: |
-        The output data with corrected
-        data in MeasurementSet format.
+    doc: Concatenated averaged MeasurementSet for 6" DDE calibration.
     type: Directory
     outputBinding:
       glob: concat_6asec.ms

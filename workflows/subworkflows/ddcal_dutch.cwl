@@ -2,7 +2,7 @@ cwlVersion: v1.2
 class: Workflow
 id: ddcal_dutch
 label: DD calibration Dutch stations
-doc: Performing wide-field DD calibration for Dutch stations only
+doc: Performing wide-field DD calibration for Dutch stations only.
 
 inputs:
     - id: msin
@@ -35,6 +35,7 @@ steps:
         - dd_config_dutch
         - directions
       run: ../../steps/make_dd_config_dutch.cwl
+
     - id: run_facetselfcal
       in:
         - id: msin

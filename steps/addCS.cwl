@@ -2,7 +2,7 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: addCS
 label: Add core stations to h5parm
-doc: Use h5_merger to add back the core stations to the h5parm, which had been replaced by ST001 (super station)
+doc: Use h5_merger to add back the core stations to the h5parm if dataset was phased-up.
 
 baseCommand:
   - python3
@@ -10,7 +10,7 @@ baseCommand:
 inputs:
   - id: ms
     type: Directory
-    doc: Input MeasurementSet
+    doc: Input MeasurementSet for station information
     inputBinding:
       position: 2
       prefix: "-ms"
@@ -45,6 +45,7 @@ arguments:
   - $( inputs.facetselfcal.path + '/submods/h5_merger.py' )
   - --h5_out=$( inputs.h5parm.basename + '.addCS.h5' )
   - --add_ms_stations
+  - --h5_time_freq=1
 
 requirements:
   - class: InlineJavascriptRequirement

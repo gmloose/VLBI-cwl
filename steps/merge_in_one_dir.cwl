@@ -2,7 +2,7 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: merge_all_in_one
 label: Merge multiple h5parm into one direction
-doc: Using h5_merger to merge multiple h5parms into one direction
+doc: Using h5_merger to merge multiple h5parms into one h5parm with 1 direction.
 
 baseCommand:
   - python3
@@ -10,10 +10,10 @@ baseCommand:
 inputs:
   - id: first_h5
     type: File?
-    doc: Input h5parm 1
+    doc: First h5parm
   - id: second_h5
     type: File?
-    doc: Input h5parm 2
+    doc: Second h5parm
   - id: facetselfcal
     type: Directory
     doc: Facetselfcal directory
@@ -21,7 +21,7 @@ inputs:
 outputs:
     - id: merged_h5
       type: File
-      doc: Merged h5parm
+      doc: Merged h5parm with 1 direction
       outputBinding:
         glob: "*.onedir.h5"
     - id: logfile
