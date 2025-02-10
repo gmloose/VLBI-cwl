@@ -24,6 +24,13 @@ inputs:
       position: 1
       shellQuote: false
       prefix: '-size'
+  - id: baseline_averaging
+    type: float?
+    default: 0.0
+    inputBinding:
+      position: 1
+      shellQuote: false
+      prefix: '-baseline-averaging'
   - id: minuv-l
     type: float?
     default: 80.0
