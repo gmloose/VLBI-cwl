@@ -43,6 +43,7 @@ steps:
           source: pixel_scale
       out:
         - id: image_size
+        - id: baseline_averaging
       scatter: region
       run: ../steps/estimate_image_size.cwl
 
@@ -53,9 +54,13 @@ steps:
           source: msin
         - id: size
           source: find_image_size/image_size
+        - id: baseline_averaging
+          source: find_image_size/baseline_averaging
+        - id: taper-gaussian
+          source: resolution
       out:
         - id: MFS_images
-      scatter: [msin, size]
+      scatter: [msin, size, baseline_averaging]
       scatterMethod: dotproduct
       run: ../steps/wsclean.cwl
 
