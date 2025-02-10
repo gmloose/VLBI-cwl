@@ -5,7 +5,9 @@ baseCommand:
   - wsclean -verbose -log-time
 inputs:
   - id: msin
-    type: Directory[]
+    type:
+      - Directory
+      - Directory[]
     inputBinding:
       position: 2
       shellQuote: false
