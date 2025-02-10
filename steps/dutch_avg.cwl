@@ -37,7 +37,6 @@ outputs:
 
 arguments:
   - $( inputs.lofar_helpers.path + '/ms_helpers/concat_with_dummies.py' )
-  - --make_only_parset
   - --msout=concat_6asec.ms
   - --time_res=16
   - --freq_res='195312.5Hz'
