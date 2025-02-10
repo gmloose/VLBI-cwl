@@ -25,9 +25,9 @@ inputs:
       doc: Pixel size in arcseconds.
 
     - id: resolution
-      type: float?
-      default: 0.3
-      doc: Angular resolution in arcseconds that will be passed to WSClean's taper argument.
+      type: string?
+      default: 0.3asec
+      doc: Angular resolution that will be passed to WSClean's taper argument.
 
     - id: facet_polygons
       type: File[]
