@@ -40,7 +40,7 @@ arguments:
   - --make_only_parset
   - --msout=concat_6asec.ms
   - --time_res=16
-  - --freq_avg='195312.5Hz'
+  - --freq_res='195312.5Hz'
 
 requirements:
   - class: InlineJavascriptRequirement
