@@ -28,12 +28,19 @@ inputs:
 
 outputs:
   - id: image_size
-    type: File
-    doc: Text file containing the width and height of the image.
+    type: int[]
+    doc: Width and height of the image in pixels.
     outputBinding:
-      glob: bounding_box.txt
+      glob: bounding_box.json
       loadContents: true
-      outputEval: $(self[0].contents)
+      outputEval: $([JSON.parse(self[0].contents).width, JSON.parse(self[0].contents).height])
+  - id: baseline_averaging
+    type: float
+    doc: Baseline averaging factor corresponding to the image size.
+    outputBinding:
+      glob: bounding_box.json
+      loadContents: true
+      outputEval: $(JSON.parse(self[0].contents).blavg)
 
 hints:
   - class: DockerRequirement
