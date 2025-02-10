@@ -2,13 +2,15 @@
 from argparse import ArgumentParser
 
 from regions import Regions
+import numpy as np
 
-def calculate_image_size(ras, decs, padding):
-    width_ra = max(ra) - min(ra)
-    width_dec = max(ra) - min(ra)
+def calculate_image_size(ras, decs, pixel_size, padding: float = 1.0):
+    width_ra = abs(max(ras) - min(ras))
+    width_dec = max(decs) - min(decs)
+    dec_centre = (min(decs) + max(decs)) / 2
 
-    pix_size_deg = args.pixel_size / 3600
-    imwidth, imheight = width_ra / pix_size_deg, width_dec / pix_size_deg
+    pix_size_deg = pixel_size / 3600
+    imwidth, imheight = width_ra * np.cos(np.deg2rad(dec_centre)) / pix_size_deg, width_dec / pix_size_deg
     return padding * imwidth, padding * imheight
 
 def main():
@@ -29,7 +31,7 @@ def main():
     reg = Regions.read(args.region, format="ds9")
     ra = reg[0].vertices.ra.value
     dec = reg[0].vertices.dec.value
-    width, height = calculate_image_size(ra, dec)
+    width, height = calculate_image_size(ra, dec, args.pixel_size, args.padding)
     with open("bouding_box.txt", "w") as f:
         f.write(f"{width} {height}")
 
