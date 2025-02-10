@@ -51,6 +51,8 @@ requirements:
 hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
+  - class: ResourceRequirement
+    coresMin: 12
 
 stdout: python_concat.log
 stderr: python_concat_err.log
