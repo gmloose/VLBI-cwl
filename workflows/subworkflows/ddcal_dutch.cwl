@@ -17,11 +17,17 @@ inputs:
       type: Directory
       doc: facetselfcal directory
 
+    - id: lofar_helpers
+      type: Directory
+      doc: LOFAR helpers directory
+
 steps:
     - id: average_6asec
       in:
         - id: msin
           source: msin
+        - id: lofar_helpers
+          source: lofar_helpers
       out:
         - ms_avg
       run: ../../steps/dutch_avg.cwl

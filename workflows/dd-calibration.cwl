@@ -89,6 +89,8 @@ steps:
           source: source_catalogue
         - id: facetselfcal
           source: facetselfcal
+        - id: lofar_helpers
+          source: lofar_helpers
         - id: dd_dutch_solutions
           source: dd_dutch_solutions
         - id: forwidefield

@@ -5,18 +5,20 @@ label: DP3 averaging for Dutch resolution calibration
 doc: Average MeasurementSet in time and frequency for direction-dependent calibration with Dutch stations in DDE-mode.
 
 baseCommand:
-  - DP3
+  - python3
 
 inputs:
   - id: msin
-    type: Directory[]?
-    doc: Input MeasurementSet frequency bands.
+    type: Directory[]
     inputBinding:
-      position: 0
-      prefix: msin=
-      separate: false
-      itemSeparator: ','
-      valueFrom: "[$(self.map(function(d) { return d.path || d.location; }).join(','))]"
+        prefix: "--msin"
+        position: 1
+        separate: true
+    doc: Input data in MeasurementSet format.
+
+  - id: lofar_helpers
+    type: Directory
+    doc: Path to lofar_helpers directory.
 
 outputs:
   - id: ms_avg
@@ -34,26 +36,22 @@ outputs:
         and stderr from the step.
 
 arguments:
-  - steps=[avg]
-  - avg.type=averager
-  - avg.timeresolution=16
-  - avg.freqresolution='195.312kHz'
-  - msout.storagemanager='dysco'
-  - msout=concat_6asec.ms
+  - $( inputs.lofar_helpers.path + '/ms_helpers/concat_with_dummies.py' )
+  - --make_only_parset
+  - --msout=concat_6asec.ms
+  - --time_res=16
+  - --freq_avg='195312.5Hz'
 
 requirements:
-  - class: ShellCommandRequirement
   - class: InlineJavascriptRequirement
-
-hints:
-  - class: DockerRequirement
-    dockerPull: vlbi-cwl
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)
         writable: false
-  - class: ResourceRequirement
-    coresMin: 12
 
-stdout: dp3_dutch_avg.log
-stderr: dp3_dutch_avg_err.log
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl
+
+stdout: python_concat.log
+stderr: python_concat_err.log
