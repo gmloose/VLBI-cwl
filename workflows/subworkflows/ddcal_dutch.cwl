@@ -26,18 +26,27 @@ steps:
       in:
         - id: msin
           source: msin
-        - id: lofar_helpers
-          source: lofar_helpers
       out:
         - ms_avg
       run: ../../steps/dutch_avg.cwl
+      scatter: msin
+
+    - id: concat
+      in:
+        - id: msin
+          source: average_6asec/ms_avg
+        - id: lofar_helpers
+          source: lofar_helpers
+      out:
+        - ms_concat
+      run: ../../steps/concat_with_dummies.cwl
 
     - id: make_dd_config
       in:
         - id: source_catalogue
           source: source_catalogue
         - id: ms
-          source: average_6asec/ms_avg
+          source: concat/ms_concat
       out:
         - dd_config_dutch
         - directions
@@ -46,7 +55,7 @@ steps:
     - id: run_facetselfcal
       in:
         - id: msin
-          source: average_6asec/ms_avg
+          source: concat/ms_concat
         - id: facetselfcal
           source: facetselfcal
         - id: configfile
@@ -58,6 +67,9 @@ steps:
         - images
         - fits_images
       run: ../../steps/facet_selfcal_dutch_only.cwl
+
+requirements:
+  - class: ScatterFeatureRequirement
 
 outputs:
   - id: merged_h5
