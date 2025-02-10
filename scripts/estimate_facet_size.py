@@ -19,7 +19,7 @@ def calculate_image_size(ras, decs, pixel_size, padding: float = 1.0):
 
     imsize = max(imwidth, imheight)
     blavg = 1.5e3 * 60000.0 * 2.0 * 3.1415 * 1.5 / (24.0 * 60.0 * 60 * imsize)
-    return padding * imwidth, padding * imheight, blavg
+    return int(padding * imwidth), int(padding * imheight), blavg
 
 
 def main():
