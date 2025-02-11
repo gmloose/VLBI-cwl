@@ -43,7 +43,7 @@ def main():
     ra = reg[0].vertices.ra.value
     dec = reg[0].vertices.dec.value
     width, height, blavg = calculate_image_size(ra, dec, args.pixel_size, args.padding)
-    with open("bouding_box.json", "w") as f:
+    with open("bounding_box.json", "w") as f:
         json.dump({"width": width, "height": height, "blavg": blavg}, f)
 
 
