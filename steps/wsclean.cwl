@@ -1,8 +1,10 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: wsclean
-baseCommand:
-  - wsclean -verbose -log-time
+
+baseCommand: wsclean
+arguments: [-verbose, -log-time, -no-update-model-required]
+
 inputs:
   - id: msin
     type:
