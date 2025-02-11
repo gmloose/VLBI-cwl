@@ -41,7 +41,10 @@ steps:
           source: facet_polygons
         - id: pixel_size
           source: pixel_scale
+        - id: resolution
+          source: resolution
       out:
+        - id: image_name
         - id: image_size
         - id: baseline_averaging
       scatter: region
@@ -52,6 +55,8 @@ steps:
       in:
         - id: msin
           source: msin
+        - id: name
+          source: find_image_size/image_name
         - id: size
           source: find_image_size/image_size
         - id: baseline_averaging
@@ -62,7 +67,7 @@ steps:
           source: pixel_scale
       out:
         - id: MFS_images
-      scatter: [msin, size, baseline_averaging]
+      scatter: [msin, name, size, baseline_averaging]
       scatterMethod: dotproduct
       run: ../steps/wsclean.cwl
 
