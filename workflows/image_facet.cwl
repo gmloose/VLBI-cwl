@@ -58,6 +58,8 @@ steps:
           source: find_image_size/baseline_averaging
         - id: taper-gaussian
           source: resolution
+        - id: scale
+          source: pixel_scale
       out:
         - id: MFS_images
       scatter: [msin, size, baseline_averaging]
