@@ -2,7 +2,9 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: facet_selfcal_international
 label: Facetselfcal International phase-up
-doc: Performs direction dependent calibration of the international antenna array on small phased-up MeasurementSet.
+doc: |
+       Performs direction dependent calibration of the international antenna
+       array with facetselfcal on small phased-up MeasurementSet.
 
 baseCommand:
     - python3
@@ -84,9 +86,7 @@ requirements:
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)
-        writable: true
       - entry: $(inputs.configfile)
-        writable: false
 
 arguments:
   - $( inputs.facetselfcal.path + '/facetselfcal.py' )

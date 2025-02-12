@@ -1,8 +1,10 @@
 cwlVersion: v1.2
 class: CommandLineTool
 id: facet_selfcal_dutch
-label: Facetselfcal Dutch
-doc: Performs direction dependent calibration of the Dutch antenna array in DDE-mode on full field-of-view.
+label: Facetselfcal Dutch full field-of-view
+doc: |
+       Performs direction dependent calibration of the Dutch antenna
+       array with facetselfcal in DDE-mode on full field-of-view.
 
 baseCommand:
     - python3
@@ -31,6 +33,11 @@ inputs:
         position: 3
         itemSeparator: " "
         separate: true
+
+    - id: ncpu
+      type: int?
+      doc: Number of cores to use during facetselfcal.
+      default: 60
 
     - id: dde_directions
       type: File?
@@ -77,7 +84,6 @@ requirements:
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)
-        writable: true
       - entry: $(inputs.configfile)
       - entry: $(inputs.dde_directions)
 
@@ -88,7 +94,7 @@ hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
   - class: ResourceRequirement
-    coresMin: 60
+    coresMin: $(inputs.ncpu)
 
 stdout: facet_selfcal.log
 stderr: facet_selfcal_err.log
