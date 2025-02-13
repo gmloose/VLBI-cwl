@@ -25,7 +25,7 @@ inputs:
       doc: Pixel size in arcseconds.
 
     - id: resolution
-      type: string?
+      type: string
       default: 0.3asec
       doc: Angular resolution that will be passed to WSClean's taper argument.
 
