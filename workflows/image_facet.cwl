@@ -80,6 +80,21 @@ steps:
         - id: flattenedarray
       run: ../steps/flatten.cwl
 
+    - id: trim_facets
+      label: Trim facets
+      in:
+        - id: image
+          source: flatten_images/flattenedarray
+          valueFrom: $(self.sort((a, b) => a.basename.localeCompare(b.basename)))
+        - id: polygon
+          source: facet_polygons
+          valueFrom: $(self.sort((a, b) => a.basename.localeCompare(b.basename)))
+      out:
+        - id: trimmed_image
+      scatter: [image, polygons]
+      scatterMethod: dotproduct
+      run: ../steps/trim_facet.cwl
+
 outputs:
     - id: MFS_images
       type: File[]
