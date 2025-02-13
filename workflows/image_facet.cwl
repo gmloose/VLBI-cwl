@@ -85,13 +85,15 @@ steps:
       in:
         - id: image
           source: flatten_images/flattenedarray
-          valueFrom: $(self.sort((a, b) => a.basename.localeCompare(b.basename)))
-        - id: polygon
+          valueFrom: $(self.sort(function(a, b) { return a.basename.localeCompare(b.basename); }))
+        - id: region
           source: facet_polygons
-          valueFrom: $(self.sort((a, b) => a.basename.localeCompare(b.basename)))
+          valueFrom: $(self.sort(function(a, b) { return a.basename.localeCompare(b.basename); }))
+        - id: output_name
+          valueFrom: $('trimmed_'.concat(inputs.image))
       out:
         - id: trimmed_image
-      scatter: [image, polygons]
+      scatter: [image, region]
       scatterMethod: dotproduct
       run: ../steps/trim_facet.cwl
 
@@ -99,5 +101,5 @@ outputs:
     - id: MFS_images
       type: File[]
       outputSource:
-        - flatten_images/flattenedarray
+        - trim_facets/trimmed_image
       
