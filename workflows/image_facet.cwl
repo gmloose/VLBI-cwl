@@ -17,7 +17,7 @@ inputs:
 
     - id: number_cores
       type: int?
-      default: 12
+      default: 24
       doc: The minimum number of cores that should be available for steps that require high I/O.
 
     - id: pixel_scale
@@ -53,6 +53,8 @@ steps:
     - id: make_facet_image
       label: make_facet_image
       in:
+        - id: cores
+          source: number_cores
         - id: msin
           source: msin
         - id: name
