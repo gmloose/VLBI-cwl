@@ -7,6 +7,19 @@ from regions import Regions
 
 
 def calculate_image_size(ras, decs, pixel_size, padding: float = 1.0):
+    """ Calculate the required image size and appropriate baseline averaging setting appropriate for the facet.
+
+    Args:
+        ras (list): list of right ascensions corresponding to the vertices of the facet polygon.
+        decs (list): list of declinationts corresponding to the vertices of the facet polygon.
+        pixel_size (float): size of the image pixels in arcseconds.
+        padding (float): factor by which the calculated image size is increased.
+
+    Returns:
+        image width (int): image width in pixels.
+        image height (int): image height in pixels
+        baseline averaging (float): baseline averaging factor for WSClean.
+    """
     width_ra = abs(max(ras) - min(ras))
     width_dec = max(decs) - min(decs)
     dec_centre = (min(decs) + max(decs)) / 2
