@@ -1,13 +1,14 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: cut_fits_with_region
+doc: Cut the given FITS image to the size of the provided DS9 region.
 
 baseCommand: cut_fits_with_region.py
 
 inputs:
   - id: region
     type: File
-    doc: DS9 region file describing the facet.
+    doc: DS9 region file describing the area the image will be trimmed to.
     inputBinding:
       position: 0
       prefix: '--region'
