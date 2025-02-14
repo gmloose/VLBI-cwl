@@ -28,7 +28,7 @@ outputs:
     type: File
     doc: FITS image trimmed to the provided region.
     outputBinding:
-      glob: '*.fits'
+      glob: "$(inputs.output_name)"
 
 requirements:
     - class: InlineJavascriptRequirement
