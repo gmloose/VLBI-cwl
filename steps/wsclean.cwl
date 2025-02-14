@@ -1,6 +1,8 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: wsclean
+label: WSClean
+doc: Runs WSClean on the input data to produce an image.
 
 baseCommand: wsclean
 arguments: [-verbose, -log-time, -no-update-model-required]
@@ -225,10 +227,10 @@ outputs:
     outputBinding:
       glob: 'field_intermediate_resolution-????-model*.fits'
 
-label: WSClean
 hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
+
 requirements:
   - class: InitialWorkDirRequirement
     listing:
@@ -238,5 +240,6 @@ requirements:
   - class: InlineJavascriptRequirement
   - class: ResourceRequirement
     coresMin: $(inputs.cores)
+
 stdout: wsclean.log
 stderr: wsclean_err.log
