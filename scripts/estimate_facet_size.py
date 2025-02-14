@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 import json
 from argparse import ArgumentParser
+from typing import List
 
 import numpy as np
 from regions import Regions
 
 
-def calculate_image_size(ras, decs, pixel_size, padding: float = 1.0):
-    """ Calculate the required image size and appropriate baseline averaging setting appropriate for the facet.
+def calculate_image_size(
+    ras: List[float], decs: List[float], pixel_size: float, padding: float = 1.0
+):
+    """Calculate the required image size and appropriate baseline averaging setting appropriate for the facet.
 
     Args:
         ras (list): list of right ascensions corresponding to the vertices of the facet polygon.
