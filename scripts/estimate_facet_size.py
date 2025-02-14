@@ -35,6 +35,7 @@ def main():
     parser.add_argument(
         "--padding",
         type=float,
+        default=1.0,
         help="Padding factor to pad the calculated image size with. This allows some extra freedom in tweaking the final image size.",
     )
     args = parser.parse_args()
