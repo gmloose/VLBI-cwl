@@ -1,9 +1,9 @@
 class: Workflow
 cwlVersion: v1.2
 id: image_facet 
-label: Sub-arcsecond resolution facet imaging
+label: Facet imaging
 doc: |
-    This workflow will make a sub-arcsecond resolution images of a facet.
+    This workflow will image a facet at the specified angular resolution.
 
 requirements:
     - class: InlineJavascriptRequirement
@@ -18,7 +18,7 @@ inputs:
     - id: number_cores
       type: int?
       default: 24
-      doc: The minimum number of cores that should be available for steps that require high I/O.
+      doc: The number of cores that WSClean will use.
 
     - id: pixel_scale
       type: float
@@ -27,11 +27,11 @@ inputs:
     - id: resolution
       type: string
       default: 0.3asec
-      doc: Angular resolution that will be passed to WSClean's taper argument.
+      doc: Angular resolution that will be passed to WSClean's taper argument. Its syntax follows that of WSClean.
 
     - id: facet_polygons
       type: File[]
-      doc: DS9 region files representing each facet.
+      doc: DS9 region files of the individual facets.
 
 steps:
     - id: find_image_size
