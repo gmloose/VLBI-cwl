@@ -238,9 +238,7 @@ def main():
     args = parse_args()
 
     solint = get_solint(args.ms, args.phasediff_output)
-    if args.dutch_multidir_h5 is not None:
-        forwidefield=True
-    make_config(solint, args.ms, forwidefield)
+    make_config(solint, args.ms, args.dutch_multidir_h5 is not None)
 
 
 if __name__ == "__main__":
