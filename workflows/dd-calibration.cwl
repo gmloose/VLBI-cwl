@@ -31,8 +31,7 @@ inputs:
 
     - id: dd_dutch_solutions
       type: File?
-      doc: Provide already obtained direction-dependent solutions for the Dutch LOFAR array.
-         If not provided to the workflow and forwidefield==true, the workflow will produce new Dutch DD solutions.
+      doc: Provide already obtained direction-dependent solutions for the Dutch LOFAR array to pre-apply before international LOFAR calibration.
 
     - id: max_dp3_threads
       type: int?
@@ -56,11 +55,6 @@ inputs:
          Phasediff-score to select good calibrators. See Section 3.3.1 from de Jong et al. (2024; https://arxiv.org/pdf/2407.13247)
          For calibrator selection <2.3 good for DD-calibrators and <0.7 good for DI-calibrators. If no selection set on for example value >5.
 
-    - id: forwidefield
-      type: boolean?
-      default: false
-      doc: Wide-field imaging mode, which focuses in this step on optimizing 1.2" imaging for best facet-subtraction in the next step.
-
     - id: other_phasediff_score_csv
       type: File?
       doc: Provide own phasediff_score_csv (overwrites the one generated in the dd-selection).
@@ -79,26 +73,6 @@ inputs:
       doc: The facetselfcal directory.
 
 steps:
-
-    - id: ddcal_dutch
-      in:
-        - id: msin
-          source: msin
-        - id: source_catalogue
-          source: source_catalogue
-        - id: facetselfcal
-          source: facetselfcal
-        - id: lofar_helpers
-          source: lofar_helpers
-        - id: dd_dutch_solutions
-          source: dd_dutch_solutions
-        - id: forwidefield
-          source: forwidefield
-      out:
-        - merged_h5
-        - selfcal_widefield_images
-      when: $((inputs.dd_dutch_solutions == null) && (inputs.forwidefield == true) && (inputs.delay_solset == null))
-      run: ./subworkflows/ddcal_dutch.cwl
 
     - id: split_directions
       in:
@@ -128,10 +102,7 @@ steps:
         - id: msin
           source: split_directions/msout_concat
         - id: dutch_multidir_h5
-          source:
-            - dd_dutch_solutions
-            - ddcal_dutch/merged_h5
-          pickValue: first_non_null
+          source: dd_dutch_solutions
         - id: dd_selection_csv
           source:
             - other_phasediff_score_csv

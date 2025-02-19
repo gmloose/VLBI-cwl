@@ -13,11 +13,6 @@ inputs:
     type: File?
     doc: Multi-directional h5parm with Dutch DD solutions.
 
-  - id: forwidefield
-    type: boolean
-    default: false
-    doc: Wide-field imaging mode, which focuses in this step in optimizing 1.2" imaging for best facet-subtraction in the next step.
-
   - id: dd_selection_csv
     type: File?
     doc: CSV with DD selection positions and phasediff scores.
@@ -82,8 +77,8 @@ steps:
           source: dd_selection_csv
         - id: ms
           source: msin
-        - id: forwidefield
-          source: forwidefield
+        - id: dutch_multidir_h5
+          source: dutch_multidir_h5
       out:
         - dd_config
       run: ../../steps/make_dd_config_international.cwl

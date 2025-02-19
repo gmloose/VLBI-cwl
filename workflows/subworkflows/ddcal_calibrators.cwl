@@ -13,11 +13,6 @@ inputs:
     type: File?
     doc: Multi-directional h5parm with Dutch DD solutions.
 
-  - id: forwidefield
-    type: boolean
-    default: false
-    doc: Wide-field imaging mode, which focuses in this step in optimizing 1.2" imaging for best facet-subtraction in the next step.
-
   - id: dd_selection_csv
     type: File?
     doc: CSV with DD selection positions and phasediff scores.
@@ -44,8 +39,6 @@ steps:
           source: lofar_helpers
         - id: facetselfcal
           source: facetselfcal
-        - id: forwidefield
-          source: forwidefield
       out:
         - merged_h5
         - fits_images

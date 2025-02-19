@@ -26,12 +26,11 @@ inputs:
       itemSeparator: " "
       separate: true
 
-  - id: forwidefield
-    type: boolean?
-    default: false
-    doc: Wide-field imaging mode for optimising 1.2" imaging.
+  - id: dutch_multidir_h5
+    type: File?
+    doc: Pre-applied solutions for Dutch stations.
     inputBinding:
-      prefix: "--forwidefield"
+      prefix: "--dutch_multidir_h5"
       position: 4
 
 outputs:

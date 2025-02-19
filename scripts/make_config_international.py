@@ -226,7 +226,7 @@ def parse_args():
     parser = ArgumentParser(description='Make config for facetselfcal international DD solves')
     parser.add_argument('--ms', type=str, help='MeasurementSet')
     parser.add_argument('--phasediff_output', type=str, help='Phasediff CSV output')
-    parser.add_argument('--forwidefield', action='store_true', help='Make config for wide-field imaging.')
+    parser.add_argument('--dutch_multidir_h5', type=str, help='Use resets if --dutch_multidir_h5 is given.')
     return parser.parse_args()
 
 
@@ -238,7 +238,9 @@ def main():
     args = parse_args()
 
     solint = get_solint(args.ms, args.phasediff_output)
-    make_config(solint, args.ms, args.forwidefield)
+    if args.dutch_multidir_h5 is not None:
+        forwidefield=True
+    make_config(solint, args.ms, forwidefield)
 
 
 if __name__ == "__main__":
