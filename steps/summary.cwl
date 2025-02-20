@@ -50,15 +50,6 @@ inputs:
       prefix: --bad_antennas
     doc: A pattern of names of antennas with bad data.
 
-  - id: structure_file
-    default: false
-    type:
-      - boolean?
-      - File?
-    inputBinding:
-      position: 0
-      prefix: --structure_file
-
   - id: Ateam_separation_file
     default: false
     type:
@@ -89,18 +80,6 @@ inputs:
       itemSeparator: ','
       valueFrom: '$(self)'
 
-  - id: demix_sources
-    default: false
-    type:
-      - string?
-      - boolean?
-    inputBinding:
-      position: 0
-      prefix: --demix_sources
-      separate: true
-      itemSeparator: ','
-      valueFrom: '$(self)'
-
   - id: removed_bands
     default: false
     type:
@@ -121,14 +100,6 @@ inputs:
       prefix: --min_unflagged
     doc: The minimum required fraction of unflagged data per band.
 
-  - id: demix
-    default: "False"
-    type: string?
-    inputBinding:
-      position: 0
-      prefix: --demix
-      shellQuote: false
-      separate: true
   - id: refant
     default: ''
     type: string?
@@ -136,16 +107,6 @@ inputs:
       position: 0
       prefix: --refant
     doc: The reference antenna used.
-
-  - id: output_fname
-    type:
-      - boolean?
-      - string?
-    default: false
-    inputBinding:
-      position: 0
-      prefix: --output_fname
-    doc: The name of the output file.
 
 outputs:
   - id: summary_file

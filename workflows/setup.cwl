@@ -68,9 +68,22 @@ inputs:
         The installation directory for the
         LOFAR INitial calibration pipeline.
 
+    - id: clip_sources
+      type: string[]?
+      default:
+          - "VirA_4_patch"
+          - "CygAGG"
+          - "CasA_4_patch"
+          - "TauAGG"
+      doc: |
+        The patches of sources that should be flagged.
+        These should be present in the LINC skymodel.
+
 requirements:
     - class: SubworkflowFeatureRequirement
     - class: MultipleInputFeatureRequirement
+    - class: StepInputExpressionRequirement
+    - class: InlineJavascriptRequirement
     - class: ScatterFeatureRequirement
 
 steps:
@@ -149,6 +162,9 @@ steps:
           source: max_dp3_threads
         - id: linc_libraries
           source: collect_linc_libraries/libraries
+        - id: clip_sources
+          source: clip_sources
+          valueFrom: $(self)
       out:
         - id: logfiles
         - id: flag_statistics_before
@@ -201,6 +217,35 @@ steps:
       run: ../steps/findRefAnt_join.cwl
       label: prep_target_flags_join
 
+    - id: summary
+      in:
+        - id: flagFiles
+          source:
+            - initial_flags_join/flagged_fraction_antenna
+            - prep_target_flags_join/flagged_fraction_antenna
+        - id: run_type
+          default: setup
+        - id: filter
+          source: filter_baselines
+        - id: bad_antennas
+          source:
+            - flag_baselines
+          valueFrom: $(self.join(''))
+        - id: clip_sources
+          source: clip_sources
+          valueFrom: $(self.join(','))
+        - id: min_unflagged_fraction
+          default: 0.5
+        - id: refant
+          default: CS001HBA0
+        - id: Ateam_separation_file
+          source: check_ateam_separation/output_json
+      out:
+        - id: summary_file
+        - id: logfile
+      run: ../steps/summary.cwl
+      label: summary
+
     - id: save_logfiles
       in:
         - id: files
@@ -209,6 +254,7 @@ steps:
             - check_station_mismatch/logfile
             - concat_logfiles_clip_A-team/output
             - check_ateam_separation/logfile
+            - summary/logfile
         - id: sub_directory_name
           default: setup
       out:
@@ -239,23 +285,9 @@ outputs:
         the LINC solutions have been applied and A-team
         sources have been removed.
 
-    - id: initial_flags
-      outputSource: initial_flags_join/flagged_fraction_antenna
+    - id: summary_file
       type: File
+      outputSource: summary/summary_file
       doc: |
-        A JSON formatted file containing flagging
-        statistics of all the initial data.
+          Workflow summary statistics in JSON format.
 
-    - id: prep_target_flags
-      outputSource: prep_target_flags_join/flagged_fraction_antenna
-      type: File
-      doc: |
-        A JSON formatted file containing flagging
-        statistics of all the data after application of LINC solutions.
-
-    - id: check_Ateam_separation_file
-      outputSource: check_ateam_separation/output_json
-      type: File
-      doc: |
-        JSON formatted file containing the A-team sources
-        within min_separation degrees of the target.
