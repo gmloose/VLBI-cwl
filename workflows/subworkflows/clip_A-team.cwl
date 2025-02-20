@@ -43,6 +43,12 @@ inputs:
         Must contain `Ateam_LBA_CC.skymodel`
         and `Ateamclipper.py`.
 
+    - id: clip_sources
+      type: string[]
+      doc: |
+        The patches of sources that should be flagged.
+        These should be present in the LINC skymodel.
+
 steps:
     - id: dp3_prep_target
       label: dp3_prep_target
@@ -72,6 +78,8 @@ steps:
           source: linc_libraries
         - id: number_cores
           source: number_cores
+        - id: sources
+          source: clip_sources
       out:
         - id: msout
         - id: logfile

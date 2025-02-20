@@ -151,6 +151,23 @@ steps:
       - id: output
     run: ../steps/concatenate_files.cwl
     label: concat_logfiles_AOflagging
+
+  - id: summary
+    in:
+      - id: flagFiles
+        source: concat_flags_join/flagged_fraction_antenna
+      - id: run_type
+        default: concatenate_flag
+      - id: min_unflagged_fraction
+        default: 0.5
+      - id: refant
+        default: CS001HBA0
+    out:
+      - id: summary_file
+      - id: logfile
+    run: ../steps/summary.cwl
+    label: summary
+
   - id: save_logfiles
     in:
       - id: files
@@ -160,6 +177,7 @@ steps:
             - concatenate_logfiles_concatenate/output
             - concatenate_logfiles_aoflagging/output
             - concat_flags_join/logfile
+            - summary/logfile
       - id: sub_directory_name
         default: 'sort-concat-flag'
     out:
@@ -188,6 +206,12 @@ outputs:
       doc: |
         A JSON formatted file containing flagging statistics
         of the MeasurementSet data after concatenation.
+
+    - id: summary_file
+      type: File
+      outputSource: summary/summary_file
+      doc: |
+          Workflow summary statistics in JSON format.
 
 requirements:
     - class: SubworkflowFeatureRequirement

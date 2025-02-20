@@ -37,60 +37,6 @@ inputs:
     type: Directory
     doc: External LOFAR helper scripts for merging h5 files.
 
-  - id: flags
-    type: File[]?
-    doc: Flagging information in JSON format.
-
-  - id: pipeline
-    type: string?
-    default: 'VLBI'
-    doc: Name of the pipeline.
-
-  - id: run_type
-    type: string?
-    default: 'sol000'
-    doc: Type of the pipeline.
-
-  - id: filter_baselines
-    type: string?
-    default: '[CR]S*&'
-    doc: Name pattern of antennas to be filtered from the processing.
-
-  - id: bad_antennas
-    type: string?
-    default: '[CR]S*&'
-    doc: Antenna string to be processed.
-
-  - id: compare_stations_filter
-    type: string?
-    default: '[CR]S*&'
-
-  - id: check_Ateam_separation.json
-    type: File?
-    doc: |
-        A list of angular distances between the
-        delay calibrator and the A-team sources.
-
-  - id: clip_sources
-    type: string[]?
-    default: []
-    doc: List of sources that were clipped.
-
-  - id: removed_bands
-    type: string[]?
-    default: []
-    doc: The list of bands that were removed from the data.
-
-  - id: min_unflagged_fraction
-    type: float?
-    default: 0.5
-    doc: The minimum fraction of unflagged data per band to continue.
-
-  - id: refant
-    type: string?
-    default: 'CS001HBA0'
-    doc: The reference antenna used.
-
   - id: max_dp3_threads
     type: int?
     default: 5
@@ -261,37 +207,17 @@ steps:
   - id: summary
     in:
       - id: flagFiles
-        source:
-          - flags
-          - phaseup_flags_join/flagged_fraction_antenna
-        linkMerge: merge_flattened
-        pickValue: all_non_null
-        valueFrom: $(self)
+        source: phaseup_flags_join/flagged_fraction_antenna
       - id: pipeline
-        source: pipeline
+        default: VLBI
       - id: run_type
-        source: run_type
-      - id: filter
-        source: filter_baselines
-      - id: bad_antennas
-        source:
-          - bad_antennas
-          - compare_stations_filter
-        valueFrom: $(self.join(''))
-      - id: Ateam_separation_file
-        source: check_Ateam_separation.json
+        default: phaseup-concat
       - id: solutions
         source: delay_solve/h5parm
-      - id: clip_sources
-        source: clip_sources
-        valueFrom: "$(self.join(','))"
-      - id: removed_bands
-        source: removed_bands
-        valueFrom: "$(self.join(','))"
       - id: min_unflagged_fraction
-        source: min_unflagged_fraction
+        default: 0.5
       - id: refant
-        source: refant
+        default: CS001HBA0
     out:
       - id: summary_file
       - id: logfile
