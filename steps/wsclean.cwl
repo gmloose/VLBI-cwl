@@ -220,12 +220,12 @@ outputs:
     type: File[]
     doc: The final MFS images created by WSClean.
     outputBinding:
-      glob: 'field_intermediate_resolution-MFS*.fits'
+      glob: '$(inputs.name)-MFS*.fits'
   - id: channel_model_images
     type: File[]
     doc: Per-channel model images required for the facet subtraction.
     outputBinding:
-      glob: 'field_intermediate_resolution-????-model*.fits'
+      glob: '$(inputs.name)-????-model*.fits'
 
 hints:
   - class: DockerRequirement
