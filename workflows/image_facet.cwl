@@ -73,20 +73,11 @@ steps:
       scatterMethod: dotproduct
       run: ../steps/wsclean.cwl
 
-    - id: flatten_images
-      label: Flatten images
-      in:
-        - id: nestedarray
-          source: make_facet_image/MFS_images
-      out:
-        - id: flattenedarray
-      run: ../steps/flatten.cwl
-
     - id: trim_facets
       label: Trim facets
       in:
         - id: image
-          source: flatten_images/flattenedarray
+          source: make_facet_image/MFS_images
           valueFrom: $(self.sort(function(a, b) { return a.basename.localeCompare(b.basename); }))
         - id: region
           source: facet_polygons
