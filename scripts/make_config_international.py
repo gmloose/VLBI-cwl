@@ -52,13 +52,13 @@ def make_config(solint, ms, forwidefield):
     solint_complexgain_2 = 1.5 * solint_complexgain_1
 
     cg_cycle_1 = 3
-    if solint_complexgain_1/60 > 6:
+    if solint_complexgain_1/60 > 5:
         cg_cycle_1 = 999
     elif solint_complexgain_1/60 > 3:
         solint_complexgain_1 = 240.
 
     cg_cycle_2 = 4
-    if solint_complexgain_2/60 > 6:
+    if solint_complexgain_2/60 > 5:
         cg_cycle_2 = 999
     elif solint_complexgain_2/60 > 3:
         solint_complexgain_2 = 240.
@@ -77,7 +77,7 @@ def make_config(solint, ms, forwidefield):
         avgstep = 1
 
     if solint<0.05:
-        uvmin=45000
+        uvmin=40000
         smoothness_phase = 8.0
         smoothness_complex = 10.0
         smoothnessconstraint_list = f"[{smoothness_phase},{smoothness_phase*1.5},{smoothness_phase*1.5},{smoothness_complex},{smoothness_complex+5.0}]"
@@ -143,7 +143,7 @@ def make_config(solint, ms, forwidefield):
         if forwidefield:
             resetsols_list = "['alldutchandclosegerman','alldutch','alldutch']"
         else:
-            resetsols_list = "['alldutchandclosegerman','alldutch',None]"
+            resetsols_list = "['alldutch',None,None]"
         antennaconstraint_list = "[None,None,None]"
 
     else:
@@ -157,7 +157,7 @@ def make_config(solint, ms, forwidefield):
         if forwidefield:
             resetsols_list = "['alldutchandclosegerman','alldutch']"
         else:
-            resetsols_list = "['alldutch',None]"
+            resetsols_list = "['coreandallbutmostdistantremotes',None]"
         antennaconstraint_list = "[None,None]"
 
 
