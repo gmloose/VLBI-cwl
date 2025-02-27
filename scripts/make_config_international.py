@@ -66,7 +66,7 @@ def make_config(solint, ms, with_dutch_sols):
         smoothness_phase = 8.0
         smoothness_complex = 10.0
         smoothnessconstraint_list = f"[{smoothness_phase},{smoothness_phase*1.5},{smoothness_phase*1.5},{smoothness_complex},{smoothness_complex+5.0}]"
-        if forwidefield:
+        if with_dutch_sols:
             resetsols_list = "['alldutchandclosegerman','alldutch','coreandfirstremotes','alldutch','coreandfirstremotes']"
         else:
             resetsols_list = "['alldutchandclosegerman','alldutch',None,'alldutch',None]"
@@ -76,7 +76,7 @@ def make_config(solint, ms, with_dutch_sols):
         smoothness_phase = 10.0
         smoothness_complex = 10.0
         smoothnessconstraint_list = f"[{smoothness_phase},{smoothness_phase*1.25},{smoothness_phase*1.25},{smoothness_complex},{smoothness_complex+5.0}]"
-        if forwidefield:
+        if with_dutch_sols:
             resetsols_list = "['alldutchandclosegerman','alldutch','coreandallbutmostdistantremotes','alldutch','coreandallbutmostdistantremotes']"
         else:
             resetsols_list = "['alldutchandclosegerman','alldutch',None,'alldutch',None]"
@@ -86,7 +86,7 @@ def make_config(solint, ms, with_dutch_sols):
         smoothness_phase = 10.0
         smoothness_complex = 12.5
         smoothnessconstraint_list = f"[{smoothness_phase},{smoothness_phase*1.25},{smoothness_phase*1.25},{smoothness_complex},{smoothness_complex+5.0}]"
-        if forwidefield:
+        if with_dutch_sols:
             resetsols_list = "['alldutchandclosegerman','alldutch','coreandallbutmostdistantremotes','alldutch','coreandallbutmostdistantremotes']"
         else:
             resetsols_list = "['alldutchandclosegerman','alldutch',None,'alldutch',None]"
@@ -96,7 +96,7 @@ def make_config(solint, ms, with_dutch_sols):
         smoothness_phase = 10.0
         smoothness_complex = 15.0
         smoothnessconstraint_list = f"[{smoothness_phase},{smoothness_phase*1.25},{smoothness_phase*1.25},{smoothness_complex},{smoothness_complex+10.0}]"
-        if forwidefield:
+        if with_dutch_sols:
             resetsols_list = "['alldutchandclosegerman','alldutch','coreandallbutmostdistantremotes','alldutch','coreandallbutmostdistantremotes']"
         else:
             resetsols_list = "['alldutchandclosegerman','alldutch',None,'alldutch',None]"
@@ -111,7 +111,7 @@ def make_config(solint, ms, with_dutch_sols):
         smoothnessspectralexponent_list = "[-1.0,-1.0,-1.0,-1.0]"
         solint_list = f"['{int(solint_scalarphase_1*60)}s','{int(solint_scalarphase_2*60)}s','{int(solint_complexgain_1*60)}s','{int(solint_complexgain_2*60)}s']"
         soltype_list = "['scalarphase','scalarphase','scalarcomplexgain','scalarcomplexgain']"
-        if forwidefield:
+        if with_dutch_sols:
             resetsols_list = "['alldutchandclosegerman','alldutch','alldutchandclosegerman','alldutch']"
         else:
             resetsols_list = "['alldutch',None,'alldutch',None]"
@@ -125,7 +125,7 @@ def make_config(solint, ms, with_dutch_sols):
         smoothnessspectralexponent_list = "[-1.0,-1.0,-1.0]"
         solint_list = f"['{int(solint_scalarphase_1*60)}s','{int(solint_scalarphase_2*60)}s','{int(solint_complexgain_1*60)}s']"
         soltype_list = "['scalarphase','scalarphase','scalarcomplexgain']"
-        if forwidefield:
+        if with_dutch_sols:
             resetsols_list = "['alldutchandclosegerman','alldutch','alldutch']"
         else:
             resetsols_list = "['alldutch',None,None]"
@@ -139,7 +139,7 @@ def make_config(solint, ms, with_dutch_sols):
         smoothnessspectralexponent_list = "[-1.0,-1.0]"
         solint_list = f"['{int(solint_scalarphase_1*60)}s','{int(solint_scalarphase_2*60)}s']"
         soltype_list = "['scalarphase','scalarphase']"
-        if forwidefield:
+        if with_dutch_sols:
             resetsols_list = "['alldutchandclosegerman','alldutch']"
         else:
             resetsols_list = "['coreandallbutmostdistantremotes',None]"
@@ -225,7 +225,7 @@ def parse_args():
     Returns: parsed arguments
     """
 
-    parser = ArgumentParser(description='Make config for facetselfcal international DD solves')
+    parser = ArgumentParser(description='Make parameter configuration file for facetselfcal.')
     parser.add_argument('--ms', type=str, help='MeasurementSet')
     parser.add_argument('--phasediff_output', type=str, help='Phasediff CSV output')
     parser.add_argument('--dutch_multidir_h5', type=str, help='Use resets if --dutch_multidir_h5 is given.')

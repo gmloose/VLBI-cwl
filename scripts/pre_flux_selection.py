@@ -3,14 +3,15 @@
 
 __author__ = "Jurjen de Jong"
 
-from argparse import ArgumentParser
-import pandas as pd
-from astropy.table import Table
 import os
-from casacore.tables import table
+from argparse import ArgumentParser
+
+import pandas as pd
 from numpy import pi
-from astropy.coordinates import SkyCoord
 from astropy import units as u
+from astropy.coordinates import SkyCoord
+from astropy.table import Table
+from casacore.tables import table
 
 
 def is_csv(file_path):
@@ -108,7 +109,7 @@ def argparse():
     """
     Argument parser
     """
-    parser = ArgumentParser()
+    parser = ArgumentParser("Pre-select sources based on Flux density.")
     parser.add_argument('--ms', type=str, help='Measurement set to read phase centre from.')
     parser.add_argument('--catalogue', type=str, help='Catalog to select candidate calibrators from.')
     parser.add_argument('--fluxcut', type=float, help='Flux density cut in mJy', default=0.0)
