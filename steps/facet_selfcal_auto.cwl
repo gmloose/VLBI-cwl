@@ -53,7 +53,7 @@ outputs:
       type: File
       outputBinding:
         glob: 'best_solutions.h5'
-      doc: The merged calibration solution files generated in HDF5 format.
+      doc: The best merged calibration solution files generated in HDF5 format, selected during self-calibration.
 
     - id: selfcal_images
       type: File[]
@@ -95,7 +95,7 @@ hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
   - class: ResourceRequirement
-    coresMin: 24
+    coresMin: 12
 
 stdout: facet_selfcal.log
 stderr: facet_selfcal_err.log

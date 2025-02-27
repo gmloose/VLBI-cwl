@@ -27,7 +27,7 @@ inputs:
 
 steps:
     - id: ddcal
-      label: Direction-dependent calibration for all input MeasurementSets.
+      label: Direction-dependent calibration for input MeasurementSets corresponding to calibrator sources
       in:
         - id: msin
           source: msin
@@ -78,8 +78,6 @@ steps:
 
 requirements:
   - class: ScatterFeatureRequirement
-  - class: SubworkflowFeatureRequirement
-  - class: InlineJavascriptRequirement
 
 outputs:
   - id: final_merged_h5
@@ -90,14 +88,14 @@ outputs:
   - id: selfcal_images
     type: File[]
     outputSource: ddcal/fits_images
-    doc: Selfcal FITS images
+    doc: Self-calibration images in FITS format
 
   - id: selfcal_inspection_images
     type: File[]
     outputSource: flatten_images/flattenedarray
-    doc: Selfcal inspection images
+    doc: Self-calibration inspection images in PNG format
 
   - id: solution_inspection_images
     type: Directory[]
     outputSource: flatten_solutions/flattenedarray
-    doc: Solution inspection images
+    doc: LoSoTo solution inspection images

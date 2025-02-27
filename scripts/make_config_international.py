@@ -3,37 +3,22 @@
 
 __author__ = "Jurjen de Jong"
 
+import re
 from argparse import ArgumentParser
+
 import numpy as np
 import pandas as pd
 import casacore.tables as ct
-import re
 
 
-def parse_source_id(inp_str: str = None):
-    """
-    Parse ILTJ... source_id string
-
-    Args:
-        inp_str: ILTJ source_id
-
-    Returns: parsed output
-
-    """
-
-    parsed_inp = re.findall(r'ILTJ\d+\..\d+\+\d+.\d+', inp_str)[0]
-
-    return parsed_inp
-
-
-def make_config(solint, ms, forwidefield):
+def make_config(solint, ms, with_dutch_sols):
     """
     Make config for facetselfcal
 
     Args:
         solint: solution interval
         ms: MeasurementSet
-        forwidefield: Boolean to decide for postage stamp or widefield imaging
+        with_dutch_sols: Boolean to verify if pre-applied Dutch solutions are used
 
     """
 
@@ -194,26 +179,43 @@ early_stopping                  = True
         f.write(config)
 
 
+def parse_source_id(inp_str: str = None):
+    """
+    Parse ILTJ... source_id string
+
+    Args:
+        inp_str: ILTJ source_id
+
+    Returns: parsed output
+
+    """
+
+    parsed_inp = re.findall(r'ILTJ\d+\..\d+\+\d+.\d+', inp_str)[0]
+
+    return parsed_inp
+
+
 def get_solint(ms, phasediff_output):
     """
-    Get solution interval
+    Get solution interval from phase-diff CSV output.
+
     Args:
-        ms: MeasurementSet
-        phasediff_output: phasediff CSV output
+        ms: MeasurementSet.
+        phasediff_output: Path to the Phase-diff CSV output.
 
-    Returns: solution interval in minutes
-
+    Returns:
+        float: Solution interval in minutes.
     """
 
     phasediff = pd.read_csv(phasediff_output)
-    sourceid = ms.split("/")[-1].split("_")[0]
+    sourceid = parse_source_id(ms.split("/")[-1])
 
-    try:
-        solint = phasediff[phasediff['Source_id'].str.split('_').str[0] == sourceid].best_solint.min()
-    except: # depends on version
-        solint = phasediff[phasediff['source'].str.split('_').str[0] == sourceid].best_solint.min()
+    for col in ['Source_id', 'source']:  # Handling possible column variations (versions)
+        if col in phasediff.columns:
+            solint = phasediff[phasediff["Source_id"].apply(parse_source_id) == sourceid]['best_solint'].min()
+            return solint
 
-    return solint
+    raise ValueError("Expected column 'Source_id' or 'source' not found in phasediff_output.")
 
 
 def parse_args():

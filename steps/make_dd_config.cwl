@@ -2,7 +2,7 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: make_dd_config
 label: Make DD config file
-doc: Return config file as input for facetselfcal DD solve for international stations with pre-applied Dutch solutions
+doc: Return config file as input for facetselfcal direction-dependant calibration with international stations.
 
 baseCommand:
     - make_config_international.py

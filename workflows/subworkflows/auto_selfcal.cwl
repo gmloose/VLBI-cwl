@@ -2,12 +2,12 @@ cwlVersion: v1.2
 class: Workflow
 id: auto_selfcal
 label: Selfcal with international stations
-doc: Performing DD self-calibration for international stations.
+doc: Performing DD self-calibration for MeasurementSets of calibrators with international stations.
 
 inputs:
   - id: msin
     type: Directory
-    doc: Input MeasurementSet from individual calibrator.
+    doc: Input MeasurementSet from calibrator.
 
   - id: dutch_multidir_h5
     type: File?
@@ -81,7 +81,7 @@ steps:
           source: dutch_multidir_h5
       out:
         - dd_config
-      run: ../../steps/make_dd_config_international.cwl
+      run: ../../steps/make_dd_config.cwl
 
     - id: run_facetselfcal
       in:
@@ -99,7 +99,7 @@ steps:
         - selfcal_images
         - solution_inspection_images
         - fits_image
-      run: ../../steps/facet_selfcal_international.cwl
+      run: ../../steps/facet_selfcal_auto.cwl
 
     - id: addCS_selfcal
       in:
@@ -114,7 +114,6 @@ steps:
       run: ../../steps/addCS.cwl
 
     - id: merge_all_in_one
-      label: Merge preapplied h5parm and output h5parm in one h5parm
       in:
         - id: first_h5
           source: addCS/addCS_out_h5

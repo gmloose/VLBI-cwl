@@ -5,9 +5,8 @@ label: Automated direction-dependent calibration for wide-field imaging
 doc: |
   This is a workflow for the LOFAR-VLBI pipeline that
     * Splits a LOFAR MeasurementSet into various target directions with split-directions.cwl
-    * Performs wide-field facet-calibration with the Dutch LOFAR stations (optional)
-    * Performs direction-dependent calibrator selection (with parameter tuning settings)
-    * Performs self-calibration on the target directions
+    * Performs direction-dependent calibrator selection with phasediff scores (see Section 3.3 from https://arxiv.org/pdf/2407.13247)
+    * Performs self-calibration on the target directions with facetselfcal (with automatically tuned parameter settings)
   This step should be run after the delay calibration workflow for wide-field imaging and can take both MeasurementSets
   with and without delay-calibration solutions applied.
 
@@ -19,7 +18,7 @@ requirements:
 inputs:
     - id: msin
       type: Directory[]
-      doc: The input MeasurementSets of the entire field-of-view with or without delay-calibration applied.
+      doc: The input MeasurementSets of the entire field-of-view with or without delay-calibration solutions applied.
 
     - id: source_catalogue
       type: File
@@ -62,7 +61,7 @@ inputs:
     - id: peak_flux_cut
       type: float
       default: 0.025
-      doc: Peak flux (Jy/beam) cut to pre-select sources from catalogue.
+      doc: Peak flux (Jy/beam) cut to pre-select sources from catalogue. Default is set to peak_flux at 6".
 
     - id: lofar_helpers
       type: Directory
@@ -75,6 +74,7 @@ inputs:
 steps:
 
     - id: split_directions
+      label: Split out calibrator sources in separate measurement sets
       in:
         - id: msin
           source: msin
@@ -98,6 +98,7 @@ steps:
       run: ./split-directions.cwl
 
     - id: ddcal_int
+      label: Automatic direction-dependent calibration
       in:
         - id: msin
           source: split_directions/msout_concat
@@ -123,19 +124,24 @@ outputs:
     - id: final_merged_h5
       type: File
       outputSource: ddcal_int/final_merged_h5
+      doc: Final merged h5parm
 
     - id: phasediff_score_csv
       type: File?
       outputSource: split_directions/phasediff_score_csv
+      doc: Phasediff-score CSV file
 
     - id: best_FITS_images
       type: File[]
       outputSource: ddcal_int/selfcal_images
+      doc: Best self-calibration image in FITS format
 
     - id: selfcal_PNG_images
       type: File[]
       outputSource: ddcal_int/selfcal_inspection_images
+      doc: Self-calibration images in PNG format
 
     - id: solution_inspection_images
       type: Directory[]
       outputSource: ddcal_int/solution_inspection_images
+      doc: LoSoTo solution inspection images

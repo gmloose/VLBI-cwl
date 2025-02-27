@@ -31,7 +31,7 @@ inputs:
 outputs:
     - id: addCS_out_h5
       type: File
-      doc: h5parm with preapplied solutions and core stations
+      doc: H5parm with preapplied solutions and core stations
       outputBinding:
         glob: "*.addCS.h5"
     - id: logfile

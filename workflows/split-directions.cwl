@@ -57,7 +57,7 @@ inputs:
     - id: peak_flux_cut
       type: float
       default: 0.0
-      doc: Peak flux (Jy/beam) cut to pre-select sources from catalogue.
+      doc: Peak flux (Jy/beam) cut to pre-select sources from catalogue. Default at 0.0 is no cut.
     - id: configfile
       type: File
       default: null
