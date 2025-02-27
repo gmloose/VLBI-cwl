@@ -57,7 +57,9 @@ inputs:
     - id: peak_flux_cut
       type: float
       default: 0.0
-      doc: Peak flux (Jy/beam) cut to pre-select sources from catalogue. Default at 0.0 is no cut.
+      doc: |
+         Peak flux (Jy/beam) cut to pre-select sources from catalogue. Default at 0.0 is no cut.
+         Only used when dd_selection==true.
     - id: configfile
       type: File
       default: null
@@ -83,6 +85,7 @@ steps:
       out:
         - bright_cat
       run: ../steps/select_bright_sources.cwl
+      when: $(inputs.dd_selection)
 
     - id: target_phaseup
       label: Target Phaseup
