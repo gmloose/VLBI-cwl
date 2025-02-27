@@ -39,7 +39,8 @@ outputs:
     - id: h5parm
       type: File
       outputBinding:
-        glob: merged_addCS_selfcalcycle009_linear*.h5
+        glob: [merged*.h5, merged_addCS*.h5]
+        outputEval: $(self[self.length - 1])
       doc: |
         The calibration solution files generated
         by lofar_facet_selfcal in HDF5 format.

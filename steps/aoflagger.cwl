@@ -60,8 +60,8 @@ inputs:
         prefix: aoflagger.memorymax=
         separate: false
         shellQuote: false
-        valueFrom: "$((self/1000 > 30) ? self/1000 : 30)"
-      doc: The amount of maximum amount of memory to use in GB. 
+        valueFrom: "$(self/1000)"
+      doc: The maximum amount of memory to use in GB. 
 
 arguments:
     - steps=[aoflagger]
