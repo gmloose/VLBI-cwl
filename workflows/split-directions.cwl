@@ -50,7 +50,7 @@ inputs:
       doc: If set to true the pipeline will perform direction-dependent calibrator selection.
     - id: phasediff_score
       type: float
-      default: 9
+      default: 2.3
       doc: |
          Phasediff-score for calibrator selection <2.3 good for DD-calibrators and <0.7 good for DI-calibrators.
          Only used when dd_selection==true.
