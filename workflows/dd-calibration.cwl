@@ -47,6 +47,11 @@ inputs:
       default: true
       doc: Whether to truncate the last subbands of the MSs to the same length.
 
+    - id: dd_selection
+      type: boolean?
+      default: true
+      doc: If set to true the pipeline will perform direction-dependent calibrator selection.
+
     - id: phasediff_score
       type: float
       default: 2.3
@@ -92,6 +97,8 @@ steps:
           source: facetselfcal
         - id: peak_flux_cut
           source: peak_flux_cut
+        - id: dd_selection
+          source: dd_selection
       out:
         - msout_concat
         - phasediff_score_csv
