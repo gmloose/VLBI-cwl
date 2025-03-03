@@ -14,6 +14,7 @@ requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
   - class: ScatterFeatureRequirement
+  - class: InlineJavascriptRequirement
 
 inputs:
     - id: msin
