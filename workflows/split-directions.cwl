@@ -46,7 +46,7 @@ inputs:
       doc: Whether to do selfcal on the direction concat MSs.
     - id: dd_selection
       type: boolean?
-      default: true
+      default: false
       doc: If set to true the pipeline will perform direction-dependent calibrator selection.
     - id: phasediff_score
       type: float
