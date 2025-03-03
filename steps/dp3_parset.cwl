@@ -21,7 +21,7 @@ outputs:
     type: Directory
     doc: Output measurement set
     outputBinding:
-      glob: "*.ms"
+      glob: "*.concat.ms"
   - id: logfile
     type: File[]
     outputBinding:
