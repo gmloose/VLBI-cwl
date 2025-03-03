@@ -148,6 +148,8 @@ steps:
       in:
         - id: parset
           source: make_concat_parset/concat_parsets
+        - id: msin
+          source: flatten_msout/flattenedarray
       out:
         - id: msout
       run: ../steps/dp3_parset.cwl
