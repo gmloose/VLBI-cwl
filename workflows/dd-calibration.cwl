@@ -58,6 +58,7 @@ inputs:
       doc: |
          Phasediff-score to select good calibrators. See Section 3.3.1 from de Jong et al. (2024; https://arxiv.org/pdf/2407.13247)
          For calibrator selection <2.3 good for DD-calibrators and <0.7 good for DI-calibrators. If no selection set on for example value >5.
+         Only used when dd_selection==true.
 
     - id: other_phasediff_score_csv
       type: File?
@@ -66,7 +67,9 @@ inputs:
     - id: peak_flux_cut
       type: float
       default: 0.025
-      doc: Peak flux (Jy/beam) cut to pre-select sources from catalogue. Default is set to peak_flux at 6".
+      doc: |
+         Peak flux (Jy/beam) cut to pre-select sources from catalogue. Default is set to peak_flux at 6".
+         Only used when dd_selection==true.
 
     - id: lofar_helpers
       type: Directory
