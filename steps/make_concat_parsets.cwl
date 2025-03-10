@@ -16,6 +16,14 @@ inputs:
         position: 1
         separate: true
     doc: Input data in MeasurementSet format.
+  - id: dysco_bitrate
+    type: int?
+    doc: Number of bits per float used for columns containing visibilities.
+    default: 8
+    inputBinding:
+        prefix: "--bitrate"
+        position: 2
+        separate: true
   - id: lofar_helpers
     type: Directory
     doc: Path to lofar_helpers directory.
