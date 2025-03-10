@@ -2,8 +2,7 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: dp3_parset
 label: DP3 with parset
-doc: |
-    Run DP3 with a parset
+doc: Run DP3 with a parset
 
 baseCommand: DP3
 
@@ -22,7 +21,7 @@ outputs:
     type: Directory
     doc: Output measurement set
     outputBinding:
-      glob: "*.ms"
+      glob: "*.concat.ms"
   - id: logfile
     type: File[]
     outputBinding:
