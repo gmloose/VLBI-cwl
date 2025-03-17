@@ -212,7 +212,7 @@ def get_solint(ms, phasediff_output):
 
     for col in ['Source_id', 'source']:  # Handling possible column variations (versions)
         if col in phasediff.columns:
-            solint = phasediff[phasediff["Source_id"].apply(parse_source_id) == sourceid]['best_solint'].min()
+            solint = phasediff[phasediff[col].apply(parse_source_id) == sourceid]['best_solint'].min()
             return solint
 
     raise ValueError("Expected column 'Source_id' or 'source' not found in phasediff_output.")
