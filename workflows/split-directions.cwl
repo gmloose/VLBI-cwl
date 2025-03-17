@@ -86,7 +86,7 @@ steps:
       out:
         - bright_cat
       run: ../steps/select_bright_sources.cwl
-      when: $(inputs.dd_selection == true)
+      when: $(inputs.dd_selection)
 
     - id: target_phaseup
       label: Target Phaseup
