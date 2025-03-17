@@ -83,10 +83,12 @@ steps:
           source: image_cat
         - id: peak_flux_cut
           source: peak_flux_cut
+        - id: dd_selection
+          source: dd_selection
       out:
         - bright_cat
-      run: ../steps/select_bright_sources.cwl
       when: $(inputs.dd_selection)
+      run: ../steps/select_bright_sources.cwl
 
     - id: target_phaseup
       label: Target Phaseup
