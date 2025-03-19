@@ -2,12 +2,12 @@ cwlVersion: v1.2
 class: Workflow
 id: auto_selfcal
 label: Selfcal with international stations
-doc: Performing DD self-calibration for MeasurementSets of calibrators with international stations.
+doc: Performing DD self-calibration with MeasurementSets of calibrators with international stations.
 
 inputs:
   - id: msin
     type: Directory
-    doc: Input MeasurementSet from calibrator.
+    doc: Input MeasurementSet from calibrator source.
 
   - id: dutch_multidir_h5
     type: File?
@@ -15,7 +15,7 @@ inputs:
 
   - id: dd_selection_csv
     type: File?
-    doc: CSV with DD selection positions and phasediff scores.
+    doc: CSV with DD calibrator positions and phasediff scores.
 
   - id: lofar_helpers
     type: Directory

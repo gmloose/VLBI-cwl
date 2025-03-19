@@ -2,7 +2,7 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: applycal
 label: Apply calibration solutions
-doc: Apply calibration solutions from h5parm on MeasurementSet
+doc: Apply calibration solutions from h5parm on MeasurementSet.
 
 baseCommand:
   - python3

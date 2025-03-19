@@ -2,7 +2,7 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: addCS
 label: Add core stations to h5parm
-doc: Use h5_merger to add back the core stations to the h5parm if dataset was phased-up.
+doc: Use h5_merger to add back the core stations to the h5parm if dataset has phased-up core stations.
 
 baseCommand:
   - python3
@@ -39,7 +39,6 @@ outputs:
       doc: Log files corresponding to this step
       outputBinding:
         glob: h5_merger_dd*.log
-
 
 arguments:
   - $( inputs.facetselfcal.path + '/submods/h5_merger.py' )

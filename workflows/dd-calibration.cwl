@@ -3,17 +3,14 @@ cwlVersion: v1.2
 id: ddcal-widefield
 label: Automated direction-dependent calibration for wide-field imaging
 doc: |
-  This is a workflow for the LOFAR-VLBI pipeline that
+  This is a workflow for the LOFAR-VLBI pipeline that follows on the delay-calibration and:
     * Splits a LOFAR MeasurementSet into various target directions with split-directions.cwl
     * Performs direction-dependent calibrator selection with phasediff scores (see Section 3.3 from https://arxiv.org/pdf/2407.13247)
     * Performs self-calibration on the target directions with facetselfcal (with automatically tuned parameter settings)
-  This step should be run after the delay calibration workflow for wide-field imaging and can take both MeasurementSets
-  with and without delay-calibration solutions applied.
 
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
-  - class: InlineJavascriptRequirement
 
 inputs:
     - id: msin

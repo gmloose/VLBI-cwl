@@ -27,7 +27,6 @@ inputs:
 
 steps:
     - id: ddcal
-      label: Direction-dependent calibration for input MeasurementSets corresponding to calibrator sources
       in:
         - id: msin
           source: msin
@@ -48,7 +47,6 @@ steps:
       scatter: msin
 
     - id: multidir_merge
-      label: Merge multiple directions into one h5parm
       in:
         - id: h5parms
           source: ddcal/merged_h5
@@ -59,7 +57,6 @@ steps:
       run: ../../steps/multidir_merger.cwl
 
     - id: flatten_images
-      label: Flatten image array of arrays
       in:
         - id: nestedarray
           source: ddcal/selfcal_inspection_images
@@ -68,7 +65,6 @@ steps:
       run: ../../steps/flatten.cwl
 
     - id: flatten_solutions
-      label: Flatten solution array of arrays
       in:
         - id: nestedarray
           source: ddcal/solution_inspection_images

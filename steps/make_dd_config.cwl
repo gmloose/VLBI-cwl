@@ -45,7 +45,6 @@ outputs:
       outputBinding:
         glob: make_dd_config*.log
 
-
 requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement

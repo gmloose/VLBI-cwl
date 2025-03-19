@@ -47,7 +47,6 @@ inputs:
       type: Directory
       doc: External self-calibration script.
 
-
 outputs:
     - id: h5_facetselfcal
       type: File
