@@ -52,7 +52,7 @@ def make_config(solint, ms, with_dutch_sols):
         solint_complexgain_2 = 240.
 
     # UV-min larger for high S/N sources and smaller for low S/N sources
-    uvmin = 40000 - 20000 * np.exp(-1/solint)
+    uvmin = int(40000 - 20000 * np.exp(-1/solint))
 
     # Basic config
     soltypecycles_list = f'[0,0,1,{cg_cycle_1},{cg_cycle_2}]'
