@@ -110,7 +110,6 @@ steps:
           default:
             - scripts/check_Ateam_separation.py
             - skymodels/Ateam_LBA_CC.skymodel
-            - scripts/Ateamclipper.py
       out:
         - id: libraries
       scatter: library
