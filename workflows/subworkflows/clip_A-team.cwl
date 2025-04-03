@@ -40,8 +40,7 @@ inputs:
       doc: |
         Scripts and reference files from the
         LOFAR INitial Calibration pipeline.
-        Must contain `Ateam_LBA_CC.skymodel`
-        and `Ateamclipper.py`.
+        Must contain `Ateam_LBA_CC.skymodel`.
 
     - id: clip_sources
       type: string[]
