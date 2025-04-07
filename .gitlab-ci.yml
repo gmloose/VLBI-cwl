@@ -30,4 +30,4 @@ run_tests:
   before_script:
     - pip3 install tox
   script:
-    - tox -e py312
+    - tox -e py310
