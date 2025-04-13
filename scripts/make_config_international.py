@@ -29,9 +29,13 @@ def make_config(solint, ms, with_dutch_sols):
     fulltime = np.max(time)-np.min(time)
 
     # Solint in minutes for scalarphase
-    solint_scalarphase_1 = min(max(deltime/60, np.sqrt(solint/2)), 2)
-    solint_scalarphase_2 = min(max(deltime/60, np.sqrt(1.25*solint)), 3)
-    solint_scalarphase_3 = min(max(deltime/60, 2 * np.sqrt(solint)), 5)
+    solint_scalarphase_1 = min(max(deltime/60, np.sqrt(solint/2)), 1.5)
+    solint_scalarphase_2 = min(max(deltime/60, np.sqrt(1.25*solint)), 2)
+    if with_dutch_sols:
+        solint_scalarphase_3 = min(max(deltime/60, 2 * np.sqrt(solint)), 5)
+    else:
+        solint_scalarphase_3 = min(max(deltime/60, 2 * np.sqrt(solint)), 3)
+
 
     # Solint in minutes for scalar complexgain (amplitudes)
     solint_complexgain_1 = max(25.0, 60 * np.sqrt(solint))
