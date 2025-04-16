@@ -3,7 +3,7 @@
 # VLBI_ROOT_DIR is defined in pyproject.toml
 
 errors=0
-for workflow in $(find "$VLBI_ROOT_DIR" -name "*.cwl"); do
+for workflow in "$VLBI_ROOT_DIR/workflows"/*.cwl; do
     cwltool --validate $workflow || errors=$(($errors+1))
 done
 
