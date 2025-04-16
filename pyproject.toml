@@ -18,7 +18,7 @@ commands = [
     [ "sh", "validate_steps.sh" ],
     [ "sh", "validate_workflows.sh" ],
     [ "pytest" ],
-    ]
+]
 
 [tool.tox.env_run_base.setenv]
 TEST_HBA_DATASET_NAME = "test_data.tar.gz"
