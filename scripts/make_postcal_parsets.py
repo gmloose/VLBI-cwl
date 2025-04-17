@@ -29,11 +29,10 @@ def main():
     dirnums = [d.replace("Dir","") for d in df['dir_name']]
 
     for idx, ms in enumerate(facets):
-        facetnum = ms.split("-")[0].replace("facet_","")
+        facetnum = basename(ms.split("-")[0].replace("facet_",""))
         dirnum = dirnums.index(facetnum)
         center = df['dir'][dirnum]
-        parset=f"""
-msin={basename(ms)}
+        parset=f"""msin={basename(ms)}
 msout=selfcal_{basename(ms)}
 steps=[ps,avg,beam]
 avg.type=averager
@@ -47,7 +46,7 @@ beam.direction=[]
 beam.updateweights=True
 """
         # write to file
-        with open("selfcal_" + basename(ms) + ".txt", "w") as f:
+        with open("selfcal_" + basename(ms) + ".parset", "w") as f:
             f.write(parset)
 
 

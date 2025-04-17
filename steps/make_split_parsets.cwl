@@ -42,9 +42,6 @@ outputs:
 requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
-    listing:
-      - entry: $(inputs.msin)
-        writable: false
 
 hints:
   - class: DockerRequirement
