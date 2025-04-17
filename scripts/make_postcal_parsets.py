@@ -2,6 +2,7 @@
 import pandas as pd
 from argparse import ArgumentParser
 from os.path import basename
+from casacore.tables import table
 
 
 def parse_args():
@@ -27,17 +28,28 @@ def main():
     df = pd.read_csv(args.polygon_info)
     facets = sorted([basename(f) for f in args.msin])
     dirnums = [d.replace("Dir","") for d in df['dir_name']]
+    target_freq = 390549.06
 
     for idx, ms in enumerate(facets):
         facetnum = basename(ms).split("-")[0].replace("facet_","")
         dirnum = dirnums.index(facetnum)
         center = df['dir'][dirnum]
+
+        # Get Freq averaging
+        with table(ms+"::SPECTRAL_WINDOW", ack=False) as f:
+            chanwidths = f.getcol("CHAN_WIDTH")[0]
+        freq_width = chanwidths[0]
+        num_channels = len(chanwidths)
+        avg_factor = target_freq // freq_width
+        # Find the largest divisor of channel number
+        freq_avg = next((factor for factor in reversed(range(1, avg_factor + 1)) if num_channels % factor == 0), 1)
+
         parset=f"""msin={basename(ms)}
 msout=selfcal_{basename(ms)}
 steps=[ps,avg,beam]
 avg.type=averager
 avg.timeresolution=32
-avg.freqresolution='390.56kHz'
+avg.freqstep={freq_avg}
 msout.storagemanager='dysco'
 ps.type=phaseshift
 ps.phasecenter={center}

@@ -39,6 +39,11 @@ outputs:
         The files containing the stdout
         and stderr from the step.
 
+requirements:
+  - class: InitialWorkDirRequirement
+    listing:
+      - entry: $(inputs.msin)
+
 hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
