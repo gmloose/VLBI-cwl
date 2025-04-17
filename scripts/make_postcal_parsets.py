@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pandas as pd
 from argparse import ArgumentParser
 from os.path import basename
@@ -11,7 +12,7 @@ def parse_args():
     """
 
     parser = ArgumentParser(description='Make selfcal parsets')
-    parser.add_argument('--ms', nargs="+", help='Input MS', default=None)
+    parser.add_argument('--msin', nargs="+", help='Input MS', default=None)
     parser.add_argument('--polygon_info', type=str, help='Polygon information CSV')
     return parser.parse_args()
 
@@ -24,14 +25,15 @@ def main():
     args = parse_args()
 
     df = pd.read_csv(args.polygon_info)
-    facets = sorted(args.ms)
+    facets = sorted(args.msin)
+    dirnums = [d.replace("Dir","") for d in df['dir_name']]
 
-    for row in df.iterrows():
-        idx = row[1]['idx'][idx]
-        center = row[1]['dir'][idx]
-        ms = facets[idx]
+    for idx, ms in enumerate(facets):
+        facetnum = ms.split("-")[0].replace("facet_","")
+        dirnum = dirnums.index(facetnum)
+        center = df['dir'][dirnum]
         parset=f"""
-msin={ms}
+msin={basename(ms)}
 msout=selfcal_{basename(ms)}
 steps=[ps,avg,beam]
 avg.type=averager

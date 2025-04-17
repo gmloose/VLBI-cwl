@@ -56,7 +56,7 @@ steps:
         - multidir_h5
       run: ../../steps/multidir_merger.cwl
 
-    - id: flatten_images
+    - id: flatten_image_inspection
       in:
         - id: nestedarray
           source: ddcal/selfcal_inspection_images
@@ -64,7 +64,7 @@ steps:
         - flattenedarray
       run: ../../steps/flatten.cwl
 
-    - id: flatten_solutions
+    - id: flatten_solution_inspection
       in:
         - id: nestedarray
           source: ddcal/solution_inspection_images
@@ -81,6 +81,11 @@ outputs:
     outputSource: multidir_merge/multidir_h5
     doc: Final merged h5parm with multiple directions
 
+  - id: individual_h5s
+    type: File[]
+    outputSource: ddcal/merged_h5
+    doc: Separate h5parms
+
   - id: selfcal_images
     type: File[]
     outputSource: ddcal/fits_images
@@ -88,10 +93,10 @@ outputs:
 
   - id: selfcal_inspection_images
     type: File[]
-    outputSource: flatten_images/flattenedarray
+    outputSource: flatten_image_inspection/flattenedarray
     doc: Self-calibration inspection images in PNG format
 
   - id: solution_inspection_images
     type: Directory[]
-    outputSource: flatten_solutions/flattenedarray
+    outputSource: flatten_solution_inspection/flattenedarray
     doc: LoSoTo solution inspection images

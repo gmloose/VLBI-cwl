@@ -17,13 +17,14 @@ inputs:
       type: Directory[]
       doc: The input MeasurementSets of the entire field-of-view with or without delay-calibration solutions applied.
 
-    - id: source_catalogue
-      type: File
-      doc: External image catalogue (in CSV or FITS format) containing candidate target directions (e.g. LoTSS catalogue).
-
     - id: polygon_info_csv
-      type: File?
+      type: File
       doc: Polygon information CSV (output file from facet_subtract.cwl)
+
+    - id: skip_selfcal
+      type: boolean?
+      default: false
+      doc: Skip the self-calibration step when you only want to split of calibrator sources and do manual self-calibration.
 
     - id: lofar_helpers
       type: Directory
@@ -37,15 +38,18 @@ steps:
 
     - id: make_split_parsets
       in:
-        #TODO
+        - id: msin
+          source: msin
+        - id: polygon_info_csv
+          source: polygon_info_csv
       out:
-        - parsets
-      run: XXX
+        - split_parsets
+      run: ../steps/make_split_parsets.cwl
 
     - id: dp3_parset
       in:
         - id: parset
-          source: make_split_parsets/parsets
+          source: make_split_parsets/split_parsets
         - id: msin
           source: msin
       out:
@@ -61,35 +65,39 @@ steps:
           source: lofar_helpers
         - id: facetselfcal
           source: facetselfcal
+        - id: skip_selfcal
+          source: skip_selfcal
       out:
-        - final_merged_h5
+        - individual_h5s
         - selfcal_images
         - selfcal_inspection_images
         - solution_inspection_images
       run: ./subworkflows/ddcal_calibrators.cwl
+      when: $(not inputs.skip_selfcal)
+
 
 outputs:
-    - id: final_merged_h5
-      type: File
-      outputSource: ddcal_int/final_merged_h5
-      doc: Final merged h5parm
+    - id: split_calibrators
+      type: Directory[]
+      outputSource: dp3_parset/msout
+      doc: Splitted MS of calibrators
 
-    - id: phasediff_score_csv
-      type: File?
-      outputSource: split_directions/phasediff_score_csv
-      doc: Phasediff-score CSV file
+    - id: output_h5s
+      type: File[]?
+      outputSource: ddcal_int/individual_h5s
+      doc: Final h5s for each calibrator
 
     - id: best_FITS_images
-      type: File[]
+      type: File[]?
       outputSource: ddcal_int/selfcal_images
       doc: Best self-calibration image in FITS format
 
     - id: selfcal_PNG_images
-      type: File[]
+      type: File[]?
       outputSource: ddcal_int/selfcal_inspection_images
       doc: Self-calibration images in PNG format
 
     - id: solution_inspection_images
-      type: Directory[]
+      type: Directory[]?
       outputSource: ddcal_int/solution_inspection_images
       doc: LoSoTo solution inspection images
