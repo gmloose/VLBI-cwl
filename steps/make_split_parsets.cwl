@@ -39,10 +39,6 @@ outputs:
         The files containing the stdout
         and stderr from the step.
 
-requirements:
-  - class: InlineJavascriptRequirement
-  - class: InitialWorkDirRequirement
-
 hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
