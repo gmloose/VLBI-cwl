@@ -25,11 +25,11 @@ def main():
     args = parse_args()
 
     df = pd.read_csv(args.polygon_info)
-    facets = sorted(args.msin)
+    facets = sorted([basename(f) for f in args.msin])
     dirnums = [d.replace("Dir","") for d in df['dir_name']]
 
     for idx, ms in enumerate(facets):
-        facetnum = basename(ms.split("-")[0].replace("facet_",""))
+        facetnum = basename(ms).split("-")[0].replace("facet_","")
         dirnum = dirnums.index(facetnum)
         center = df['dir'][dirnum]
         parset=f"""msin={basename(ms)}
