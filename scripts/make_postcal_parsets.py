@@ -31,7 +31,7 @@ def main():
     target_freq = 390549.06
 
     for idx, ms in enumerate(facets):
-        facetnum = basename(ms).split("-")[0].replace("facet_","")
+        facetnum = basename(ms).replace("facet_","")[0:2]
         dirnum = dirnums.index(facetnum)
         center = df['dir'][dirnum]
 
@@ -40,7 +40,7 @@ def main():
             chanwidths = f.getcol("CHAN_WIDTH")[0]
         freq_width = chanwidths[0]
         num_channels = len(chanwidths)
-        avg_factor = target_freq // freq_width
+        avg_factor = int(target_freq // freq_width)
         # Find the largest divisor of channel number
         freq_avg = next((factor for factor in reversed(range(1, avg_factor + 1)) if num_channels % factor == 0), 1)
 
