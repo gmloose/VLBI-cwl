@@ -40,6 +40,7 @@ requirements:
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)
+  - class: InlineJavascriptRequirement
 
 hints:
   - class: DockerRequirement
