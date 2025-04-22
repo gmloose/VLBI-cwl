@@ -2,9 +2,9 @@ cwlVersion: v1.2
 class: CommandLineTool
 id: dp3_parset
 label: DP3 with parset
-doc: Run DP3 with a parset, optionally renaming output using a prefix
+doc: Run DP3 with a parset
 
-baseCommand: ./dp3_wrapper.sh
+baseCommand: DP3
 
 inputs:
   - id: parset
@@ -14,17 +14,11 @@ inputs:
       position: 0
   - id: msin
     type: Directory[]
-    doc: Input MS
-    inputBinding:
-      position: 2
-      prefix: ""
-      itemSeparator: " "
+    doc: input MS
   - id: prefix
     type: string?
     default: ""
     doc: Optional prefix for the output MeasurementSet
-    inputBinding:
-      position: 1
 
 outputs:
   - id: msout
@@ -46,8 +40,6 @@ requirements:
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)
-
-  - class: InlineJavascriptRequirement
 
 hints:
   - class: DockerRequirement
