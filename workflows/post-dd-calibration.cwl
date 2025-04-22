@@ -52,6 +52,8 @@ steps:
           source: make_split_parsets/split_parsets
         - id: msin
           source: msin
+        - id: prefix
+          valueFrom: "selfcal_"
       out:
         - id: msout
       run: ../steps/dp3_parset.cwl
