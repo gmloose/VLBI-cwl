@@ -27,7 +27,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          return inputs.prefix ? inputs.prefix + ".concat.ms" : "*.concat.ms";
+          return inputs.prefix ? inputs.prefix + "*.concat.ms" : "*.concat.ms";
         }
   - id: logfile
     type: File[]
