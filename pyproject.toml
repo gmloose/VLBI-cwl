@@ -1,7 +1,14 @@
 [project]
 name = "VLBI-cwl"
 version = "0.6"
-dependencies = []
+dependencies = [
+    "astropy",
+    "python-casacore",
+    "losoto",
+    "numpy",
+    "pandas",
+    "pyrap",
+]
 
 [tool.setuptools]
 packages = []
