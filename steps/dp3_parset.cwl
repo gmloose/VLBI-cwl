@@ -19,6 +19,10 @@ inputs:
     type: string?
     default: ""
     doc: Optional prefix for the output MeasurementSet
+  - id: max_cores
+    type: int?
+    default: 6
+    doc: The number of CPU threads to use.
 
 outputs:
   - id: msout
@@ -46,7 +50,7 @@ hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
   - class: ResourceRequirement
-    coresMin: 6
+    coresMin: $(inputs.max_cores)
 
 stdout: dp3_parset.log
 stderr: dp3_parset_err.log
