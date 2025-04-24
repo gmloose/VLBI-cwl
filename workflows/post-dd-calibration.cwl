@@ -11,6 +11,7 @@ requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
   - class: ScatterFeatureRequirement
+  - class: InlineJavascriptRequirement
 
 inputs:
     - id: msin
@@ -77,7 +78,7 @@ steps:
         - selfcal_inspection_images
         - solution_inspection_images
       run: ./subworkflows/ddcal_calibrators.cwl
-      when: $(not inputs.skip_selfcal)
+      when: $(!inputs.skip_selfcal)
 
 
 outputs:
