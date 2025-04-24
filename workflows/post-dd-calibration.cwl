@@ -55,7 +55,7 @@ steps:
         - id: prefix
           valueFrom: "selfcal_"
         - id: max_cores
-          valueFrom: "16"
+          valueFrom: $(16)
       out:
         - id: msout
       run: ../steps/dp3_parset.cwl
