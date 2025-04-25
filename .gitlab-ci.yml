@@ -28,6 +28,6 @@ run_tests:
   stage: test
   image: astronrd/linc
   before_script:
-    - pip3 install tox pytest
+    - pip3 install .[test]
   script:
     - tox -e py310

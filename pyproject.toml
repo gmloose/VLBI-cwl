@@ -10,6 +10,13 @@ dependencies = [
     "pyrap",
 ]
 
+[project.optional-dependencies]
+"test" = [
+    "cwltool",
+    "pytest",
+    "tox"
+]
+
 [tool.setuptools]
 packages = []
 
