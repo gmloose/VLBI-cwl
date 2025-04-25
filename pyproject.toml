@@ -1,0 +1,42 @@
+[project]
+name = "VLBI-cwl"
+version = "0.6"
+dependencies = [
+    "astropy",
+    "python-casacore",
+    "losoto",
+    "numpy",
+    "pandas",
+    "pyrap",
+]
+
+[project.optional-dependencies]
+"test" = [
+    "cwltool",
+    "pytest",
+    "tox"
+]
+
+[tool.setuptools]
+packages = []
+
+[tool.tox]
+requires = ["tox>=4.22"]
+envlist = ["py39", "py310", "py311", "py312", "py313"]
+
+[tool.tox.env_run_base]
+change_dir = "{tox_root}/tests"
+allowlist_externals = ["sh", "pytest"]
+commands = [
+    [ "sh", "prepare_data.sh" ],
+    [ "sh", "validate_steps.sh" ],
+    [ "sh", "validate_workflows.sh" ],
+    [ "pytest" ],
+]
+
+[tool.tox.env_run_base.setenv]
+TEST_HBA_DATASET_NAME = "test_data.tar.gz"
+TARGET_HBA_RESULTS_NAME = "results_target.tar.gz"
+PIP_CACHE_DIR = "{tox_root}/.cache/pip"
+VLBI_ROOT_DIR = "{tox_root}"
+PYTHONPATH = "$PYTHONPATH:{tox_root}/scripts"
