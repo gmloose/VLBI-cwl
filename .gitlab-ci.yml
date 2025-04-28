@@ -5,16 +5,8 @@ workflow:
       when: never
     - when: always
 
-variables:
-  TEST_HBA_DATASET_NAME: "test_data.tar.gz"
-  TARGET_HBA_RESULTS_NAME: "results_target.tar.gz"
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-  VLBI_ROOT_DIR: "$CI_PROJECT_DIR"
-  PYTHONPATH: "$PYTHONPATH:$VLBI_ROOT_DIR/scripts"
-
 stages:
   - version
-  - build
   - test
 
 after_script:
@@ -32,31 +24,10 @@ versioning:
     reports:
       dotenv: versions.env
 
-download_data:
-  image: astronrd/linc
-  stage: build
-  script:
-    - mkdir data && cd data
-    - wget -nv https://support.astron.nl/software/ci_data/linc/$TEST_HBA_DATASET_NAME -O $TEST_HBA_DATASET_NAME && tar xfz $TEST_HBA_DATASET_NAME && rm -f $TEST_HBA_DATASET_NAME
-    - wget -nv https://support.astron.nl/software/ci_data/linc/$TARGET_HBA_RESULTS_NAME -O $TARGET_HBA_RESULTS_NAME && tar xfz $TARGET_HBA_RESULTS_NAME && rm -f $TARGET_HBA_RESULTS_NAME
-    - ln -rs L667520_SB000_uv.MS/ ILTJ140815.23+522952.0
-  artifacts:
-    paths:
-    - data
-
-validate_scripts:
+run_tests:
   stage: test
-  needs: ["download_data"]
-  image: astronrd/linc
-  script:
-    - sh tests/validate_steps.sh
-    - sh tests/validate_workflows.sh
-
-test_scripts:
-  stage: test
-  needs: ["download_data"]
   image: astronrd/linc
   before_script:
-    - pip3 install --user pytest
+    - pip3 install .[test]
   script:
-    - python3 -m pytest tests/test_scripts.py
+    - tox -e py310

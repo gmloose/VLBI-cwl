@@ -1,1 +1,7 @@
 *.idea
+.tox
+.cache
+*__pycache__
+tests/data
+*.egg-info
+venv

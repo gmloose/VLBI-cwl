@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# VLBI_ROOT_DIR is defined in .gitlab-ci.yml
+# VLBI_ROOT_DIR is defined in pyprojects.toml
 
 errors=0
 for step in "$VLBI_ROOT_DIR/steps"/*.cwl; do
