@@ -6,8 +6,8 @@ from TargetListToCoords import plugin_main as main_target_list
 from skynet import main as main_skynet
 from compareStationListVLBI import plugin_main as main_compare_stations
 
-# VLBI_ROOT_DIR is defined in .gitlab-ci.yml
-data_dir = os.environ["VLBI_ROOT_DIR"] + "/data"
+# VLBI_ROOT_DIR is defined in pyproject.toml
+data_dir = os.environ["VLBI_ROOT_DIR"] + "/tests/data"
 ref_dir = os.environ["VLBI_ROOT_DIR"] + "/tests/reference"
 
 catalogue = f"{ref_dir}/test_sources.csv"
