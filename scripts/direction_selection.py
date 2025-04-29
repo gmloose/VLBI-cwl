@@ -90,7 +90,7 @@ def match_source_id(mslist: list = None, source_id: str = None):
     """
 
     for ms in mslist:
-        if parse_source_id(ms)==source_id:
+        if parse_source_id(ms) in source_id:
             return ms
 
     # If no match (should not arrive here)
