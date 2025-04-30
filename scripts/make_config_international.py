@@ -3,8 +3,8 @@
 
 __author__ = "Jurjen de Jong"
 
-import re
 from argparse import ArgumentParser
+import re
 
 import numpy as np
 import pandas as pd
