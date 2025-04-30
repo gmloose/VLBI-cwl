@@ -111,7 +111,7 @@ def argparse():
     Argument parser
     """
     parser = ArgumentParser("Pre-select sources based on flux density.")
-    parser.add_argument('--ms', type=str, help='Measurement set to read phase centre from.')
+    parser.add_argument('--ms', type=str, help='MeasurementSet to read phase centre from.')
     parser.add_argument('--catalogue', type=str, help='Catalog to select candidate calibrators from.')
     parser.add_argument('--fluxcut', type=float, help='Flux density cut in mJy', default=0.0)
     return parser.parse_args()
