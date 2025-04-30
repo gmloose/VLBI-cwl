@@ -199,7 +199,7 @@ def get_solint(ms, phasediff_output):
         phasediff_output: Path to the Phase-diff CSV output.
 
     Returns:
-        float: Solution interval in minutes.
+        solint: Solution interval in minutes.
     """
 
     phasediff = pd.read_csv(phasediff_output)
