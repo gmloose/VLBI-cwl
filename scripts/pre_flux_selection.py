@@ -82,7 +82,7 @@ def select_bright_sources(phase_centre: list = None, catalogue: str = None, flux
         fluxcut: Flux density cut
 
     Returns:
-
+        df: data frame with selected sources 
     """
     if is_csv(catalogue):
         df = pd.read_csv(catalogue)
