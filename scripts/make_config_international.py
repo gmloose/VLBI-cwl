@@ -3,11 +3,12 @@
 
 __author__ = "Jurjen de Jong"
 
-import re
 from argparse import ArgumentParser
+import re
 
 import numpy as np
 import pandas as pd
+
 import casacore.tables as ct
 
 
@@ -197,7 +198,7 @@ def get_solint(ms, phasediff_output):
         phasediff_output: Path to the Phase-diff CSV output.
 
     Returns:
-        float: Solution interval in minutes.
+        solint: Solution interval in minutes.
     """
 
     phasediff = pd.read_csv(phasediff_output)

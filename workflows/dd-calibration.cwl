@@ -5,7 +5,7 @@ label: Automated direction-dependent calibration for wide-field imaging
 doc: |
   This is a workflow for the LOFAR-VLBI pipeline that follows on the delay-calibration and:
     * Splits a LOFAR MeasurementSet into various target directions with split-directions.cwl
-    * Performs direction-dependent calibrator selection with phasediff scores (see Section 3.3 from https://arxiv.org/pdf/2407.13247)
+    * Performs direction-dependent calibrator selection with phasediff scores (see Section 3.3 from https://arxiv.org/abs/2407.13247)
     * Performs self-calibration on the target directions with facetselfcal (with automatically tuned parameter settings)
 
 requirements:
