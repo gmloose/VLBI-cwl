@@ -158,7 +158,6 @@ antennaconstraint_list          = {antennaconstraint_list}
 paralleldeconvolution           = 1024
 targetcalILT                    = "scalarphase"
 stop                            = {stop}
-compute_phasediffstat           = True
 parallelgridding                = 6
 channelsout                     = 12
 fitspectralpol                  = 5
