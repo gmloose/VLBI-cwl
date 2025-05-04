@@ -143,14 +143,22 @@ def main():
     # Get dataframe after filtering for sources within 0.1 degrees distance from each other
     df = filter_too_nearest_neighbours(args.csv)
 
+    # Sort values
+    df = df.sort_values("spd_score")
+
+    # Pre-filter
+    df = df[df['spd_score'] < 2.8]
+
+    c = 0
     for source in df.set_index('source').iterrows():
         name = source[0]
         score = source[1]['spd_score']
-        if score < args.best_score:
+        if score < args.best_score or c<20:
             ms_name = match_source_id(args.ms, name)
 
             # Rename folder to return best directions in CWL workflow
             rename_folder(ms_name, ms_name.split('/')[-1]+args.suffix+'.ms')
+        c += 1
 
 
 if __name__ == '__main__':
