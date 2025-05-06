@@ -74,7 +74,7 @@ def get_phase_centre(ms):
     return phasedir_coor
 
 
-def select_bright_sources(phase_centre: list = None, catalogue: str = None, fluxcut: float = None):
+def select_bright_sources(phase_centre, catalogue, fluxcut):
     """
     Produces a data frame of sources collected from catalogue which are within 1.25 degrees of phase_centre and have a flux density which exceeds fluxcut
     Args:
