@@ -75,12 +75,14 @@ def get_phase_centre(ms):
     return phasedir_coor
 
 
-def select_bright_sources(phase_centre, catalogue, fluxcut):
+def select_bright_sources(phase_centre, catalogue, fluxcut, fov=2.5):
     """
     Produces a data frame of sources collected from catalogue which are within 1.25 degrees of phase_centre and have a flux density which exceeds fluxcut
     Args:
+        phase_centre: Phase centre in degrees
         catalogue: Catalogue file name
         fluxcut: Flux density cut
+        fov: Field-of-view in degrees
 
     Returns:
         df: data frame with selected sources 
@@ -93,7 +95,7 @@ def select_bright_sources(phase_centre, catalogue, fluxcut):
 
     ra_diff = abs((sourcedir.ra - phase_centre.ra).wrap_at(180 * u.deg).deg)
     dec_diff = abs((sourcedir.dec - phase_centre.dec).deg)
-    df = df[(ra_diff < 1.25) & (dec_diff < 1.25)]
+    df = df[(ra_diff < fov/2) & (dec_diff < fov/2)]
 
     df['Source_id'] = [ra_dec_to_iltj(ra, dec) for ra, dec in zip(df['RA'], df['DEC'])]
 
@@ -106,8 +108,9 @@ def argparse():
     """
     parser = ArgumentParser("Pre-select sources based on flux density.")
     parser.add_argument('--ms', type=str, help='MeasurementSet to read phase centre from.')
-    parser.add_argument('--catalogue', type=str, help='Catalog to select candidate calibrators from.')
+    parser.add_argument('--catalogue', type=str, help='Catalog to select candidate calibrators from (FITS or CSV format).')
     parser.add_argument('--fluxcut', type=float, help='Flux density cut in mJy', default=0.0)
+    parser.add_argument('--fov', type=float, help='Field-of-view size in degrees', default=2.5)
     return parser.parse_args()
 
 
@@ -115,7 +118,7 @@ def main():
     args = argparse()
 
     phase_centre = get_phase_centre(args.ms)
-    out_df = select_bright_sources(phase_centre, args.catalogue, args.fluxcut)
+    out_df = select_bright_sources(phase_centre, args.catalogue, args.fluxcut, args.fov)
     out_df.to_csv("bright_cat.csv", index=False)
 
 
