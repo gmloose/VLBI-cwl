@@ -61,7 +61,7 @@ def ra_dec_to_iltj(ra_deg, dec_deg):
 
 def get_phase_centre(ms):
     """
-    Get phase centre from MeasurementSet
+    Get phase centre from MeasurementSet in degrees
 
     Args:
         ms: MeasurementSet
