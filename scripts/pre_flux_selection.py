@@ -87,22 +87,17 @@ def select_bright_sources(phase_centre, catalogue, fluxcut):
     """
 
     df = read_catalogue(catalogue)
-
     df = df[df['Peak_flux'] > fluxcut]
-    df['sourcedir'] = SkyCoord(ra=df['RA'].to_numpy() * u.degree, dec=df['DEC'].to_numpy() * u.degree)
 
-    indices = []
-    sourceid = []
-    for i, row in df.reset_index().iterrows():
-        if abs(row['sourcedir'].ra-phase_centre.ra).value < 1.25 and abs(row['sourcedir'].dec-phase_centre.dec).value < 1.25:
-            indices.append(i)
-            sourceid.append(ra_dec_to_iltj(row['RA'], row['DEC']))
+    sourcedir = SkyCoord(ra=df['RA'].values * u.deg, dec=df['DEC'].values * u.deg)
 
-    df = df.iloc[indices]
-    df['Source_id'] = sourceid
-    df = df[['Source_id','RA', 'DEC', 'Peak_flux', 'Total_flux']]
+    ra_diff = abs((sourcedir.ra - phase_centre.ra).wrap_at(180 * u.deg).deg)
+    dec_diff = abs((sourcedir.dec - phase_centre.dec).deg)
+    df = df[(ra_diff < 1.25) & (dec_diff < 1.25)]
 
-    return df
+    df['Source_id'] = [ra_dec_to_iltj(ra, dec) for ra, dec in zip(df['RA'], df['DEC'])]
+
+    return df[['Source_id', 'RA', 'DEC', 'Peak_flux', 'Total_flux']]
 
 
 def argparse():
