@@ -15,18 +15,19 @@ from astropy.table import Table
 from casacore.tables import table
 
 
-def is_csv(file_path):
+def read_catalogue(file_path):
     """
-    Checks if the given file is a CSV file based on its extension.
+    Read catalogue regardless if it is a CSV or FITS table
 
     Args:
         file_path: The path to the file to check.
 
-    Returns: True if the file has a .csv extension, False otherwise.
+    Returns: catalogue
     """
-    if os.path.isfile(file_path):
-        return file_path.lower().endswith('.csv')
-    return False
+    if file_path.lower().endswith('.csv'):
+        return pd.read_csv(file_path)
+    else:
+        return Table.read(file_path).to_pandas()
 
 
 def ra_dec_to_iltj(ra_deg, dec_deg):
@@ -84,10 +85,8 @@ def select_bright_sources(phase_centre, catalogue, fluxcut):
     Returns:
         df: data frame with selected sources 
     """
-    if is_csv(catalogue):
-        df = pd.read_csv(catalogue)
-    else:
-        df = Table.read(catalogue).to_pandas()
+
+    df = read_catalogue(catalogue)
 
     df = df[df['Peak_flux'] > fluxcut]
     df['sourcedir'] = SkyCoord(ra=df['RA'].to_numpy() * u.degree, dec=df['DEC'].to_numpy() * u.degree)
