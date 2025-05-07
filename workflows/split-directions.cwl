@@ -46,10 +46,21 @@ inputs:
       doc: Whether to do selfcal on the direction concat MSs.
     - id: dd_selection
       type: boolean?
-      default: false
+      default: true
       doc: If set to true the pipeline will perform direction-dependent calibrator selection.
+    - id: phasediff_score
+      type: float
+      default: 9
+      doc: |
+         Phasediff-score for calibrator selection <2.3 good for DD-calibrators and <0.7 good for DI-calibrators.
+         Only used when dd_selection==true.
+    - id: flux_density_cut
+      type: float
+      default: 0.0
+      doc: Flux density (mJy) cut to pre-select sources from catalogue.
     - id: configfile
       type: File
+      default: null
       doc: The configuration file to be used to run
         facetselfcal.py during the target_selfcal step.
     - id: h5merger
@@ -60,13 +71,29 @@ inputs:
       doc: The selfcal directory.
 
 steps:
+    - id: select_bright_sources
+      label: Select bright sources above flux_density_cut (see Sweijen et al. 2022; de Jong et al. 2024)
+      in:
+        - id: msin
+          source: msin
+        - id: image_cat
+          source: image_cat
+        - id: flux_density_cut
+          source: flux_density_cut
+      out:
+        - bright_cat
+      run: ../steps/select_bright_sources.cwl
+
     - id: target_phaseup
       label: Target Phaseup
       in:
         - id: msin
           source: msin
         - id: image_cat
-          source: image_cat
+          source:
+            - select_bright_sources/bright_cat
+            - image_cat
+          pickValue: first_non_null
         - id: delay_solutions
           source: delay_solset
       out:
@@ -135,6 +162,8 @@ steps:
           source: selfcal
         - id: dd_selection
           source: dd_selection
+        - id: phasediff_score
+          source: phasediff_score
       out:
         - id: phasediff_score_csv
         - id: best_ms
