@@ -124,6 +124,11 @@ inputs:
       default: false
       doc: When set to true, the LoTSS model will be subtracted from the DDF corrected data.
 
+    - id: do_auto_delay_selection
+      type: boolean?
+      default: false
+      doc: When true, the best delay calibrator will be searched for based on phasediff scores.
+
 steps:
     - id: setup
       label: setup
@@ -198,6 +203,31 @@ steps:
         - id: msout
       run: ./process-ddf.cwl
       when: $(inputs.ddf_rundir != null && inputs.solsdir != null)
+
+    - id: select_best_delay_cal
+      in:
+        - id: find_best_delay_cal
+          source: do_auto_delay_selection
+        - id: msin
+          source:
+            - process_ddf/msout
+            - sort-concatenate-flag/msout
+            - msin
+          linkMerge: merge_nested
+          pickValue: first_non_null
+        - id: h5merger
+          source: h5merger
+        - id: selfcal
+          source: selfcal
+        - id: dd_selection
+          valueFrom: $(true)
+        - id: image_cat
+          source: delay_calibrator
+      out:
+        - id: msout_concat
+      run: ./split-directions.cwl
+      label: select_best_delay_cal
+      when: $(inputs.find_best_delay_cal)
 
     - id: phaseup
       in:
