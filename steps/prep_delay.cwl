@@ -11,7 +11,7 @@ baseCommand:
 
 inputs:
     - id: delay_calibrator
-      type: File
+      type: File?
       doc: |
         The file containing the properties and
         coordinates of the delay calibrator.

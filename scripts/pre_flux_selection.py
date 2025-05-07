@@ -4,13 +4,15 @@
 __author__ = "Jurjen de Jong"
 
 from argparse import ArgumentParser
-import pandas as pd
-from astropy.table import Table
 import os
-from casacore.tables import table
+
 from numpy import pi
-from astropy.coordinates import SkyCoord
+import pandas as pd
+
 from astropy import units as u
+from astropy.coordinates import SkyCoord
+from astropy.table import Table
+from casacore.tables import table
 
 
 def is_csv(file_path):
@@ -72,15 +74,15 @@ def get_phase_centre(ms):
     return phasedir_coor
 
 
-def select_bright_sources(phase_centre: list = None, catalogue: str = None, fluxcut: float = None):
+def select_bright_sources(phase_centre, catalogue, fluxcut):
     """
-    Select sources from catalogue above flux density threshold
+    Produces a data frame of sources collected from catalogue which are within 1.25 degrees of phase_centre and have a flux density which exceeds fluxcut
     Args:
         catalogue: Catalogue file name
         fluxcut: Flux density cut
 
     Returns:
-
+        df: data frame with selected sources 
     """
     if is_csv(catalogue):
         df = pd.read_csv(catalogue)
@@ -108,8 +110,8 @@ def argparse():
     """
     Argument parser
     """
-    parser = ArgumentParser()
-    parser.add_argument('--ms', type=str, help='Measurement set to read phase centre from.')
+    parser = ArgumentParser("Pre-select sources based on flux density.")
+    parser.add_argument('--ms', type=str, help='MeasurementSet to read phase centre from.')
     parser.add_argument('--catalogue', type=str, help='Catalog to select candidate calibrators from.')
     parser.add_argument('--fluxcut', type=float, help='Flux density cut in mJy', default=0.0)
     return parser.parse_args()

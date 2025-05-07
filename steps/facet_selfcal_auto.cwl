@@ -1,8 +1,10 @@
 cwlVersion: v1.2
 class: CommandLineTool
-id: facet_selfcal_dutch
-label: Facetselfcal Dutch
-doc: Performs direction dependent calibration of the Dutch antenna array in DDE-mode on full field-of-view.
+id: facet_selfcal_international
+label: Facetselfcal International phase-up
+doc: |
+       Performs direction dependent calibration of the international antenna
+       array with facetselfcal on small phased-up MeasurementSet.
 
 baseCommand:
     - python3
@@ -10,7 +12,7 @@ baseCommand:
 inputs:
     - id: msin
       type: Directory
-      doc: Input MeasurementSet data of full field-of-view.
+      doc: Input MeasurementSet.
       inputBinding:
         position: 6
 
@@ -46,23 +48,29 @@ inputs:
       doc: External self-calibration script.
 
 outputs:
-    - id: h5parm
+    - id: h5_facetselfcal
       type: File
       outputBinding:
-        glob: merged*003*.h5
-      doc: The merged calibration solution files generated in HDF5 format.
+        glob: 'best_addCS_solutions.h5'
+      doc: The best merged calibration solution files generated in HDF5 format, selected during self-calibration.
 
-    - id: images
+    - id: selfcal_images
       type: File[]
       outputBinding:
-        glob: ['*.png', plotlosoto*/*.png]
-      doc: Selfcal PNG images.
+         glob: 'ILTJ*.png'
+      doc: Selfcal PNG images for quick inspection.
 
-    - id: fits_images
-      type: File[]
+    - id: solution_inspection_images
+      type: Directory[]
       outputBinding:
-        glob: '*MFS-image.fits'
-      doc: Selfcal FITS images
+         glob: 'plotlosoto*'
+      doc: Solution inspection plots
+
+    - id: fits_image
+      type: File
+      outputBinding:
+         glob: 'best_*MFS-image.fits'
+      doc: Best selfcal FITS image
 
     - id: logfile
       type: File[]
@@ -77,9 +85,7 @@ requirements:
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)
-        writable: true
       - entry: $(inputs.configfile)
-      - entry: $(inputs.dde_directions)
 
 arguments:
   - $( inputs.facetselfcal.path + '/facetselfcal.py' )
@@ -88,7 +94,7 @@ hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
   - class: ResourceRequirement
-    coresMin: 60
+    coresMin: 12
 
 stdout: facet_selfcal.log
 stderr: facet_selfcal_err.log
