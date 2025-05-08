@@ -23,7 +23,7 @@ inputs:
       default: 2.3
       doc: Phasediff-score for calibrator selection <2.3 good for DD-calibrators and <0.7 good for DI-calibrators.
     - id: select_best_n
-      type: int
+      type: int?
       default: 0
       doc: Select only the best N sources.
     - id: lofar_helpers

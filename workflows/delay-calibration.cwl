@@ -286,8 +286,10 @@ steps:
     - id: select_concatenated_mss
       in:
         - id: input1
-          source: sort-concatenate-flag/msout
+          source: find_best_delay_cal/msout
         - id: input2
+          source: sort-concatenate-flag/msout
+        - id: input3
           source: process_ddf/msout
       out:
         - id: output

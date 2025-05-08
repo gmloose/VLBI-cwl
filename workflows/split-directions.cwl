@@ -55,6 +55,10 @@ inputs:
       doc: |
          Phasediff-score for calibrator selection <2.3 good for DD-calibrators and <0.7 good for DI-calibrators.
          Only used when dd_selection==true.
+    - id: select_best_n
+      type: int?
+      default: 0
+      doc: Return only the best N sources. Only used when dd_selection=true.
     - id: peak_flux_cut
       type: float
       default: 0.0
@@ -170,6 +174,8 @@ steps:
           source: dd_selection
         - id: phasediff_score
           source: phasediff_score
+        - id: select_best_n
+          source: select_best_n
       out:
         - id: phasediff_score_csv
         - id: best_ms
