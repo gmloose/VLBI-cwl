@@ -29,6 +29,13 @@ inputs:
       inputBinding:
         prefix: "--best_score"
         position: 3
+    - id: select_best_n
+      source: select_best_n
+      type: int
+      default: 0
+      inputBinding:
+        prefix: "--select_best_N"
+        position: 4
 
 outputs:
     - id: best_ms
