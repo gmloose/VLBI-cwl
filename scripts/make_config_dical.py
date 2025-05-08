@@ -5,6 +5,7 @@ __author__ = "Jurjen de Jong"
 
 from argparse import ArgumentParser
 import re
+from os import path
 
 import numpy as np
 import pandas as pd
@@ -20,6 +21,8 @@ def make_config(phasediff, ms):
         phasediff: phasediff score
         ms: MeasurementSet
     """
+
+    filename = parse_source_from_h5(ms)
 
     # Get time array
     with ct.table(ms, readonly=True, ack=False) as t:
@@ -68,7 +71,7 @@ def make_config(phasediff, ms):
     resetsols_list = "[None,'alldutch','core',None,None]"
     antennaconstraint_list = "['alldutch',None,None,None,None]"
     soltype_list = "['scalarphasediff','scalarphase','scalarphase','scalarphase','scalarcomplexgain']"
-    solint_list = f"['4min','{int(solint_scalarphase_1)}s','{int(solint_scalarphase_2)}s','{int(solint_scalarphase_3)}s','{int(solint_scalarcomplex*60)}s']"
+    solint_list = f"['4min','{int(solint_scalarphase_1)}s','{int(solint_scalarphase_2)}s','{int(solint_scalarphase_3)}s','{int(solint_scalarcomplex)}s']"
     smoothnessconstraint_list = f"[{smoothness_constraint_0},{smoothness_constraint_1},{smoothness_constraint_2},{smoothness_constraint_3},{smoothness_constraint_4}]"
     soltypecycles_list = f'[0,0,0,1,3]'
     smoothnessreffrequency_list = "[120.0,120.0,120.0,120.0,0.0]"
@@ -77,7 +80,7 @@ def make_config(phasediff, ms):
     stop = 20
     imsize = 1600
 
-    config=f"""imagename                       = "{parse_source_from_h5(ms)}"
+    config=f"""imagename                       = "{filename}"
 phaseupstations                 = "core"
 forwidefield                    = True
 docircular                      = True
@@ -107,61 +110,44 @@ fitspectralpol                  = 5
     """
 
     # write to file
-    with open(ms+".config.txt", "w") as f:
+    with open(filename+".config.txt", "w") as f:
         f.write(config)
+
+    print("CREATED: "+filename+".config.txt")
 
 
 def parse_source_from_h5(h5):
     """
-    Parse sensible output names
+    Parse output name
     (From lofar_facet_selfcal)
     """
-    h5 = h5.split("/")[-1]
-    if 'ILTJ' in h5:
-        matches = re.findall(r'ILTJ\d+\..\d+\+\d+.\d+_L\d+', h5)
-        if len(matches)==0:
-            matches = re.findall(r'ILTJ\d+\..\d+\+\d+.\d+', h5)
-            if len(matches)==0:
-                print("WARNING: Difficulty with parsing the source name form " + h5)
-                output = (re.sub(r'(\D)\d{3}_', '', h5).
-                          replace("merged_", "").
-                          replace('addCS_', '').
-                          replace('selfcalcycl', '').
-                          replace('selfcalcycle', '').
-                          replace('.ms', '').
-                          replace('.copy', '').
-                          replace('.phaseup', '').
-                          replace('.h5', '').
-                          replace('.dp3', '').
-                          replace('-concat', '').
-                          replace('.phasediff','').
-                          replace('_uv','').
-                          replace('scalarphasediff0_sky',''))
-                print('Parsed into ' + h5)
-                return output
-        output = matches[0]
-    elif 'selfcalcycle' in h5:
-        matches = re.findall(r'selfcalcycle\d+_(.*?)\.', h5)
-        output = matches[0]
-    else:
-        print("WARNING: Difficulty with parsing the source name form "+h5)
-        output = (re.sub(r'(\D)\d{3}_', '', h5).
-                  replace("merged_", "").
-                  replace('addCS_', '').
-                  replace('selfcalcycl', '').
-                  replace('selfcalcycle', '').
-                  replace('.ms', '').
-                  replace('.copy', '').
-                  replace('.phaseup', '').
-                  replace('.h5', '').
-                  replace('.dp3', '').
-                  replace('-concat', '').
-                  replace('.phasediff', '').
-                  replace('_uv', '').
-                  replace('scalarphasediff0_sky', ''))
-        print('Parsed into '+h5)
+    h5 = path.basename(h5)
 
-    return output
+    def apply_common_replacements(name):
+        # Common replacements for stripping suffixes/prefixes
+        replacements = [
+            ("merged_", ""), ("addCS_", ""), ("selfcalcycl", ""), ("selfcalcycle", ""),
+            (".ms", ""), (".copy", ""), (".phaseup", ""), (".h5", ""), (".dp3", ""),
+            ("-concat", ""), (".phasediff", ""), ("_uv", ""), ("scalarphasediff0_sky", "")
+        ]
+        for old, new in replacements:
+            name = name.replace(old, new)
+        return re.sub(r'(\D)\d{3}_', '', name)
+
+    if 'ILTJ' in h5:
+        matches = re.findall(r'ILTJ\d+\.\d+\+\d+\.\d+_L\d+', h5)
+        if not matches:
+            matches = re.findall(r'ILTJ\d+\.\d+\+\d+\.\d+', h5)
+            if not matches:
+                return apply_common_replacements(h5)
+        return matches[0]
+
+    elif 'selfcalcycle' in h5:
+        match = re.search(r'selfcalcycle\d+_(.*?)\.', h5)
+        return match.group(1) if match else apply_common_replacements(h5)
+
+    else:
+        return apply_common_replacements(h5)
 
 
 def get_phasediff(ms, phasediff_output):
