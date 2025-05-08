@@ -30,7 +30,6 @@ inputs:
         prefix: "--best_score"
         position: 3
     - id: select_best_n
-      source: select_best_n
       type: int
       default: 0
       inputBinding:
