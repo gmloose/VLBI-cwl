@@ -15,7 +15,7 @@ import casacore.tables as ct
 
 def make_config(phasediff, ms):
     """
-    Make config for facetselfcal
+    Make config for facetselfcal direction-independent calibration
 
     Args:
         phasediff: phasediff score
@@ -118,8 +118,7 @@ fitspectralpol                  = 5
 
 def parse_source_from_h5(h5):
     """
-    Parse output name
-    (From lofar_facet_selfcal)
+    Parse output name (using common names)
     """
     h5 = path.basename(h5)
 
