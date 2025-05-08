@@ -95,7 +95,7 @@ def select_bright_sources(phase_centre, catalogue, fluxcut):
     indices = []
     sourceid = []
     for i, row in df.reset_index().iterrows():
-        if abs(row['sourcedir'].ra-phase_centre.ra).value < 1.25 and abs(row['sourcedir'].dec-phase_centre.dec).value < 1.25:
+        if abs(row['sourcedir'].separation(phase_centre)) < 1.25 * u.degree:
             indices.append(i)
             sourceid.append(ra_dec_to_iltj(row['RA'], row['DEC']))
 
