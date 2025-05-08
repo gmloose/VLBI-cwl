@@ -160,7 +160,6 @@ steps:
       out:
         - id: images
         - id: h5parm
-        - id: fits_images
       when: $(inputs.do_selfcal)
       run: ../steps/facet_selfcal.cwl
       scatter: msin
@@ -180,15 +179,6 @@ outputs:
           items: File
       outputSource:
         - target_selfcal/images
-      pickValue: all_non_null
-    - id: fits_images
-      type:
-        type: array
-        items:
-          type: array
-          items: File
-      outputSource:
-        - target_selfcal/fits_images
       pickValue: all_non_null
     - id: phasediff_score_csv
       type: File?
