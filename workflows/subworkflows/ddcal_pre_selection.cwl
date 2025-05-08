@@ -22,6 +22,11 @@ inputs:
       type: float
       default: 2.3
       doc: Phasediff-score for calibrator selection <2.3 good for DD-calibrators and <0.7 good for DI-calibrators.
+    - id: select_best_n
+      source: select_best_n
+      type: int
+      default: 0
+      doc: Select only the best N sources.
     - id: lofar_helpers
       type: Directory
       doc: Path to lofar_helpers directory.
@@ -101,6 +106,8 @@ steps:
           source: msin
         - id: phasediff_score
           source: phasediff_score
+        - id: select_best_n
+          source: select_best_n
       out:
         - best_ms
       run: ../../steps/select_best_directions.cwl
