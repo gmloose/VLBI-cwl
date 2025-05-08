@@ -259,6 +259,7 @@ steps:
         - id: summary_file
       run: ./phaseup-concat.cwl
       label: phaseup
+      when: $(!inputs.find_best_delay_cal)
 
     - id: store_logs
       in:

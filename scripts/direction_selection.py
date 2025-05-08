@@ -129,6 +129,7 @@ def parse_args():
     parser.add_argument('--best_score', type=float,
                         help='Optimal selection score (See Section 3.3.1 https://arxiv.org/pdf/2407.13247)',
                         default=2.3)
+    parser.add_argument('--select_best_N', help='Select the top N best scoring calibrators. If 0, select all.', type=int, default=0)
     parser.add_argument('--suffix', help='suffix', default='_best')
     return parser.parse_args()
 
@@ -145,6 +146,8 @@ def main():
 
     # Sort values
     df = df.sort_values("spd_score", ascending=True)
+    if args.select_best_N > 0:
+        df = df.head(args.select_best_N)
 
     for source in df.set_index('source').iterrows():
         name = source[0]
