@@ -223,6 +223,8 @@ steps:
           valueFrom: $(true)
         - id: image_cat
           source: delay_calibrator
+        - id: select_best_n
+          valueFrom: $(1)
       out:
         - id: msout_concat
       run: ./split-directions.cwl
@@ -286,7 +288,7 @@ steps:
     - id: select_concatenated_mss
       in:
         - id: input1
-          source: find_best_delay_cal/msout
+          source: select_best_delay_cal/msout_concat
         - id: input2
           source: sort-concatenate-flag/msout
         - id: input3
