@@ -204,33 +204,6 @@ steps:
       run: ./process-ddf.cwl
       when: $(inputs.ddf_rundir != null && inputs.solsdir != null)
 
-    - id: select_best_delay_cal
-      in:
-        - id: find_best_delay_cal
-          source: do_auto_delay_selection
-        - id: msin
-          source:
-            - process_ddf/msout
-            - sort-concatenate-flag/msout
-            - msin
-          linkMerge: merge_nested
-          pickValue: first_non_null
-        - id: h5merger
-          source: h5merger
-        - id: selfcal
-          source: selfcal
-        - id: dd_selection
-          valueFrom: $(true)
-        - id: image_cat
-          source: delay_calibrator
-        - id: select_best_n
-          valueFrom: $(1)
-      out:
-        - id: msout_concat
-      run: ./split-directions.cwl
-      label: select_best_delay_cal
-      when: $(inputs.find_best_delay_cal)
-
     - id: phaseup
       in:
         - id: msin
@@ -262,6 +235,33 @@ steps:
       run: ./phaseup-concat.cwl
       label: phaseup
       when: $(inputs.find_best_delay_cal === false)
+
+    - id: select_best_delay_cal
+      in:
+        - id: find_best_delay_cal
+          source: do_auto_delay_selection
+        - id: msin
+          source:
+            - process_ddf/msout
+            - sort-concatenate-flag/msout
+            - msin
+          linkMerge: merge_nested
+          pickValue: first_non_null
+        - id: h5merger
+          source: h5merger
+        - id: selfcal
+          source: selfcal
+        - id: dd_selection
+          valueFrom: $(true)
+        - id: image_cat
+          source: delay_calibrator
+        - id: select_best_n
+          valueFrom: $(1)
+      out:
+        - id: msout_concat
+      run: ./split-directions.cwl
+      label: select_best_delay_cal
+      when: $(inputs.find_best_delay_cal)
 
     - id: store_logs
       in:
