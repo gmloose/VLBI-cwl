@@ -296,7 +296,7 @@ steps:
           source: process_ddf/msout
       out:
         - id: output
-      when: $(inputs.input1 != null || inputs.input2 != null)
+      when: $(inputs.input1 != null || inputs.input2 != null || inputs.input3 != null)
       run: ../utils/select_input.cwl
 
 outputs:
