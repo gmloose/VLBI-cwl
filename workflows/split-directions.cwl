@@ -235,7 +235,9 @@ outputs:
       type: File?
       outputSource: ddcal_pre_selection/phasediff_score_csv
     - id: h5parm
-      type: File[]
+      type: 
+        - File
+        - File[]
       outputSource:
         - target_selfcal/h5parm
       pickValue: all_non_null
