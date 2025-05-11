@@ -257,6 +257,8 @@ steps:
           source: delay_calibrator
         - id: select_best_n
           valueFrom: $(1)
+        - id: configfile
+          source: configfile
       out:
         - id: msout_concat
       run: ./split-directions.cwl
