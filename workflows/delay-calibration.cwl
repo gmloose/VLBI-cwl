@@ -253,6 +253,8 @@ steps:
           source: selfcal
         - id: dd_selection
           valueFrom: $(true)
+        - id: do_selfcal
+          valueFrom: $(true)
         - id: image_cat
           source: delay_calibrator
         - id: select_best_n
