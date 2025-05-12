@@ -76,6 +76,9 @@ inputs:
     - id: selfcal
       type: Directory
       doc: The selfcal directory.
+    - id: skymodel
+      type: File[]?
+      doc: An optional skymodel to be passed as a starting model.
 
 steps:
     - id: select_bright_sources
@@ -190,6 +193,10 @@ steps:
             - ddcal_pre_selection/best_ms
             - dp3_parset/msout
           pickValue: first_non_null
+          valueFrom: >
+            ${ return inputs.dirs.slice().sort(function(a, b) {
+                return a.basename.localeCompare(b.basename);
+            }); }
         - id: configfile
           source: configfile
         - id: h5merger
@@ -198,13 +205,20 @@ steps:
           source: selfcal
         - id: do_selfcal
           source: do_selfcal
+        - id: skymodel
+          source: skymodel
+          valueFrom: >
+            ${ return inputs.dirs.slice().sort(function(a, b) {
+                return a.basename.localeCompare(b.basename);
+            }); }
       out:
         - id: images
         - id: h5parm
         - id: fits_images
       when: $(inputs.do_selfcal)
       run: ../steps/facet_selfcal.cwl
-      scatter: msin
+      scatter: [msin, skymodel]
+      scatterMethod: dotproduct
 
 outputs:
     - id: msout_concat

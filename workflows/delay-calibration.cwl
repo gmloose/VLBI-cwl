@@ -129,6 +129,11 @@ inputs:
       default: false
       doc: When true, the best delay calibrator will be searched for based on phasediff scores.
 
+    - id: starting_skymodel
+      type:
+        - File?
+      doc: Optional starting model in BBS-compatible text format used to kickstart the delay calibration.
+
 steps:
     - id: setup
       label: setup
@@ -261,6 +266,9 @@ steps:
           valueFrom: $(1)
         - id: configfile
           source: configfile
+        - id: skymodel
+          source: [starting_skymodel]
+          linkMerge: merge_nested
       out:
         - id: msout_concat
         - id: images
